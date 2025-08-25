@@ -315,16 +315,17 @@ export default function SignupPage() {
                     draggable={false}
                   />
                 </div>
-                <div className="text-center">
+                    <div className="text-center">
                   <h3 className="text-lg font-semibold text-gray-800 mb-2">
                     Search all your data in one place
                   </h3>
                   <p className="text-gray-500 text-sm max-w-[520px] mx-auto">
-                    Lorem ipsum, the page creator placed that apparent
+                    lorem ipsum, the page creator placed that apparent
                   </p>
                   <p className="text-gray-500 text-sm max-w-[520px] mx-auto">
-                    Gibberish there on purpose.
+                    gibberish there on purpose.
                   </p>
+                  <div className="mt-6 flex items-center justify-center gap-2">
                   <div className="mt-6 flex items-center justify-center gap-2">
                     <span className="inline-block h-2 w-10 bg-[#5B61FF] rounded-full" />
                     <span className="inline-block h-2 w-2 bg-gray-400 rounded-full" />
