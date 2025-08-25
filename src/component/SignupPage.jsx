@@ -242,7 +242,7 @@ export default function SignupPage() {
             <button
                   type="submit"
                   disabled={loading}
-                  className="w-full inline-flex items-center justify-center rounded-xl bg-[#5336F2] px-4 py-3 text-white font-medium shadow-sm hover:opacity-95 focus:outline-none focus:ring-offset-2 focus:ring-[#5336F2]"
+                  className="w-full inline-flex items-center justify-center rounded-xl bg-[#5336F2] px-4 py-4 text-white font-medium shadow-sm hover:opacity-95 focus:outline-none focus:ring-offset-2 focus:ring-[#5336F2]"
                 >
                   {loading ? (
                     <>
@@ -257,7 +257,7 @@ export default function SignupPage() {
                 {/* Google button */}
                 <button
                   type="button"
-                  className="w-full inline-flex items-center justify-center gap-3 rounded-xl border border-gray-300 bg-white px-4 py-3 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full inline-flex items-center justify-center gap-3 rounded-xl border border-gray-300 bg-white px-4 py-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   onClick={() => alert("Google login")}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="h-5 w-5" aria-hidden="true">
