@@ -305,8 +305,8 @@ export default function SignupPage() {
                 </button>
               </form>
             </section>
-<aside className="w-full md:flex-1 flex items-center justify-center mt-6 md:mt-0">
-  <div className="w-full max-w-sm md:max-w-md lg:max-w-lg rounded-2xl bg-gray-100 p-4 sm:p-6 shadow-inner">
+<aside className="w-full md:flex-1 flex items-center justify-center">
+              <div className="w-full max-w-full sm:max-w-sm md:max-w-md lg:max-w-lg rounded-2xl bg-gray-100 p-4 md:p-6 shadow-inner">
                 <div className="rounded-2xl overflow-hidden">
                   <img
                     src={image}
