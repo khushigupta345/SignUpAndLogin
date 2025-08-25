@@ -7,10 +7,10 @@ import image from "../assets/image.png";
 
 const schema = Yup.object({
   fullName: Yup.string()
-    .matches(/^[a-zA-Z ]+$/, "Full name must contain only letters")
-    .min(3, "Full name must be at least 3 characters")
-    .max(50, "Full name must be less than 50 characters")
-    .required("Full name is required"),
+  .required("Full name is required")
+  .matches(/^[a-zA-Z ]+$/, "Full name must contain only letters")
+  .min(3, "Full name must be at least 3 characters")
+  .max(50, "Full name must be less than 50 characters"),
 
   email: Yup.string()
     .email("Enter a valid email address")
