@@ -223,44 +223,21 @@ export default function SignupPage() {
                 </div>
 
                 {/* Terms + Forgot password */}
-                <div className="flex items-center gap-5 md:gap-0  justify-between">
-                  <label className="inline-flex items-start sm:items-center gap-2 text-xs sm:text-sm text-gray-700 select-none flex-wrap">
+                    <div className="flex items-center gap-5 md:gap-0  justify-between">
+                  <label className="inline-flex items-center gap-2 text-sm text-gray-700 select-none">
                     <input
                       type="checkbox"
-                      className="h-4 w-4 mt-1 sm:mt-0 rounded border-gray-300 text-[#5336F2] focus:ring-[#5336F2]"
+                      className="h-4 w-4 rounded border-gray-300 text-[#5336F2] focus:ring-[#5336F2]"
+                      defaultChecked
+                      {...register("remember")}
                     />
-                    <p>
-                      I agree to the
-                      <span className="font-bold underline"> terms of use </span>
+                 <p>I agree to the
+                    <span className="font-bold underline decoration-0"> terms of use </span>
                       and
-                      <span className="font-bold underline"> privacy policy</span>
-                    </p>
+                       <span className="font-bold underline decoration-0">  privacy policy</span>
+                       </p>  
                   </label>
-                  <a href="#" className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 underline-offset-2 hover:underline">
-                    Forgot Password?
-                  </a>
-                </div>
-
-                {/* Submit button */}
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full inline-flex items-center justify-center rounded-xl bg-[#5336F2] px-4 py-3 text-white font-medium shadow-sm hover:opacity-95 focus:outline-none focus:ring-offset-2 focus:ring-[#5336F2]"
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing in…
-                    </>
-                  ) : (
-                    "Register"
-                  )}
-                </button>
-
-                <div className="flex items-center gap-4">
-                  <div className="h-px flex-1 bg-gray-200" />
-                  <span className="text-sm text-gray-500">OR</span>
-                  <div className="h-px flex-1 bg-gray-200" />
+                  
                 </div>
 
                 {/* Google button */}
