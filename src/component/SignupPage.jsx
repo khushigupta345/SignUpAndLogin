@@ -38,6 +38,7 @@ export default function SignupPage() {
     handleSubmit,
     formState: { errors },
     watch,
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: { fullName: "", email: "", password: "" },
@@ -49,7 +50,7 @@ export default function SignupPage() {
     { label: "At least 8 characters", valid: password.length >= 8 },
     { label: "1 uppercase letter", valid: /[A-Z]/.test(password) },
     { label: "1 number", valid: /[0-9]/.test(password) },
-    { label: "1 special character ", valid: /[@$!%?&]/.test(password) },
+    { label: "1 special character ", valid: /[@$!%*?&]/.test(password) },
   ];
 
   const onSubmit = (values) => {
@@ -62,62 +63,50 @@ export default function SignupPage() {
     <div className="overflow-x-hidden bg-white relative font-serif flex items-center justify-center">
       <div className="max-h-screen">
         <div className="mx-auto px-2 py-8 md:py-2.5">
-<div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-3 items-start">
-           <section className="px-4 w-full max-w-full sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-3 items-start">
+            
+            {/* Left section - form */}
+            <section className="px-4 w-full max-w-full sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
                 <div className="h-12 w-12 rounded-lg bg-[#5336F2] text-white flex items-center justify-center font-semibold">
                   B
                 </div>
                 <span className="text-gray-900 text-lg font-semibold">BlackCoat Ai</span>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end ml-auto gap-1 sm:gap-2">
-  <p className="text-xs sm:text-sm text-gray-500">Already have an account?</p>
-  <a
-    href="#"
-    className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 underline"
-  >
-    Login
-  </a>
-</div>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end ml-auto gap-1 sm:gap-2">
+                  <p className="text-xs sm:text-sm text-gray-500">Already have an account?</p>
+                  <a href="#" className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 underline">
+                    Login
+                  </a>
+                </div>
               </div>
 
               <div className="flex flex-col items-center mt-3 md:mt-0 mb-2">
                 <div className="w-14 h-14 grid place-items-center rounded-xl border border-gray-200 mb-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6 text-black flex justify-center"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5.121 17.804A13.937 13.937 0 
-                        0112 15c2.485 0 4.797.732 
-                        6.879 2.002M15 10a3 3 0 
-                        11-6 0 3 3 0 016 0z"
-                    />
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-black flex justify-center" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.121 17.804A13.937 13.937 0     
+                      0112 15c2.485 0 4.797.732     
+                      6.879 2.002M15 10a3 3 0     
+                      11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
               </div>
-<h1 className="text-lg sm:text-xl md:text-2xl text-center font-semibold text-gray-900 mb-1">
-  Create an account
-</h1>
-<p className="text-xs sm:text-sm md:text-base text-center text-gray-400 mb-6">
-  Please enter your details to get started
-</p>
+
+              <h1 className="text-lg sm:text-xl md:text-2xl text-center font-semibold text-gray-900 mb-1">
+                Create an account
+              </h1>
+              <p className="text-xs sm:text-sm md:text-base text-center text-gray-400 mb-6">
+                Please enter your details to get started
+              </p>
 
               {serverError && (
-                <div
-                  role="alert"
-                  className="mb-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700"
-                >
+                <div role="alert" className="mb-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
                   {serverError}
                 </div>
               )}
 
+              {/* Form */}
               <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-[4px]  px-6">
+                {/* Full name */}
                 <div>
                   <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
                     Full name*
@@ -133,8 +122,8 @@ export default function SignupPage() {
                       viewBox="0 0 24 24"
                       className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
                     >
-                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4  
-                          1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8  
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4      
+                          1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8      
                           4v2h16v-2c0-2.66-5.33-4-8-4z" />
                     </svg>
 
@@ -155,6 +144,7 @@ export default function SignupPage() {
                   )}
                 </div>
 
+                {/* Email */}
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                     Email address*
@@ -183,6 +173,7 @@ export default function SignupPage() {
                   )}
                 </div>
 
+                {/* Password */}
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                     Password*
@@ -231,27 +222,26 @@ export default function SignupPage() {
                   )}
                 </div>
 
+                {/* Terms + Forgot password */}
                 <div className="flex items-center gap-5 md:gap-0  justify-between">
-                 <label className="inline-flex items-start sm:items-center gap-2 text-xs sm:text-sm text-gray-700 select-none flex-wrap">
-  <input
-    type="checkbox"
-    className="h-4 w-4 mt-1 sm:mt-0 rounded border-gray-300 text-[#5336F2] focus:ring-[#5336F2]"
-  />
-  <p>
-    I agree to the
-    <span className="font-bold underline"> terms of use </span>
-    and
-    <span className="font-bold underline"> privacy policy</span>
-  </p>
-</label>
-             <a
-  href="#"
-  className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 underline-offset-2 hover:underline"
->
-  Forgot Password?
-</a>
+                  <label className="inline-flex items-start sm:items-center gap-2 text-xs sm:text-sm text-gray-700 select-none flex-wrap">
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 mt-1 sm:mt-0 rounded border-gray-300 text-[#5336F2] focus:ring-[#5336F2]"
+                    />
+                    <p>
+                      I agree to the
+                      <span className="font-bold underline"> terms of use </span>
+                      and
+                      <span className="font-bold underline"> privacy policy</span>
+                    </p>
+                  </label>
+                  <a href="#" className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 underline-offset-2 hover:underline">
+                    Forgot Password?
+                  </a>
                 </div>
 
+                {/* Submit button */}
                 <button
                   type="submit"
                   disabled={loading}
@@ -273,39 +263,39 @@ export default function SignupPage() {
                   <div className="h-px flex-1 bg-gray-200" />
                 </div>
 
+                {/* Google button */}
                 <button
                   type="button"
                   className="w-full inline-flex items-center justify-center gap-3 rounded-xl border border-gray-300 bg-white px-4 py-3 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   onClick={() => alert("Google login")}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 48 48"
-                    className="h-5 w-5"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill="#FFC107"
-                      d="M43.611 20.083H42V20H24v8h11.303C33.676 32.659 29.223 36 24 36c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.869 6.053 29.729 4 24 4 12.954 4 4 12.954 4 24s8.954 20 20 20 20-8.954 20-20c0-1.341-.138-2.65-.389-3.917z"
-                    />
-                    <path
-                      fill="#FF3D00"
-                      d="M6.306 14.691l6.571 4.819C14.207 16.108 18.737 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.869 6.053 29.729 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"
-                    />
-                    <path
-                      fill="#4CAF50"
-                      d="M24 44c5.166 0 9.86-1.977 13.409-5.197l-6.191-5.238C29.145 35.091 26.715 36 24 36c-5.202 0-9.642-3.317-11.291-7.946l-6.53 5.027C9.474 39.556 16.227 44 24 44z"
-                    />
-                    <path
-                      fill="#1976D2"
-                      d="M43.611 20.083H42V20H24v8h11.303a12.02 12.02 0 0 1-4.303 5.946l.003-.002 6.191 5.238C36.838 40.049 44 35 44 24c0-1.341-.138-2.65-.389-3.917z"
-                    />
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="h-5 w-5" aria-hidden="true">
+                    <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303C33.676 32.659 29.223 36 24 36c-6.627 
+                      0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 
+                      1.154 7.961 3.039l5.657-5.657C34.869 6.053 
+                      29.729 4 24 4 12.954 4 4 12.954 4 24s8.954 
+                      20 20 20 20-8.954 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+                    <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.207 
+                      16.108 18.737 12 24 12c3.059 0 5.842 
+                      1.154 7.961 3.039l5.657-5.657C34.869 
+                      6.053 29.729 4 24 4 16.318 4 9.656 
+                      8.337 6.306 14.691z"/>
+                    <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 
+                      13.409-5.197l-6.191-5.238C29.145 
+                      35.091 26.715 36 24 36c-5.202 0-9.642-3.317-11.291-7.946l-6.53 
+                      5.027C9.474 39.556 16.227 44 24 44z"/>
+                    <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.02 
+                      12.02 0 0 1-4.303 5.946l.003-.002 
+                      6.191 5.238C36.838 40.049 44 35 
+                      44 24c0-1.341-.138-2.65-.389-3.917z"/>
                   </svg>
                   Signup with Google
                 </button>
               </form>
             </section>
-<aside className="w-full md:flex-1 flex items-center justify-center">
+
+            {/* Right section - image */}
+            <aside className="w-full md:flex-1 flex items-center justify-center">
               <div className="w-full max-w-full sm:max-w-sm md:max-w-md lg:max-w-lg rounded-2xl bg-gray-100 p-4 md:p-6 shadow-inner">
                 <div className="rounded-2xl overflow-hidden">
                   <img
@@ -315,7 +305,7 @@ export default function SignupPage() {
                     draggable={false}
                   />
                 </div>
-                    <div className="text-center">
+                <div className="text-center">
                   <h3 className="text-lg font-semibold text-gray-800 mb-2">
                     Search all your data in one place
                   </h3>
@@ -326,7 +316,6 @@ export default function SignupPage() {
                     gibberish there on purpose.
                   </p>
                   <div className="mt-6 flex items-center justify-center gap-2">
-                  <div className="mt-6 flex items-center justify-center gap-2">
                     <span className="inline-block h-2 w-10 bg-[#5B61FF] rounded-full" />
                     <span className="inline-block h-2 w-2 bg-gray-400 rounded-full" />
                     <span className="inline-block h-2 w-2 bg-gray-400 rounded-full" />
@@ -334,9 +323,10 @@ export default function SignupPage() {
                 </div>
               </div>
             </aside>
+
           </div>
         </div>
       </div>
     </div>
   );
-}
+                    }
