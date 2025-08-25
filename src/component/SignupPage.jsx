@@ -16,7 +16,7 @@ const schema = Yup.object({
     .email("Enter a valid email address")
     .matches(
       /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
-      "Enter a valid email format like name@example.com"
+      "Enter a valid email format"
     )
     .required("Email is required"),
 
