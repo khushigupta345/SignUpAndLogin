@@ -239,6 +239,20 @@ export default function SignupPage() {
                   </label>
                   
                 </div>
+            <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full inline-flex items-center justify-center rounded-xl bg-[#5336F2] px-4 py-3 text-white font-medium shadow-sm hover:opacity-95 focus:outline-none focus:ring-offset-2 focus:ring-[#5336F2]"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Signing in…
+                    </>
+                  ) : (
+                    "Register"
+                  )}
+                </button>
 
                 {/* Google button */}
                 <button
