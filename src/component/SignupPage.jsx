@@ -105,7 +105,7 @@ export default function SignupPage() {
               )}
 
               {/* Form */}
-              <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-[4px]  px-6">
+              <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-[5px]  px-6">
                 {/* Full name */}
                 <div>
                   <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
