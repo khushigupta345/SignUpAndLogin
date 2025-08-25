@@ -42,7 +42,7 @@ export default function SignupPage() {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: { fullName: "", email: "", password: "" },
-    mode: "onBlur",
+    mode: "onSubmit",
   });
 
   const password = watch("password", "");
