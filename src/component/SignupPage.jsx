@@ -13,12 +13,12 @@ const schema = Yup.object({
   .max(50, "Full name must be less than 50 characters"),
 
   email: Yup.string()
-    .email("Enter a valid email address")
-    .matches(
-      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
-      "Enter a valid email format"
-    )
-    .required("Email is required"),
+  .required("Email is required")
+  .matches(
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+    "Enter a valid email format like name@example.com"
+  )
+  .email("Enter a valid email address"),
 
   password: Yup.string()
     .required("Password is required")
