@@ -77,8 +77,11 @@ const ErrorText = ({ children }) => (
       errs.value = "Max 2 decimal places allowed";
     }
     if (!p.thickness) errs.thickness = "Thickness is required";
-    if (!p.deliveryTime) errs.deliveryTime = "Delivery time required";
-
+    if (!p.deliveryTime) {
+      errs.deliveryTime = "DeliveryTime is Required";
+    } else if (new Date(p.deliveryTime) < new Date().setHours(0,0,0,0)) {
+      errs.deliveryTime = "Date cannot be in the past";
+  }
     const wErr = validateSizeNumber(p.width);
     if (wErr) errs.width = wErr;
     const hErr = validateSizeNumber(p.height);
@@ -569,7 +572,7 @@ useEffect(() => {
                     name="pinCode"
                     value={formData.pinCode}
                     onChange={handleChange}
-                 className={`${inputClass("pincode")} md:max-w-sm`}
+                 className={`${inputClass("pinCode")} md:max-w-sm`}
                     placeholder="122204"
                   />
                   {errors.pinCode && <ErrorText>{errors.pinCode}</ErrorText>}
