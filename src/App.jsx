@@ -11,6 +11,7 @@ function App() {
     <>
  
 <BulkOrderForm2 />
+    </>
   )
 }
 
