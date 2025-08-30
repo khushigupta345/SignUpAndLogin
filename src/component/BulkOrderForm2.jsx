@@ -669,6 +669,12 @@ useEffect(() => {
                     <label className="block font-semibold text-gray-700 mb-1">Enter Value</label>
                     <div className="relative w-full md:max-w-sm">
   <input
+
+    type="text"
+    name="value"
+    value={formData.value}
+    onChange={handleChange}
+    placeholder="Type value"
     className={`${inputClass("value")} w-full pr-12`}
     
   />
