@@ -8,7 +8,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const phoneRegex = /^(?:\+91[\-\s]?)?[6-9]\d{9}$/;
 const pinRegex = /^[1-9][0-9]{5}$/;
-const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/i;
+const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z][Z0-9][0-9A-Z]$/i;
 const twoDecimalRegex = /^-?\d+(?:\.\d{1,2})?$/;
 
   const MAX_MESSAGE_WORDS = 50;
@@ -174,7 +174,8 @@ if (data.message && typeof data.message === "string" && data.message.trim() !== 
   file1: null,
   file2: null,
   file3: null,
-
+    
+installation: "",
   message: "",
 };
 
@@ -411,7 +412,7 @@ useEffect(() => {
                       name="companyName"
                       value={formData.companyName}
                       onChange={handleChange}
-                       className={`${inputClass("company")}meNa md:max-w-sm`}
+                       className={`${inputClass("companyName")} md:max-w-sm`}
                       placeholder="Globex industries pvt.ltd"
                     />
   {errors.companyName && <ErrorText>{errors.companyName}</ErrorText>}
@@ -425,7 +426,7 @@ useEffect(() => {
                       name="companyType"
                       value={formData.companyType}
                       onChange={handleChange}
-                      className={`${inputClass("companyName")} md:max-w-sm`}
+                      className={`${inputClass("companyType")} md:max-w-sm`}
                     >
                       <option value="">Choose</option>
                       <option value="pvt">Private Ltd</option>
@@ -666,17 +667,13 @@ useEffect(() => {
 
                   <div>
                     <label className="block font-semibold text-gray-700 mb-1">Enter Value</label>
-                    <div className="flex items-center w-full ">
-                      <input
-                        type="text"
-                        name="value"
-                        value={formData.value}
-                        onChange={handleChange}
-                        placeholder="Type value"
-                      className={`${inputClass("value")} md:max-w-sm`}
-                      />
-                      <span className="ml-2">{selectedUnit}</span>
-                    </div>
+                    <div className="relative w-full md:max-w-sm">
+  <input
+    className={`${inputClass("value")} w-full pr-12`}
+    
+  />
+  <span className="absolute right-3 top-1/2 -translate-y-1/2 whitespace-nowrap">{selectedUnit}</span>
+</div>
                   {errors.value && <ErrorText>{errors.value}</ErrorText>}
                   </div>
 
