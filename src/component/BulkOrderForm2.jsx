@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import image from "../assets/stone.png";
+
 
 export default function BulkOrderForm2() {
   
