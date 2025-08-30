@@ -785,7 +785,7 @@ useEffect(() => {
 
                 <div className="flex justify-end mt-[8px]">
                   <button
-                    type="button"
+                    type="submit"
                     onClick={addProduct}
                     className="font-inter bg-[#871B58] text-white px-6 py-2 rounded mb-6"
                     disabled={submitting}
@@ -870,6 +870,8 @@ useEffect(() => {
 
   onClick={() => {
 setFormData(initialFormData);
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setProducts([]);
     setErrors({});
     setProductImage(null);
