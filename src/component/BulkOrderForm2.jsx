@@ -1,35 +1,44 @@
 import React, { useEffect, useState } from "react";
 
-// Polished, single-file React component using Tailwind CSS. // Fixes syntax bugs from the original and improves visual design, spacing and UX.
+// Single-file React component using Tailwind CSS // Cleaned-up, fixed validation and runtime bugs from the original version
 
-export default function BulkOrderForm2() {
+export default function BulkOrderForm2() { // -------------------- Regex & constants -------------------- const nameRegex = /^(?=.{1,100}$)[\p{L}]+(?:[ .'-][\p{L}]+)*$/u; const emailRegex = /^[^\s@]+@[^\s@]+.[^\s@]{2,}$/; const phoneRegex = /^(?:+91[-\s]?)?[6-9]\d{9}$/; const pinRegex = /^[1-9][0-9]{5}$/; const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z][Z0-9][0-9A-Z]$/i; const twoDecimalRegex = /^-?\d+(?:.\d{1,2})?$/; const MAX_MESSAGE_WORDS = 50; const MAX_MESSAGE_CHARS = 300;
 
-  const nameRegex = /^(?=.{1,100}$)[\p{L}]+(?:[ .'-][\p{L}]+)*$/u;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  const phoneRegex = /^(?:\+91[-\s]?)?[6-9]\d{9}$/;
-  const pinRegex = /^[1-9][0-9]{5}$/;
-  const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z][Z0-9][0-9A-Z]$/i;
-  const twoDecimalRegex = /^-?\d+(?:\.\d{1,2})?$/;
-const MAX_MESSAGE_WORDS = 50; const MAX_MESSAGE_CHARS = 300;
+// -------------------- Validation helpers -------------------- // Validate uploaded file size (MB) const validateFile = (file, maxMB = 50) => { if (!file) return null; if (file instanceof File || file instanceof Blob) { const ok = file.size <= maxMB * 1024 * 1024; return ok ? null : Max size ${maxMB}MB; } return null; };
 
-const countWords = (str = "") => { const s = String(str).trim(); if (!s) return 0; return s.split(/\s+/).length; };
+// Validate numeric dimension (width/height in mm) const validateDimension = (val) => { if (val === "" || val === null || val === undefined) return null; // optional const n = Number(val); if (Number.isNaN(n)) return "Enter a number"; if (n <= 0) return "Must be greater than 0"; if (!Number.isFinite(n)) return "Invalid number"; // optional maximum guard (e.g., 100000 mm) if (n > 100000) return "Value too large"; return null; };
 
-const validateSizeNumber = (file, maxMB = 2) => {
-  if (!file) return null; 
-  const ok = file.size <= maxMB * 1024 * 1024;
-  return ok ? null : `Max size ${maxMB}MB`;
-};
-const validateFile = (file, maxMB = 50) => { if (!file) return null; if (file instanceof File || file instanceof Blob) { const ok = file.size <= maxMB * 1024 * 1024; return ok ? null : `Max size ${maxMB}MB`; } return null; };
+// -------------------- Validation -------------------- const validateProduct = (p) => { const errs = {}; if (!p.productName) errs.productName = "Product name required"; if (!p.productFinish) errs.productFinish = "Product finish required"; if (!p.unit) errs.unit = "Unit is required";
 
-// -------------------- Validation -------------------- const validateProduct = (p) => { const errs = {}; if (!p.productName) errs.productName = "Product name required"; if (!p.productFinish) errs.productFinish = "Product finish required"; if (!p.unit) errs.unit = "Unit is required"; if (p.value === "" || p.value === null || p.value === undefined) { errs.value = "Value is required"; } else if (isNaN(Number(p.value))) { errs.value = "Enter a number"; } else if (Number(p.value) < 0.0001) { errs.value = "Value must be greater than 0"; } else if (!twoDecimalRegex.test(String(p.value))) { errs.value = "Max 2 decimal places allowed"; } if (!p.thickness) errs.thickness = "Thickness is required"; if (!p.deliveryTime) errs.deliveryTime = "Delivery time required";
+if (p.value === "" || p.value === null || p.value === undefined) {
+  errs.value = "Value is required";
+} else if (isNaN(Number(p.value))) {
+  errs.value = "Enter a number";
+} else if (Number(p.value) <= 0) {
+  errs.value = "Value must be greater than 0";
+} else if (!twoDecimalRegex.test(String(p.value))) {
+  errs.value = "Max 2 decimal places allowed";
+}
 
-const wErr = validateSizeNumber(p.width);
+if (!p.thickness) errs.thickness = "Thickness is required";
+
+if (!p.deliveryTime) errs.deliveryTime = "Delivery time required";
+else {
+  const now = new Date();
+  // compare date-only to avoid timezone issues
+  const d = new Date(p.deliveryTime + "T00:00:00");
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  if (d < today) errs.deliveryTime = "Delivery date cannot be in the past";
+}
+
+const wErr = validateDimension(p.width);
 if (wErr) errs.width = wErr;
-const hErr = validateSizeNumber(p.height);
+const hErr = validateDimension(p.height);
 if (hErr) errs.height = hErr;
 
 const imgErr = validateFile(p.image, 50);
 if (imgErr) errs.image = imgErr;
+
 return errs;
 
 };
@@ -94,35 +103,7 @@ return errs;
 
 };
 
-// -------------------- State --------------------
-const initialFormData = {
-  companyType: "",
-  companyName: "",
-  gstNumber: "",
-  fullName: "",
-  email: "",
-  phone: "",
-  pinCode: "",
-  city: "",
-  state: "",
-  country: "",
-  // product fields
-  productName: "",
-  productFinish: "",
-  unit: "",
-  value: "",
-  thickness: "",
-  width: "",
-  height: "",
-  deliveryTime: "",
-  image: null,
-  // files
-  file1: null,
-  file2: null,
-  file3: null,
-  installation: "",
-  message: "" 
-};
+// -------------------- State -------------------- const initialFormData = { companyType: "", companyName: "", gstNumber: "", fullName: "", email: "", phone: "", pinCode: "", city: "", state: "", country: "", // product fields (temporary inputs) productName: "", productFinish: "", unit: "", value: "", thickness: "", width: "", height: "", deliveryTime: "", image: null, // files file1: null, file2: null, file3: null, installation: "", message: "", };
 
 const [tab, setTab] = useState("individual"); const [submitting, setSubmitting] = useState(false); const [products, setProducts] = useState([]); const [productImage, setProductImage] = useState(null); const [errors, setErrors] = useState({}); const [isSubmitted, setIsSubmitted] = useState(false); const [formData, setFormData] = useState(initialFormData); const [toast, setToast] = useState(null);
 
@@ -131,6 +112,7 @@ const [tab, setTab] = useState("individual"); const [submitting, setSubmitting] 
 const handleChange = (e) => { const { name, value, type, files } = e.target; const file = type === "file" ? (files && files[0] ? files[0] : null) : null; const newForm = type === "file" ? { ...formData, [name]: file } : { ...formData, [name]: value };
 
 setFormData(newForm);
+
 if (name === "image") setProductImage(file);
 
 if (isSubmitted) {
@@ -176,6 +158,7 @@ setFormData((prev) => ({
   deliveryTime: "",
   image: null,
 }));
+
 setProductImage(null);
 setErrors((prev) => {
   const copy = { ...prev };
@@ -194,15 +177,10 @@ setErrors((prev) => {
 });
 
 };
-const inputClass = (field) =>
-  `w-full border rounded-2xl px-3 py-3 text-gray-700 outline-none transition duration-200 shadow-sm placeholder-gray-400 focus:shadow-md focus:outline-none ${
-    isSubmitted && errors[field]
-      ? "border-red-400 ring-1 ring-red-200"
-      : "border-gray-200 focus:border-transparent"
-  }`;
+
 const toggleDetails = (index) => { setProducts((prev) => prev.map((p, i) => (i === index ? { ...p, showDetails: !p.showDetails } : p))); };
 
-const removeProduct = (index) => { setProducts((prev) => { const item = prev[index]; if (item?._preview) URL.revokeObjectURL(item.preview); return prev.filter((_, i) => i !== index); }); };
+const removeProduct = (index) => { setProducts((prev) => { const item = prev[index]; if (item?._preview) URL.revokeObjectURL(item.preview); return prev.filter((, i) => i !== index); }); };
 
 const onSubmit = (e) => { e.preventDefault(); setIsSubmitted(true);
 
@@ -214,6 +192,7 @@ if (Object.keys(ferrs).length) {
   if (el && el.scrollIntoView) el.scrollIntoView({ behavior: "smooth", block: "center" });
   return;
 }
+
 if (products.length === 0) {
   setErrors((prev) => ({ ...prev, products: "At least one product is required" }));
   window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
@@ -234,7 +213,13 @@ console.log("Final Payload:", finalData);
 setTimeout(() => {
   setToast({ type: "success", message: "Form submitted successfully" });
   setFormData(initialFormData);
-  setProducts([]);
+  setProducts((prev) => {
+    // cleanup previews
+    prev.forEach((p) => {
+      if (p?._preview) URL.revokeObjectURL(p._preview);
+    });
+    return [];
+  });
   setErrors({});
   setProductImage(null);
   setSubmitting(false);
@@ -246,7 +231,7 @@ setTimeout(() => {
 
 };
 
-useEffect(() => { return () => { products.forEach((p) => { if (p?._preview) URL.revokeObjectURL(p._preview); }); }; }, [products]);
+useEffect(() => { return () => { products.forEach((p) => { if (p?._preview) URL.revokeObjectURL(p._preview); }); }; // eslint-disable-next-line react-hooks/exhaustive-deps }, []);
 
 const selectedUnit = formData.unit; const files1 = formData.file1 ? [formData.file1] : null; const files2 = formData.file2 ? [formData.file2] : null; const files3 = formData.file3 ? [formData.file3] : null;
 
@@ -392,7 +377,7 @@ return ( <div className="min-h-screen bg-gray-50 py-10 px-4"> <div className="ma
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4"> 
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Select Unit</label>
                 <select name="unit" value={formData.unit} onChange={handleChange} className={`${inputClass("unit")} md:max-w-sm`}>
@@ -471,7 +456,7 @@ return ( <div className="min-h-screen bg-gray-50 py-10 px-4"> <div className="ma
           {/* Files & installation */}
           <div>
             <label className="block text-sm font-medium mb-2">Upload BOQ File</label>
-            <div className="border rounded-lg p-4 flex items-center justify-between bg-white">
+            <div className="relative border rounded-lg p-4 flex items-center justify-between bg-white">
               <div>
                 <p className="font-medium">{files1?.[0]?.name ? files1[0].name : "Choose a file"}</p>
                 <p className="text-xs text-gray-400">PDF up to 50MB</p>
@@ -493,7 +478,7 @@ return ( <div className="min-h-screen bg-gray-50 py-10 px-4"> <div className="ma
             <div>
               <label className="block text-sm font-medium mb-2">Rate list / Images</label>
               <div className="flex gap-3">
-                <div className="flex-1 border rounded-lg p-3 text-center bg-white">
+                <div className="flex-1 relative border rounded-lg p-3 text-center bg-white">
                   <p className="font-medium text-sm">{files3?.[0]?.name ? files3[0].name : "Choose rate list"}</p>
                   <div className="mt-2">
                     <input type="file" id="file3" name="file3" className="opacity-0 absolute inset-0 cursor-pointer" onChange={handleChange} />
@@ -501,7 +486,7 @@ return ( <div className="min-h-screen bg-gray-50 py-10 px-4"> <div className="ma
                   </div>
                 </div>
 
-                <div className="flex-1 border rounded-lg p-3 text-center bg-white">
+                <div className="flex-1 relative border rounded-lg p-3 text-center bg-white">
                   <p className="font-medium text-sm">{files2?.[0]?.name ? files2[0].name : "Choose image / video"}</p>
                   <div className="mt-2">
                     <input type="file" id="file2" name="file2" className="opacity-0 absolute inset-0 cursor-pointer" onChange={handleChange} />
@@ -606,5 +591,5 @@ return ( <div className="min-h-screen bg-gray-50 py-10 px-4"> <div className="ma
   )}
 </div>
 
-); 
+); }
 
