@@ -219,7 +219,7 @@ const inputClass = (field) =>
    ${
      isSubmitted && errors[field]
        ? "border border-red-500 focus:ring-2 focus:ring-red-500 focus:rounded-2xl"
-       : "border border-gray-300 focus:border-0 focus:bg-gradient-to-r focus:from-[#871858] focus:via-[#D16BA5] focus:to-[#F3F3F9] focus:p-[1px] rounded-2xl"
+       : "border-2 border-transparent focus:border-0 focus:ring-2 focus:ring-offset-1 focus:ring-[linear-gradient(90deg,#871858,#F3F3F9)] rounded-2xl"
    }`;
 const addProduct = () => {
   const file = formData.image || null;
