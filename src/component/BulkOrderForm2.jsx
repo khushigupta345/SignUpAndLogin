@@ -125,7 +125,7 @@ const ErrorText = ({ children }) => (
     else if (!nameRegex.test(data.city)) errs.city = "Enter a valid city name";
 
     if (!data.state) errs.state = "State is required";
-    else if (!nameRegex.test(data.state)) errs.state = "Enter a valid state name";
+    else if (!nameRegex.test(data.state)) errs.state = "Enter a state name";
 
     if (!data.country) errs.country = "Country is required";
     else if (!nameRegex.test(data.country)) errs.country = "Enter a valid country name";
@@ -219,7 +219,7 @@ const inputClass = (field) =>
    ${
      isSubmitted && errors[field]
        ? "border-red-500 focus:ring-2 focus:ring-red-500 focus:rounded-2xl"
-       : "border-gray-300 focus:[border-image:linear-gradient(90deg,#871858,#F3F3F9)_1] focus:border-transparent focus:rounded-xl"
+       : "border-gray-300 focus:[border-image:linear-gradient(90deg,#871858,#F3F3F9)_1] focus:border-transparent focus:rounded-2xl"
    }`;
 const addProduct = () => {
   const file = formData.image || null;
