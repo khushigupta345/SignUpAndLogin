@@ -24,8 +24,8 @@ const countWords = (str = "") => {
     if (isNaN(Number(value))) return "Must be a number";
     const num = Number(value);
     if (num <= 0) return "Value must be greater than 0";
-    if (num < 100) return "Min value is 100mm";
-    if (num > 3000) return "Max value is 3000mm";
+    if (num < 100) return "Min 100mm";
+    if (num > 3000) return "Max 3000mm";
     if (!twoDecimalRegex.test(String(value))) return "Max 2 decimal places allowed";
     return null;
   };
@@ -892,7 +892,9 @@ setFormData(initialFormData);
           </div>
 
           {/* <div className="bg-white/90 backdrop-blur-md w-full shadow-xl rounded-2xl p-4 border border-gray-100"> */}
-   <div className="w-full max-w-5xl mx-auto px-4 bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-4 border border-gray-100">
+          {/*   <div className="w-full max-w-5xl mx-auto px-4 bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-4 border border-gray-100">*/}
+<div className="shadow-lg backdrop-blur-sm bg-white/80 rounded-3xl">
+          
       <div className="w-full">
         {products.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 px-6 text-center border-2 border-dashed border-gray-200 rounded-2xl bg-gradient-to-br from-gray-50 to-white">
