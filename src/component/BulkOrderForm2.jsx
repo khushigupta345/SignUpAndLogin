@@ -97,7 +97,7 @@ return errs;
 // -------------------- State -------------------- const initialFormData = { companyType: "", companyName: "", gstNumber: "", fullName: "", email: "", phone: "", pinCode: "", city: "", state: "", country: "", // product fields productName: "", productFinish: "", unit: "", value: "", thickness: "", width: "", height: "", deliveryTime: "", image: null, // files file1: null, file2: null, file3: null,
 
 installation: "",
-message: "",
+message: ""
 
 };
 
