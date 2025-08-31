@@ -218,8 +218,8 @@ const inputClass = (field) =>
   `w-full border rounded-2xl px-3 py-3 text-gray-700 outline-none transition duration-300
    ${
      isSubmitted && errors[field]
-       ? "border-red-500 focus:ring-2 focus:ring-red-500 focus:rounded-2xl"
-       : "border-gray-300 focus:[border-image:linear-gradient(90deg,#871858,#F3F3F9)_1] focus:border-transparent focus:rounded-2xl"
+       ? "border-red-500 focus:ring-2 focus:ring-red-500"
+       : "border-gray-300 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
    }`;
 const addProduct = () => {
   const file = formData.image || null;
