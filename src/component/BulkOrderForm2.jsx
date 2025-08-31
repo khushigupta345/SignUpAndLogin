@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 
 // Polished, single-file React component using Tailwind CSS. // Fixes syntax bugs from the original and improves visual design, spacing and UX.
 
-export default function BulkOrderForm2() { // -------------------- Regex & helpers --------------------
-  const nameRegex = /^(?=.{1,100}$)[\p{L}]+(?:[ .'-][\p{L}]+)*$/u; 
-  const emailRegex = /^[^\s@]+@[^\s@]+.[^\s@]{2,}$/; const phoneRegex = /^(?:+91[-\s]?)?[6-9]\d{9}$/; const pinRegex = /^[1-9][0-9]{5}$/; const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z][Z0-9][0-9A-Z]$/i; 
-  const twoDecimalRegex = /^-?\d+(?:.\d{1,2})?$/;
+export default function BulkOrderForm2() {
 
+  const nameRegex = /^(?=.{1,100}$)[\p{L}]+(?:[ .'-][\p{L}]+)*$/u;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const phoneRegex = /^(?:\+91[-\s]?)?[6-9]\d{9}$/;
+  const pinRegex = /^[1-9][0-9]{5}$/;
+  const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z][Z0-9][0-9A-Z]$/i;
+  const twoDecimalRegex = /^-?\d+(?:\.\d{1,2})?$/;
 const MAX_MESSAGE_WORDS = 50; const MAX_MESSAGE_CHARS = 300;
 
 const countWords = (str = "") => { const s = String(str).trim(); if (!s) return 0; return s.split(/\s+/).length; };
