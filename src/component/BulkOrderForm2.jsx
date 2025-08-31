@@ -414,7 +414,7 @@ useEffect(() => {
                       name="companyName"
                       value={formData.companyName}
                       onChange={handleChange}
-                       className={`${inputClass("companyName")} md:max-w-sm`}
+                       className={`${inputClass("companyName")}  rounded-2xl     md:max-w-sm`}
                       placeholder="Globex industries pvt.ltd"
                     />
   {errors.companyName && <ErrorText>{errors.companyName}</ErrorText>}
