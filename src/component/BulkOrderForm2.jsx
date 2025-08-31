@@ -94,11 +94,34 @@ return errs;
 
 };
 
-// -------------------- State -------------------- const initialFormData = { companyType: "", companyName: "", gstNumber: "", fullName: "", email: "", phone: "", pinCode: "", city: "", state: "", country: "", // product fields productName: "", productFinish: "", unit: "", value: "", thickness: "", width: "", height: "", deliveryTime: "", image: null, // files file1: null, file2: null, file3: null,
-
-installation: "",
-message: ""
-
+// -------------------- State --------------------
+const initialFormData = {
+  companyType: "",
+  companyName: "",
+  gstNumber: "",
+  fullName: "",
+  email: "",
+  phone: "",
+  pinCode: "",
+  city: "",
+  state: "",
+  country: "",
+  // product fields
+  productName: "",
+  productFinish: "",
+  unit: "",
+  value: "",
+  thickness: "",
+  width: "",
+  height: "",
+  deliveryTime: "",
+  image: null,
+  // files
+  file1: null,
+  file2: null,
+  file3: null,
+  installation: "",
+  message: "" 
 };
 
 const [tab, setTab] = useState("individual"); const [submitting, setSubmitting] = useState(false); const [products, setProducts] = useState([]); const [productImage, setProductImage] = useState(null); const [errors, setErrors] = useState({}); const [isSubmitted, setIsSubmitted] = useState(false); const [formData, setFormData] = useState(initialFormData); const [toast, setToast] = useState(null);
