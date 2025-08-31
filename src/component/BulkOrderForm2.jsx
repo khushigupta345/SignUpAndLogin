@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 
 // Polished, single-file React component using Tailwind CSS. // Fixes syntax bugs from the original and improves visual design, spacing and UX.
 
-export default function BulkOrderForm2() { // -------------------- Regex & helpers -------------------- const nameRegex = /^(?=.{1,100}$)[\p{L}]+(?:[ .'-][\p{L}]+)*$/u; const emailRegex = /^[^\s@]+@[^\s@]+.[^\s@]{2,}$/; const phoneRegex = /^(?:+91[-\s]?)?[6-9]\d{9}$/; const pinRegex = /^[1-9][0-9]{5}$/; const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z][Z0-9][0-9A-Z]$/i; const twoDecimalRegex = /^-?\d+(?:.\d{1,2})?$/;
+export default function BulkOrderForm2() { // -------------------- Regex & helpers --------------------
+  const nameRegex = /^(?=.{1,100}$)[\p{L}]+(?:[ .'-][\p{L}]+)*$/u; 
+  const emailRegex = /^[^\s@]+@[^\s@]+.[^\s@]{2,}$/; const phoneRegex = /^(?:+91[-\s]?)?[6-9]\d{9}$/; const pinRegex = /^[1-9][0-9]{5}$/; const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z][Z0-9][0-9A-Z]$/i; 
+  const twoDecimalRegex = /^-?\d+(?:.\d{1,2})?$/;
 
 const MAX_MESSAGE_WORDS = 50; const MAX_MESSAGE_CHARS = 300;
 
@@ -165,10 +168,15 @@ setErrors((prev) => {
 });
 
 };
-
+const inputClass = (field) =>
+  `w-full border rounded-2xl px-3 py-3 text-gray-700 outline-none transition duration-200 shadow-sm placeholder-gray-400 focus:shadow-md focus:outline-none ${
+    isSubmitted && errors[field]
+      ? "border-red-400 ring-1 ring-red-200"
+      : "border-gray-200 focus:border-transparent"
+  }`;
 const toggleDetails = (index) => { setProducts((prev) => prev.map((p, i) => (i === index ? { ...p, showDetails: !p.showDetails } : p))); };
 
-const removeProduct = (index) => { setProducts((prev) => { const item = prev[index]; if (item?._preview) URL.revokeObjectURL(item.preview); return prev.filter((, i) => i !== index); }); };
+const removeProduct = (index) => { setProducts((prev) => { const item = prev[index]; if (item?._preview) URL.revokeObjectURL(item.preview); return prev.filter((_, i) => i !== index); }); };
 
 const onSubmit = (e) => { e.preventDefault(); setIsSubmitted(true);
 
