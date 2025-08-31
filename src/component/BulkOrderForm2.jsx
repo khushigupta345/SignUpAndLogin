@@ -892,8 +892,8 @@ setFormData(initialFormData);
           </div>
 
           {/* <div className="bg-white/90 backdrop-blur-md w-full shadow-xl rounded-2xl p-4 border border-gray-100"> */}
-          {/*   <div className="w-full max-w-5xl mx-auto px-4 bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-4 border border-gray-100">*/}
-<div className="shadow-lg backdrop-blur-sm bg-white/80 rounded-3xl">
+            <div className="w-full max-w-5xl mx-auto px-4 bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-4 border border-gray-100">
+
           
       <div className="w-full">
         {products.length === 0 ? (
