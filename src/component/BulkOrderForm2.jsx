@@ -790,7 +790,7 @@ useEffect(() => {
                   <button
                     type="button"
                     onClick={addProduct}
-                    className="font-inter bg-[#871B58] text-white px-6 py-2 rounded mb-6"
+                    className="font-inter    hover:scale-105 transition-transform duration-200  bg-[#871B58] text-white px-6 py-2 rounded mb-6"
                     disabled={submitting}
                   >
                     Add this Product
@@ -883,7 +883,7 @@ setFormData(initialFormData);
 >
   Cancel
 </button>
-                <button type="submit" className="font-inter bg-[#871B58] text-white px-8 py-2 rounded mb-6" disabled={submitting}>
+                <button type="submit" className="font-inter bg-[#871B58] text-white px-8 py-2 rounded mb-6 hover:scale-105 transition-transform duration-200" disabled={submitting}>
                   {submitting ? "Submitting..." : "Submit"}
                 </button>
               </div>
