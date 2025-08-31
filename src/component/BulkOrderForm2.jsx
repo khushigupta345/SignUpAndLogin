@@ -8,8 +8,11 @@ const MAX_MESSAGE_WORDS = 50; const MAX_MESSAGE_CHARS = 300;
 
 const countWords = (str = "") => { const s = String(str).trim(); if (!s) return 0; return s.split(/\s+/).length; };
 
-const validateSizeNumber = (value) => { if (value === undefined || value === null || value === "") return null; // optional if (isNaN(Number(value))) return "Must be a number"; const num = Number(value); if (num <= 0) return "Value must be greater than 0"; if (num < 100) return "Min value is 100mm"; if (num > 3000) return "Max value is 3000mm"; if (!twoDecimalRegex.test(String(value))) return "Max 2 decimal places allowed"; return null; };
-
+const validateSizeNumber = (file, maxMB = 2) => {
+  if (!file) return null; 
+  const ok = file.size <= maxMB * 1024 * 1024;
+  return ok ? null : `Max size ${maxMB}MB`;
+};
 const validateFile = (file, maxMB = 50) => { if (!file) return null; if (file instanceof File || file instanceof Blob) { const ok = file.size <= maxMB * 1024 * 1024; return ok ? null : `Max size ${maxMB}MB`; } return null; };
 
 // -------------------- Validation -------------------- const validateProduct = (p) => { const errs = {}; if (!p.productName) errs.productName = "Product name required"; if (!p.productFinish) errs.productFinish = "Product finish required"; if (!p.unit) errs.unit = "Unit is required"; if (p.value === "" || p.value === null || p.value === undefined) { errs.value = "Value is required"; } else if (isNaN(Number(p.value))) { errs.value = "Enter a number"; } else if (Number(p.value) < 0.0001) { errs.value = "Value must be greater than 0"; } else if (!twoDecimalRegex.test(String(p.value))) { errs.value = "Max 2 decimal places allowed"; } if (!p.thickness) errs.thickness = "Thickness is required"; if (!p.deliveryTime) errs.deliveryTime = "Delivery time required";
