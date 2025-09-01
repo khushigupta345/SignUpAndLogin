@@ -491,25 +491,26 @@ useEffect(() => {
   <label className="block font-semibold text-[16px] text-black mb-1">Full Name</label>
 
   <div className="relative w-full">
-    <input
-      type="text"
-      name="fullName"
-      value={formData.fullName}
-      onChange={handleChange}
-      className={`${inputClass("fullName")} md:max-w-sm`}
-      placeholder="Enter full name"
-    />
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="currentColor"
-      viewBox="0 0 24 24"
-      className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
-    >
-      <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2.2c-3.3 0-9.9 1.7-9.9 5v2.7h19.8V19c0-3.3-6.6-5-9.9-5z" />
-    </svg>
-  </div>
+  <input
+    type="text"
+    name="fullName"
+    value={formData.fullName}
+    onChange={handleChange}
+    className={`${inputClass("fullName")} md:max-w-sm pl-3 pr-10`}
+    placeholder="Enter full name"
+  />
 
-   {errors.fullName && <ErrorText>{errors.fullName}</ErrorText>}
+  {/* Naya icon */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 24 24"
+    className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
+  >
+    <path d="M5 12l5 5L20 7" /> {/* Example: check mark icon */}
+  </svg>
+
+  {errors.fullName && <ErrorText>{errors.fullName}</ErrorText>}
 </div>
 
 
