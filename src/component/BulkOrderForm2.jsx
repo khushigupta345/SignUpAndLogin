@@ -511,7 +511,7 @@ useEffect(() => {
   </svg>  
   
   {errors.fullName && <ErrorText>{errors.fullName}</ErrorText>}  
-</div>  
+</div>  </div>
  
 
                 <div className="flex-1 min-w-[250px]">
