@@ -490,27 +490,27 @@ useEffect(() => {
      <div className="flex-1 min-w-[200px]">
   <label className="block font-semibold text-[16px] text-black mb-1">Full Name</label>
 
-    <div className="relative w-full">  
-  <input  
-    type="text"  
-    name="fullName"  
-    value={formData.fullName}  
-    onChange={handleChange}  
-    className={`${inputClass("fullName")} md:max-w-sm pl-3 pr-10`}  
-    placeholder="Enter full name"  
-  />  
-  
-    
-  <svg  
-    xmlns="http://www.w3.org/2000/svg"  
-    fill="currentColor"  
-    viewBox="0 0 24 24"  
-    className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"  
-  >  
-    <path d="M5 12l5 5L20 7" />   
-  </svg>  
-  
-  {errors.fullName && <ErrorText>{errors.fullName}</ErrorText>}  
+    <div className="relative w-full">
+  <input
+    type="text"
+    name="fullName"
+    value={formData.fullName}
+    onChange={handleChange}
+    className={`${inputClass("fullName")} md:max-w-sm pl-3 pr-10`}
+    placeholder="Enter full name"
+  />
+
+  {/* Naya icon */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 24 24"
+    className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
+  >
+    <path d="M5 12l5 5L20 7" /> {/* Example: check mark icon */}
+  </svg>
+
+  {errors.fullName && <ErrorText>{errors.fullName}</ErrorText>}
 </div>  </div>
  
 
