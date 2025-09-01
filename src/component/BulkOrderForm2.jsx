@@ -215,11 +215,12 @@ installation: "",
   };
 
 const inputClass = (field) =>
-  `w-full border rounded-2xl px-3 py-3 text-gray-700 outline-none transition duration-300 ${
-    isSubmitted && errors[field]
-      ? "border-red-500 focus:rounded-2xl focus:border-red-500"
-      : "border-gray-300 focus:rounded-2xl focus:border-gray-300 focus:[border-image:linear-gradient(180deg,#871B58 0%,#F3F3F9 80%,#D1D1D1 100%)_1]"
-  }`;
+w-full border rounded-2xl px-3 py-3 text-gray-700 outline-none transition duration-300 
+  ${   isSubmitted && errors[field]   ? "border-red-500 focus:rounded-2xl focus:border-red-500"
+    : "border-gray-300 focus:rounded-2xl focus:border-gray-300 focus:[border-image:linear-gradient(90deg,#871B58,#F3F3F9)_1]"   };
+
+
+
 const addProduct = () => {
   const file = formData.image || null;
   const preview = file && typeof file !== "string" ? URL.createObjectURL(file) : null;
