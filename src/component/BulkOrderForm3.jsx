@@ -667,7 +667,7 @@ useEffect(() => {
       onChange={handleChange}
        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
   
-      placeholder="Enter full name"
+      placeholder="Enter email"
     />
 
               <label htmlFor="email" className="pr-3 text-gray-600">
