@@ -1320,7 +1320,9 @@ setFormData(initialFormData);
                 </button>
               </div>
               {errors.products && <ErrorText>{errors.products}</ErrorText>}
+               
             </form>
+             </div>
           </div>
 
           {/* <div className="bg-white/90 backdrop-blur-md w-full shadow-xl rounded-2xl p-4 border border-gray-100"> */}
