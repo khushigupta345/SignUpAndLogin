@@ -1205,7 +1205,7 @@ useEffect(() => {
             </div>  
   
            
-              
+              </div>
                {/*   <div className="w-full h-auto min-h-[160px] border-2 w-full max-w-[688px] border-dashed border-gray-300 rounded-lg p-4 text-gray-500 relative">*/}
         <div className="w-full h-auto min-h-[160px] border-2 border-dashed border-gray-300 rounded-lg p-4 text-gray-500 relative">
   {/* Installation input */}
