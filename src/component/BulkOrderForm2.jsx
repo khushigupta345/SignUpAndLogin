@@ -4,7 +4,7 @@ import { LuUserRound } from "react-icons/lu";
 import { CiMail } from "react-icons/ci";
 import { HiOutlinePhone } from 'react-icons/hi'
    import { MdDelete } from "react-icons/md";
-export default function BulkOrderForm3() {
+export default function BulkOrderForm2() {
   
 const nameRegex = /^(?=.{1,100}$)[\p{L}]+(?:[ .'-][\p{L}]+)*$/u;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
