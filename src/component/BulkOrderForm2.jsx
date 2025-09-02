@@ -987,46 +987,20 @@ setFormData(initialFormData);
 <button
   onClick={() => removeProduct(index)}
   aria-label={`Remove ${item.productName}`}
-  className="text-red-500 hover:text-red-700 transition rounded-full"
+  className="p-1 rounded-md hover:bg-red-100 transition"
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 256 256"
-    className="w-5 h-5"
+    viewBox="0 0 24 24"
+    className="w-5 h-5 text-red-600"
+    fill="currentColor"
   >
-    <g
-      style={{
-        stroke: "none",
-        strokeWidth: 0,
-        fill: "none",
-        fillRule: "nonzero",
-        opacity: 1,
-      }}
-      transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
-    >
-      <path
-        d="M 68.842 90 H 21.158 c -4.251 0 -7.696 -3.446 -7.696 -7.696 v -52.09 h 63.077 v 52.09 C 76.538 86.554 73.092 90 68.842 90 z"
-        style={{ fill: "rgb(188,60,60)" }}
-      />
-      <path
-        d="M 78.321 22.213 H 11.679 c -2.209 0 -4 -1.791 -4 -4 s 1.791 -4 4 -4 h 66.643 c 2.209 0 4 1.791 4 4 S 80.53 22.213 78.321 22.213 z"
-        style={{ fill: "rgb(188,60,60)" }}
-      />
-      <path
-        d="M 57.815 22.213 h -25.63 c -2.209 0 -4 -1.791 -4 -4 V 7.696 C 28.185 3.453 31.637 0 35.881 0 h 18.238 c 4.244 0 7.696 3.453 7.696 7.696 v 10.517 C 61.815 20.422 60.024 22.213 57.815 22.213 z M 36.185 14.213 h 17.63 V 8 h -17.63 V 14.213 z"
-        style={{ fill: "rgb(188,60,60)" }}
-      />
-      <path
-        d="M 54.784 78.235 c -2.209 0 -4 -1.791 -4 -4 V 44.976 c 0 -2.209 1.791 -4 4 -4 s 4 1.791 4 4 v 29.259 C 58.784 76.444 56.993 78.235 54.784 78.235 z"
-        style={{ fill: "rgb(255,255,255)" }}
-      />
-      <path
-        d="M 35.216 78.235 c -2.209 0 -4 -1.791 -4 -4 V 44.976 c 0 -2.209 1.791 -4 4 -4 s 4 1.791 4 4 v 29.259 C 39.216 76.444 37.425 78.235 35.216 78.235 z"
-        style={{ fill: "rgb(255,255,255)" }}
-      />
-    </g>
+    <path
+      fillRule="evenodd"
+      d="M9 3a1 1 0 00-1 1v1H5.5a.5.5 0 000 1h13a.5.5 0 000-1H16V4a1 1 0 00-1-1H9zm-2 6a.75.75 0 011.5 0v9a.75.75 0 01-1.5 0V9zm4 0a.75.75 0 011.5 0v9a.75.75 0 01-1.5 0V9zm4 0a.75.75 0 011.5 0v9a.75.75 0 01-1.5 0V9z"
+      clipRule="evenodd"
+    />
+    <path d="M5 7h14v12a2 2 0 01-2 2H7a2 2 0 01-2-2V7z" />
   </svg>
 </button>
 
