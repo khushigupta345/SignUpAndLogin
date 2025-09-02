@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { LuUserRound } from "react-icons/lu";
 
-
+import { CiMail } from "react-icons/ci";
+import { HiOutlinePhone } from 'react-icons/hi'
+   import { MdDelete } from "react-icons/md";
 export default function BulkOrderForm2() {
   
 const nameRegex = /^(?=.{1,100}$)[\p{L}]+(?:[ .'-][\p{L}]+)*$/u;
@@ -213,14 +216,19 @@ installation: "",
     newProducts[index].showDetails = !newProducts[index].showDetails;
     setProducts(newProducts);
   };
+  const inputClass = (field) =>
+  `w-full rounded-lg px-3 py-2 text-gray-700 outline-none transition duration-300 
+   ${isSubmitted && errors[field] 
+      ? "border border-red-500 bg-white" 
+      : "border border-[#D7D7D7] bg-white focus:border-transparent focus:bg-gradient-to-t focus:from-[#d6c9ea] focus:to-[#871B58]"
+   }`;
 
-const inputClass = (field) =>
-  `w-full border rounded-2xl px-3 py-3 text-gray-700 outline-none transition duration-300 ${
-    isSubmitted && errors[field]
-      ? "border-red-500 focus:rounded-2xl focus:border-red-500"
-      : "border-gray-300 focus:rounded-2xl focus:border-gray-300 focus:[border-image:linear-gradient(90deg,#871B58,#F3F3F9)_1]"
-  }`;
-
+// const inputClass = (field) =>
+//   `w-full border rounded-2xl px-3 py-3 text-gray-700 outline-none transition duration-300 ${
+//     isSubmitted && errors[field]
+//       ? "border-red-500 focus:rounded-2xl focus:border-red-500"
+//       : "border-gray-300 focus:rounded-2xl focus:border-gray-300 focus:[border-image:linear-gradient(90deg,#871B58,#F3F3F9)_1]"
+//   }`;
 const addProduct = () => {
   const file = formData.image || null;
   const preview = file && typeof file !== "string" ? URL.createObjectURL(file) : null;
@@ -356,7 +364,7 @@ useEffect(() => {
   const files3 = formData.file3 ? [formData.file3] : null;
 
   return (
-    <div className="min-h-screen font-poppins bg-white px-4 sm:px-6 lg:px-16 py-8">
+   <div className="min-h-screen font-poppins bg-white px-4 sm:px-6 lg:px-16 py-8">
       <div className="max-w-5xl mx-auto">
         <div className="mb-3">
           <h1 className="text-2xl sm:text-4xl font-semibold text-[#000000]">Stonepedia Bulk Orders</h1>
@@ -388,370 +396,753 @@ useEffect(() => {
               </button>
             </div>
 
-            <form onSubmit={onSubmit} className="space-y-4">
+            <form onSubmit={onSubmit} className="space-y-3">
               {tab === "business" ? (
-                <div className="flex flex-col md:flex-row gap-4">
-                  <div className="flex-1">
-                    <label className="block font-semibold text-[16px] text-black mb-1">Company Type </label>
-                   
+                <div className="flex flex-col md:flex-row md:justify-between gap-2 w-full">
+                  {/*      <div className="w-full flex flex-col"> */}
+                  <div className="w-full flex flex-col">
+                    <label htmlFor="companyType" className="mb-0.5 text-xs">Company Type </label>
+                    <div className={`rounded-lg p-[1px] transition ${
+    errors.companyName
+      ? "bg-gradient-to-t from-red-400 to-red-600" // error state
+      : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+}`}>
+  <div className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+      errors.companyName ? "border-red-500" : "border-[#D7D7D7] focus-within:border-transparent"
+  }`}>  
                     <select
                       name="companyType"
                       value={formData.companyType}
                       onChange={handleChange}
-                      className={`${inputClass("companyType")} md:max-w-sm`}
+                     className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
                     >
                       <option value="">Choose</option>
                       <option value="pvt">Private Ltd</option>
                       <option value="llp">LLP</option>
                       <option value="proprietor">Proprietor</option>
                     </select>
+                    </div>
+                    </div>
                       {errors.companyType && <ErrorText>{errors.companyType}</ErrorText>}
                   </div>
 
-                  <div className="flex-1">
-                    <label className="block font-semibold text-[16px] text-black mb-1">Company Name  </label>
+                       <div className="w-full flex flex-col">
+<label htmlFor="companyName" className="mb-0.5 text-xs">Company Name  </label>
+                    <div className={`rounded-lg p-[1px] transition ${
+    errors.companyName
+      ? "bg-gradient-to-t from-red-400 to-red-600" // error state
+      : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+}`}>
+  <div className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+      errors.companyName ? "border-red-500" : "border-[#D7D7D7] focus-within:border-transparent"
+  }`}>  
+
+                        
+                   
                     <input
                       type="text"
                       name="companyName"
                       value={formData.companyName}
                       onChange={handleChange}
-                       className={`${inputClass("companyName")}  rounded-2xl     md:max-w-sm`}
+                      //  className={`${inputClass("companyName")}  rounded-2xl     md:max-w-sm`}
+                    className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+              
+              
                       placeholder="Globex industries pvt.ltd"
                     />
+                    </div>
+                    </div>
   {errors.companyName && <ErrorText>{errors.companyName}</ErrorText>}
                   </div>
                 </div>
               ) : (
-                 <div className="flex flex-col md:flex-row gap-4">
-                  <div className="flex-1">
-                    <label className="block font-semibold text-[16px] text-black mb-1">Company Type <span className="text-gray-400 text-sm">(optional)</span></label>
+
+
+
+
+ <div className="flex flex-col md:flex-row md:justify-between gap-2 w-full">
+                  {/*      <div className="w-full flex flex-col"> */}
+                  <div className="w-full flex flex-col">
+                    <label htmlFor="companyType" className="mb-0.5 text-xs">Company Type<span className="text-gray-400 text-sm">(optional)</span> </label>
+                    <div className={`rounded-lg p-[1px] transition ${
+    errors.companyName
+      ? "bg-gradient-to-t from-red-400 to-red-600" // error state
+      : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+}`}>
+  <div className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+      errors.companyName ? "border-red-500" : "border-[#D7D7D7] focus-within:border-transparent"
+  }`}>  
                     <select
                       name="companyType"
                       value={formData.companyType}
                       onChange={handleChange}
-                      className={`${inputClass("companyType")} md:max-w-sm`}
+                     className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
                     >
                       <option value="">Choose</option>
                       <option value="pvt">Private Ltd</option>
                       <option value="llp">LLP</option>
                       <option value="proprietor">Proprietor</option>
                     </select>
+                    </div>
+                    </div>
                       {errors.companyType && <ErrorText>{errors.companyType}</ErrorText>}
                   </div>
 
-                  <div className="flex-1">
-                    <label className="block font-semibold text-[16px] text-black mb-1">Company Name <span className="text-gray-400 text-sm">(optional)</span> </label>
+                       <div className="w-full flex flex-col">
+<label htmlFor="companyName" className="mb-0.5 text-xs">Company Name <span className="text-gray-400 text-sm">(optional)</span> </label>
+                    <div className={`rounded-lg p-[1px] transition ${
+    errors.companyName
+      ? "bg-gradient-to-t from-red-400 to-red-600" // error state
+      : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+}`}>
+  <div className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+      errors.companyName ? "border-red-500" : "border-[#D7D7D7] focus-within:border-transparent"
+  }`}>  
+
+                        
+                   
                     <input
+                    id="companyName"
                       type="text"
                       name="companyName"
                       value={formData.companyName}
                       onChange={handleChange}
- className={`${inputClass("companyName")} md:max-w-sm`}
+                      //  className={`${inputClass("companyName")}  rounded-2xl     md:max-w-sm`}
+                    className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+              
+              
                       placeholder="Globex industries pvt.ltd"
                     />
-                      {errors.companyName && <ErrorText>{errors.companyName}</ErrorText>}
+                    </div>
+                    </div>
+  {errors.companyName && <ErrorText>{errors.companyName}</ErrorText>}
                   </div>
                 </div>
+
               )}
 
               {tab === "business" ? (
-                <div className="mb-6">
-                  <label className="block font-semibold text-[16px] text-black mb-1">GST Number</label>
-                  <input
+            <div className="grid grid-col-1">
+
+
+
+<label htmlFor="gstNumber" className="mb-0.5 text-xs">GST Number  </label>
+                    <div className={`rounded-lg p-[1px] transition ${
+    errors.gstNumber
+      ? "bg-gradient-to-t from-red-400 to-red-600" // error state
+      : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+}`}>
+  <div className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+      errors.gstNumber ? "border-red-500" : "border-[#D7D7D7] focus-within:border-transparent"
+  }`}>  
+
+
+
+
+
+   <input
+   id="gstNumber"
                     type="text"
                     name="gstNumber"
                     value={formData.gstNumber}
                     onChange={handleChange}
                     placeholder="Choose"
-                     className={`${inputClass("gstNumber")} w-full`}
+                   className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
                   />
+                  </div>
+                  </div>
                         {errors.gstNumber && <ErrorText>{errors.gstNumber}</ErrorText>}
                 </div>
               ) : (
-                <div className="mb-6">
+              
                   <div className="grid grid-col-1">
                   
-                  <label className="block font-semibold text-[16px] text-black mb-1">GST Number <span className="text-gray-400 text-sm">(optional)</span></label>
-                  <input
+
+
+
+<label htmlFor="gstNumber" className="mb-0.5 text-xs">GST Number <span className="text-gray-400 text-sm">(optional)</span> </label>
+                    <div className={`rounded-lg p-[1px] transition ${
+    errors.gstNumber
+      ? "bg-gradient-to-t from-red-400 to-red-600" // error state
+      : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+}`}>
+  <div className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+      errors.gstNumber ? "border-red-500" : "border-[#D7D7D7] focus-within:border-transparent"
+  }`}>  
+
+
+
+
+
+   <input
+   id="gstNumber"
                     type="text"
                     name="gstNumber"
                     value={formData.gstNumber}
                     onChange={handleChange}
                     placeholder="Choose"
-                     className={`${inputClass("gstNumber")} w-full`}
-                />
-                           {errors.gstNumber && <ErrorText>{errors.gstNumber}</ErrorText>}
-                </div>
-                </div>
+                   className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+                  />
+                  </div>
+                  </div>
+                        {errors.gstNumber && <ErrorText>{errors.gstNumber}</ErrorText>}
+                </div>    
+              
               )}
 
               {/* Personal Info */}
-              <div className="flex flex-col sm:flex-row gap-4 w-full">
-     <div className="flex-1 min-w-[200px]">
-  <label className="block font-semibold text-[16px] text-black mb-1">Full Name</label>
+              <div className="flex flex-col md:flex-row md:justify-between gap-2 w-full">
+              {/* <div className="flex flex-col sm:flex-row gap-4 w-full"> */}
+     {/* <div className="flex-1 min-w-[200px]"> */}
+<div className="w-full flex flex-col md:w-[60%]">
+  {/* <label className="block font-semibold text-[16px] text-black mb-1">Full Name</label> */}
+  <label htmlFor="name" className="mb-0.5 text-xs">
+            Full Name
+          </label>
+  {/* <div className="relative w-full"> */}
+    <div className={`rounded-lg p-[1px] transition ${
+    errors.fullName
+      ? "bg-gradient-to-t from-red-400 to-red-600" // error state
+      : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+}`}>
+  <div className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+      errors.fullName ? "border-red-500" : "border-[#D7D7D7] focus-within:border-transparent"
+  }`}>
 
-      <div className="relative w-full">  
-    <input  
-      type="text"  
-      name="fullName"  
-      value={formData.fullName}  
-      onChange={handleChange}  
-      className={`${inputClass("fullName")} md:max-w-sm`}  
-      placeholder="Enter full name"  
-    />  
-    <svg  
-      xmlns="http://www.w3.org/2000/svg"  
-      fill="currentColor"  
-      viewBox="0 0 24 24"  
-      className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"  
-    >  
-      <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2.2c-3.3 0-9.9 1.7-9.9 5v2.7h19.8V19c0-3.3-6.6-5-9.9-5z" />  
-    </svg>  
-  </div>    </div>
- 
-
-                <div className="flex-1 min-w-[250px]">
-  <label className="block font-semibold text-[16px] text-black mb-1">Email Address</label>
-
-  <div className="relative w-full">
     <input
-      type="email"
-      name="email"
-      value={formData.email}
+     className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+            id="name"
+     type="text"
+      name="fullName"
+      value={formData.fullName}
+      
       onChange={handleChange}
-    className={`${inputClass("email")} md:max-w-sm`}
-      placeholder="Enter email"
+   
+      // className={`${inputClass("fullName")} md:max-w-sm`}
+      placeholder="Enter full name"
     />
-    {/* Email icon */}
-    <svg
+    {/* <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"
       viewBox="0 0 24 24"
       className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
     >
-      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 2-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z" />
-    </svg>
-  </div>
-
-            {errors.email && <ErrorText>{errors.email}</ErrorText>}
+      <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2.2c-3.3 0-9.9 1.7-9.9 5v2.7h19.8V19c0-3.3-6.6-5-9.9-5z" />
+    </svg> */}
+         <label htmlFor="name" className="pr-3 text-gray-600">
+                    <LuUserRound size={16} />
+                  </label>
+  {/* </div> */}
+    </div>
 </div>
 
-              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+   {errors.fullName && <ErrorText>{errors.fullName}</ErrorText>}
+</div>
+
+
+
+
+<div className="w-full flex flex-col ">
+  {/* <label className="block font-semibold text-[16px] text-black mb-1">Full Name</label> */}
+  <label htmlFor="email" className="mb-0.5 text-xs">
+           Email Address
+          </label>
+  {/* <div className="relative w-full"> */}
+    <div className={`rounded-lg p-[1px] transition ${
+    errors.email
+      ? "bg-gradient-to-t from-red-400 to-red-600" // error state
+      : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+}`}>
+  <div className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+      errors.email ? "border-red-500" : "border-[#D7D7D7] focus-within:border-transparent"
+  }`}>
+
+    <input
+   
+            id="email"
+     type="text"
+      name="email"
+      value={formData.eamil}
+      onChange={handleChange}
+       className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+  
+      placeholder="Enter full name"
+    />
+
+              <label htmlFor="email" className="pr-3 text-gray-600">
+                       <CiMail size={16} />
+
+</label>
+  {/* </div> */}
+    </div>
+</div>
+
+
+   {errors.email && <ErrorText>{errors.email}</ErrorText>}
+</div>
+            
+     </div>
+<div className="flex flex-col md:flex-row md:justify-between gap-4 w-full">
+
+  {/* Phone Field */}
+  <div className="w-full md:w-1/2 flex flex-col">
+    <label htmlFor="phone" className="mb-0.5 text-xs">
+      Phone Number
+    </label>
+
+    <div
+      className={`rounded-lg p-[1px] transition ${
+        errors.phone
+          ? "bg-gradient-to-t from-red-400 to-red-600"
+          : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+      }`}
+    >
+      <div
+        className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+          errors.phone
+            ? "border-red-500"
+            : "border-[#D7D7D7] focus-within:border-transparent"
+        }`}
+      >
+        <input
+          id="phone"
+          type="text"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          placeholder="Enter phone number"
+          className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+        />
+
+        <label htmlFor="phone" className="pr-3 text-gray-600">
+          <HiOutlinePhone size={16} />
+        </label>
+      </div>
+    </div>
+
+    {errors.phone && <ErrorText>{errors.phone}</ErrorText>}
+  </div>
+
+  {/* Pincode Field */}
+  <div className="w-full md:w-1/2 flex flex-col">
+    <label htmlFor="pinCode" className="mb-0.5 text-xs">
+      Pincode
+    </label>
+
+    <div
+      className={`rounded-lg p-[1px] transition ${
+        errors.pinCode
+          ? "bg-gradient-to-t from-red-400 to-red-600"
+          : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+      }`}
+    >
+      <div
+        className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+          errors.pinCode
+            ? "border-red-500"
+            : "border-[#D7D7D7] focus-within:border-transparent"
+        }`}
+      >
+        <input
+          id="pinCode"
+          type="text"
+          name="pinCode"
+          value={formData.pinCode}
+          onChange={handleChange}
+          placeholder="Enter pincode"
+          className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+        />
+      </div>
+    </div>
+
+    {errors.pinCode && <ErrorText>{errors.pinCode}</ErrorText>}
+  </div>
+
+</div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5 max-w-5xl mx-auto">
                 <div>
-                  <label className="block font-semibold text-[16px] text-black mb-1">Phone Number</label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="Enter phone number"
-              className={`${inputClass("phone")} md:max-w-sm`}
-                    />
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                      className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
-                    >
-                      <path d="M6.62 10.79a15.091 15.091 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21c1.2.48 2.53.74 3.89.74a1 1 0 011 1v3.5a1 1 0 01-1 1C10.92 22 2 13.08 2 3.5a1 1 0 011-1H6.5a1 1 0 011 1c0 1.36.26 2.69.74 3.89a1 1 0 01-.21 1.11l-2.2 2.2z" />
-                    </svg>
-                  </div>
-               {errors.phone && <ErrorText>{errors.phone}</ErrorText>}
-                </div>
+  <label htmlFor="city" className="mb-0.5 text-xs">
+    City
+  </label>
+  <div
+    className={`rounded-lg p-[1px] transition ${
+      errors.city
+        ? "bg-gradient-to-t from-red-400 to-red-600"
+        : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+    }`}
+  >
+    <div
+      className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+        errors.city
+          ? "border-red-500"
+          : "border-[#D7D7D7] focus-within:border-transparent"
+      }`}
+    >
+      <input
+        id="city"
+        type="text"
+        name="city"
+        value={formData.city}
+        onChange={handleChange}
+        placeholder="Enter City"
+        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+      />
+    </div>
+  </div>
+  {errors.city && <ErrorText>{errors.city}</ErrorText>}
+</div>
 
                 <div>
-                  <label className="block font-semibold text-[16px] text-black mb-1">Pincode</label>
-                  <input
-                    type="text"
-                    name="pinCode"
-                    value={formData.pinCode}
-                    onChange={handleChange}
-                 className={`${inputClass("pinCode")} md:max-w-sm`}
-                    placeholder="122204"
-                  />
-                  {errors.pinCode && <ErrorText>{errors.pinCode}</ErrorText>}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 max-w-5xl mx-auto">
-                <div>
-                  <label className="block font-semibold text-[16px] text-black mb-1">City</label>
-                  <input
-                    type="text"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleChange}
-               className={`${inputClass("city")} md:max-w-sm`}
-                    placeholder="Gurugram"
-                  />
-                          {errors.city && <ErrorText>{errors.city}</ErrorText>}
-                </div>
-                <div>
-                  <label className="block font-semibold text-[16px] text-black mb-1">State</label>
-                  <input
-                    type="text"
-                    name="state"
-                    value={formData.state}
-                    onChange={handleChange}
-                   className={`${inputClass("state")} md:max-w-sm`}
-                    placeholder="Haryana"
-                  />
-                           {errors.state && <ErrorText>{errors.state}</ErrorText>}
-                </div>
-                <div>
-                  <label className="block font-semibold text-[16px] text-black mb-1">Country</label>
-                  <input
-                    type="text"
-                    name="country"
-                    value={formData.country}
-                    onChange={handleChange}
- className={`${inputClass("country")} md:max-w-sm`}
-                    placeholder="India"
-                  />    {errors.country && <ErrorText>{errors.country}</ErrorText>}     
-                </div>
+  <label htmlFor="state" className="mb-0.5 text-xs">
+    State
+  </label>
+  <div
+    className={`rounded-lg p-[1px] transition ${
+      errors.state
+        ? "bg-gradient-to-t from-red-400 to-red-600"
+        : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+    }`}
+  >
+    <div
+      className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+        errors.state
+          ? "border-red-500"
+          : "border-[#D7D7D7] focus-within:border-transparent"
+      }`}
+    >
+      <input
+        id="state"
+        type="text"
+        name="state"
+        value={formData.state}
+        onChange={handleChange}
+        placeholder="Enter State"
+        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+      />
+    </div>
+  </div>
+  {errors.state && <ErrorText>{errors.state}</ErrorText>}
+</div>
+             <div>
+  <label htmlFor="country" className="mb-0.5 text-xs">
+    Country
+  </label>
+  <div
+    className={`rounded-lg p-[1px] transition ${
+      errors.country
+        ? "bg-gradient-to-t from-red-400 to-red-600"
+        : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+    }`}
+  >
+    <div
+      className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+        errors.country
+          ? "border-red-500"
+          : "border-[#D7D7D7] focus-within:border-transparent"
+      }`}
+    >
+      <input
+        id="country"
+        type="text"
+        name="country"
+        value={formData.country}
+        onChange={handleChange}
+        placeholder="Enter Country"
+        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+      />
+    </div>
+  </div>
+  {errors.country && <ErrorText>{errors.country}</ErrorText>}
+</div>
               </div>
 
               <p className="block font-semibold text-[16px] text-black mb-2">Product Details <span className="text-gray-400">(Add multiple products here)</span></p>
 
               <div className="border-2 border-dashed border-gray-300 rounded-lg mb-6 p-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
                   <div>
-                    <label className="block font-semibold text-[16px] text-black mb-1">Product Name</label>
-                    <input
-                      type="text"
-                      name="productName"
-                      value={formData.productName}
-                      onChange={handleChange}
-                      placeholder="China White Travertine"
-                    className={`${inputClass("productName")} md:max-w-sm`}
-                    />     {errors.productName && <ErrorText>{errors.productName}</ErrorText>}  
-                  </div>
+  <label htmlFor="productName" className="mb-0.5 text-xs">
+    Product Name
+  </label>
+  <div
+    className={`rounded-lg p-[1px] transition ${
+      errors.productName
+        ? "bg-gradient-to-t from-red-400 to-red-600"
+        : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+    }`}
+  >
+    <div
+      className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+        errors.productName
+          ? "border-red-500"
+          : "border-[#D7D7D7] focus-within:border-transparent"
+      }`}
+    >
+      <input
+        id="productName"
+        type="text"
+        name="productName"
+        value={formData.productName}
+        onChange={handleChange}
+        placeholder="China White Travertine"
+        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+      />
+    </div>
+  </div>
+  {errors.productName && <ErrorText>{errors.productName}</ErrorText>}
+</div>
 
-                  <div>
-                    <label className="block font-semibold text-[16px] text-black mb-1">Product Finish</label>
-                    <select
-                      name="productFinish"
-                      value={formData.productFinish}
-                      onChange={handleChange}
-                     className={`${inputClass("productFinish")} md:max-w-sm`}
-                    >
-                      <option value="">Choose finish</option>
-                      <option value="polished">Polished</option>
-                      <option value="honed">Honed</option>
-                      <option value="tumbled">Tumbled</option>
-                      <option value="brushed">Brushed</option>
-                    </select>
-                         {errors.productFinish && <ErrorText>{errors.productFinish}</ErrorText>}
-                  </div>
-     
+<div>
+  <label htmlFor="productFinish" className="mb-0.5 text-xs">
+    Product Finish
+  </label>
+  <div
+    className={`rounded-lg p-[1px] transition ${
+      errors.productFinish
+        ? "bg-gradient-to-t from-red-400 to-red-600"
+        : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+    }`}
+  >
+    <div
+      className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+        errors.productFinish
+          ? "border-red-500"
+          : "border-[#D7D7D7] focus-within:border-transparent"
+      }`}
+    >
+      <select
+        id="productFinish"
+        name="productFinish"
+        value={formData.productFinish}
+        onChange={handleChange}
+        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+      >
+        <option value="">Choose finish</option>
+        <option value="polished">Polished</option>
+        <option value="honed">Honed</option>
+        <option value="tumbled">Tumbled</option>
+        <option value="brushed">Brushed</option>
+      </select>
+    </div>
+  </div>
+  {errors.productFinish && <ErrorText>{errors.productFinish}</ErrorText>}
+</div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                   <div>
-                    <label className="block font-semibold text-[16px] text-black mb-1">Select Unit</label>
-                    <select
-                      name="unit"
-                      value={formData.unit}
-                      onChange={handleChange}
-                     className={`${inputClass("unit")} md:max-w-sm`}
-                    >
-                      <option value="">Choose</option>
-                      <option value="sqft">Sqft</option>
-                      <option value="sqm">Sqm</option>
-                    </select>
-                     {errors.unit && <ErrorText>{errors.unit}</ErrorText>}
-                  </div>
-
-                  <div>
-                    <label className="block font-semibold text-gray-700 mb-1">Enter Value</label>
-                    <div className="relative w-full md:max-w-sm">
-  <input
-
-    type="text"
-    name="value"
-    value={formData.value}
-    onChange={handleChange}
-    placeholder="Type value"
-    className={`${inputClass("value")} w-full pr-12`}
-    
-  />
-  <span className="absolute right-3 top-1/2 -translate-y-1/2 whitespace-nowrap">{selectedUnit}</span>
+  <label htmlFor="unit" className="mb-0.5 text-xs">
+    Select Unit
+  </label>
+  <div
+    className={`rounded-lg p-[1px] transition ${
+      errors.unit
+        ? "bg-gradient-to-t from-red-400 to-red-600"
+        : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+    }`}
+  >
+    <div
+      className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+        errors.unit
+          ? "border-red-500"
+          : "border-[#D7D7D7] focus-within:border-transparent"
+      }`}
+    >
+      <select
+        id="unit"
+        name="unit"
+        value={formData.unit}
+        onChange={handleChange}
+        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+      >
+        <option value="">Choose</option>
+        <option value="sqft">Sqft</option>
+        <option value="sqm">Sqm</option>
+      </select>
+    </div>
+  </div>
+  {errors.unit && <ErrorText>{errors.unit}</ErrorText>}
 </div>
-                  {errors.value && <ErrorText>{errors.value}</ErrorText>}
-                  </div>
 
-                  <div>
-                    <label className="block font-semibold text-[16px] text-black mb-1">Thickness</label>
-                    <select
-                      name="thickness"
-                      value={formData.thickness}
-                      onChange={handleChange}
-                   className={`${inputClass("thickness")} md:max-w-sm`}
-                    >
-                      <option value="">Choose</option>
-                      <option value="8mm">8MM</option>
-                      <option value="12mm">12MM</option>
-                      <option value="14mm">14MM</option>
-                      <option value="16mm">16MM</option>
-                      <option value="18mm">18MM</option>
-                      <option value="20mm">20MM</option>
-                      <option value="25mm">25MM</option>
-                      <option value="30mm">30MM</option>
-                      <option value="other">Other</option>
-                    </select>
-                        {errors.thickness && <ErrorText>{errors.thickness}</ErrorText>}
-                  </div>
+{/* Value */}
+<div>
+  <label htmlFor="value" className="mb-0.5 text-xs">
+    Enter Value
+  </label>
+  <div
+    className={`rounded-lg p-[1px] transition ${
+      errors.value
+        ? "bg-gradient-to-t from-red-400 to-red-600"
+        : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+    }`}
+  >
+    <div
+      className={`relative flex items-center gap-2 rounded-lg bg-white border transition ${
+        errors.value
+          ? "border-red-500"
+          : "border-[#D7D7D7] focus-within:border-transparent"
+      }`}
+    >
+      <input
+        id="value"
+        type="text"
+        name="value"
+        value={formData.value}
+        onChange={handleChange}
+        placeholder="Type value"
+        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs pr-12"
+      />
+      <span className="absolute right-3 text-xs text-gray-500">
+        {selectedUnit}
+      </span>
+    </div>
+  </div>
+  {errors.value && <ErrorText>{errors.value}</ErrorText>}
+</div>
+
+<div>
+  <label htmlFor="thickness" className="mb-0.5 text-xs">
+    Thickness
+  </label>
+  <div
+    className={`rounded-lg p-[1px] transition ${
+      errors.thickness
+        ? "bg-gradient-to-t from-red-400 to-red-600"
+        : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+    }`}
+  >
+    <div
+      className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+        errors.thickness
+          ? "border-red-500"
+          : "border-[#D7D7D7] focus-within:border-transparent"
+      }`}
+    >
+      <select
+        id="thickness"
+        name="thickness"
+        value={formData.thickness}
+        onChange={handleChange}
+        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+      >
+        <option value="">Choose</option>
+        <option value="8mm">8MM</option>
+        <option value="12mm">12MM</option>
+        <option value="14mm">14MM</option>
+        <option value="16mm">16MM</option>
+        <option value="18mm">18MM</option>
+        <option value="20mm">20MM</option>
+        <option value="25mm">25MM</option>
+        <option value="30mm">30MM</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+  </div>
+  {errors.thickness && <ErrorText>{errors.thickness}</ErrorText>}
+</div>
                 </div>
 <div className="mb-6">
                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  {/* Size of Product (W × H) */}
+  <div>
+    <label className="mb-0.5 text-xs">Size of Product (W × H)</label>
+    <div className="grid grid-cols-2 gap-3">
+      {/* Width */}
+      <div>
+        <div
+          className={`rounded-lg p-[1px] transition ${
+            errors.width
+              ? "bg-gradient-to-t from-red-400 to-red-600"
+              : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+          }`}
+        >
+          <div
+            className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+              errors.width
+                ? "border-red-500"
+                : "border-[#D7D7D7] focus-within:border-transparent"
+            }`}
+          >
+            <input
+              type="text"
+              name="width"
+              placeholder="Width"
+              value={formData.width}
+              onChange={handleChange}
+              className="w-full bg-transparent outline-none border-0 px-3 py-2 text-xs"
+            />
+          </div>
+        </div>
+        {errors.width && <ErrorText>{errors.width}</ErrorText>}
+      </div>
 
-<div>
-  <label className="block mb-2 font-medium">Size of Product (W × H)</label>
-  <div className="flex gap-2">
-    
-    <div className="w-full">
-      <input
-        type="text"
-        name="width"
-        placeholder="Width"
-        value={formData.width}
-        onChange={handleChange}
-         className={`${inputClass("width")} md:max-w-sm`}
-      />
-      {errors.width && <ErrorText>{errors.width}</ErrorText>}
+      {/* Height */}
+      <div>
+        <div
+          className={`rounded-lg p-[1px] transition ${
+            errors.height
+              ? "bg-gradient-to-t from-red-400 to-red-600"
+              : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+          }`}
+        >
+          <div
+            className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+              errors.height
+                ? "border-red-500"
+                : "border-[#D7D7D7] focus-within:border-transparent"
+            }`}
+          >
+            <input
+              type="text"
+              name="height"
+              placeholder="Height"
+              value={formData.height}
+              onChange={handleChange}
+              className="w-full bg-transparent outline-none border-0 px-3 py-2 text-xs"
+            />
+          </div>
+        </div>
+        {errors.height && <ErrorText>{errors.height}</ErrorText>}
+      </div>
     </div>
+  </div>
 
-    
-    <div className="w-full">
-      <input
-        type="text"
-        name="height"
-        placeholder="Height"
-        value={formData.height}
-        onChange={handleChange}
-         className={`${inputClass("height")} md:max-w-sm`}
-      />
-      {errors.height && <ErrorText>{errors.height}</ErrorText>}
+  {/* Estimate Delivery Time */}
+  <div>
+    <label htmlFor="deliveryTime" className="mb-0.5 text-xs">
+      Estimate Delivery Time
+    </label>
+    <div
+      className={`rounded-lg p-[1px] transition ${
+        errors.deliveryTime
+          ? "bg-gradient-to-t from-red-400 to-red-600"
+          : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+      }`}
+    >
+      <div
+        className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+          errors.deliveryTime
+            ? "border-red-500"
+            : "border-[#D7D7D7] focus-within:border-transparent"
+        }`}
+      >
+        <input
+          id="deliveryTime"
+          type="date"
+          name="deliveryTime"
+          value={formData.deliveryTime}
+          onChange={handleChange}
+          className="w-full bg-transparent outline-none border-0 px-3 py-2 text-xs"
+        />
+      </div>
     </div>
+    {errors.deliveryTime && <ErrorText>{errors.deliveryTime}</ErrorText>}
   </div>
 </div>
 
-
-<div>
-  <label className="block mb-2 font-medium">Estimate Delivery Time</label>
-  <input
-    type="date"
-    name="deliveryTime"
-    value={formData.deliveryTime}
-    onChange={handleChange}
-    className={`${inputClass("deliveryTime")} md:max-w-sm`}
-  />
-  {errors.deliveryTime && <ErrorText>{errors.deliveryTime}</ErrorText>}
-</div></div>
-                <div className="border mt-4 border-dashed mb-8 border-[#871B58] rounded-lg p-6 text-center text-gray-600 relative bg-white hover:shadow-md transition">
+                <div className="border mt-4 border-dashed mb-4 border-[#871B58] rounded-lg p-6 text-center text-gray-600 relative bg-white hover:shadow-md transition">
                   
                   <input
                     id="productImageInput"
@@ -776,7 +1167,7 @@ useEffect(() => {
                   <button
                     type="button"
                     onClick={() => document.getElementById("productImageInput").click()}
-                    className="inline-block bg-white border font-medium text-sm px-5 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition"
+                    className="inline-block bg-white border font-medium text-sm px-6 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition"
                   >
                     Browse
                   </button>
@@ -784,10 +1175,10 @@ useEffect(() => {
                 </div>
 
                 <div className="flex justify-end mt-[8px]">
-                  <button
+              <button
                     type="button"
                     onClick={addProduct}
-                    className="font-inter    hover:scale-105 transition-transform duration-200  bg-[#871B58] text-white px-6 py-2 rounded mb-6"
+                    className="font-inter    hover:scale-105 transition-transform duration-200  bg-[#871B58] text-white px-6 py-2 rounded "
                     disabled={submitting}
                   >
                     Add this Product
@@ -811,25 +1202,44 @@ useEffect(() => {
                 </svg>
                 <p className="text-black text-sm sm:text-base md:text-lg font-medium pointer-events-none mb-1">{files1?.[0]?.name ? files1[0].name : "Choose a file or drag & drop it here"}</p>
                 <span className="text-xs block mb-4 text-gray-400 pointer-events-none">Upload PDF BOC(Bulk order)/Tender Files upto 50MB</span>
-                <button type="button" onClick={() => document.getElementById("file1").click()} className="inline-block bg-white border font-medium text-sm px-5 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition">Browse</button>
+                <button type="button" onClick={() => document.getElementById("file1").click()} className="inline-block bg-white border font-medium text-sm px-6 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition">Browse</button>
                {errors.file1 && <ErrorText>{errors.file1}</ErrorText>}
               </div>
            
               
               <div className="h-auto min-h-[160px] border-2 w-full max-w-[688px] border-dashed border-gray-300 rounded-lg p-4 text-gray-500 relative">
-                <div className="mb-4">
-                  <label className="block font-semibold text-[16px] text-black mb-1">Installation <span className="text-gray-400 text-sm">(optional)</span></label>
-                  
-                     <input
-                    type="text"
-                   name="installation"
-                    value={formData.installation}
-                    onChange={handleChange}
-                   className={`${inputClass("installation")} w-full `}
- placeholder="Enter here"
-                  />           
-                
-                </div>
+            <div className="mb-4">
+  <label htmlFor="installation" className="block font-semibold text-[16px] text-black mb-1">
+    Installation <span className="text-gray-400 text-sm">(optional)</span>
+  </label>
+  <div
+    className={`rounded-lg p-[1px] transition ${
+      errors.installation
+        ? "bg-gradient-to-t from-red-400 to-red-600"
+        : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+    }`}
+  >
+    <div
+      className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+        errors.installation
+          ? "border-red-500"
+          : "border-[#D7D7D7] focus-within:border-transparent"
+      }`}
+    >
+      <input
+        id="installation"
+        type="text"
+        name="installation"
+        value={formData.installation}
+        onChange={handleChange}
+        placeholder="Enter here"
+        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+      />
+    </div>
+  </div>
+  
+</div>
+
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition">
@@ -839,7 +1249,7 @@ useEffect(() => {
                     </svg>
                     <p className="text-black text-sm sm:text-base md:text-lg font-medium pointer-events-none mb-1">{files3?.[0]?.name ? files3[0].name : "Choose a Rate list or drag & drop it here"}</p>
                     <span className="text-xs block mb-4 text-gray-400 pointer-events-none">Upload rate list (If Any)</span>
-                    <button type="button" onClick={() => document.getElementById("file3").click()} className="inline-block bg-white border font-medium text-sm px-5 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition">Browse</button>
+                    <button type="button" onClick={() => document.getElementById("file3").click()} className="inline-block bg-white border font-medium text-sm px-6 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition">Browse</button>
                      {errors.file3 && <ErrorText>{errors.file3}</ErrorText>}
                   </div>
 
@@ -849,7 +1259,7 @@ useEffect(() => {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 16V4m0 0l-4 4m4-4l4 4M20 16v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4" />
                     </svg>
                     <p className="text-black font-semibold text-sm sm:text-base md:text-lg font-medium pointer-events-none mb-1">{files2?.[0]?.name ? files2[0].name : "Choose an Image or drag & drop it here"}</p>
-                    <span className="text-xs block mb-4 text-gray-400 pointer-events-none">JPEG, PNG and MP4 formats upto 50MB</span>
+                    <span className="text-xs block mb-3 text-gray-400 pointer-events-none">JPEG, PNG and MP4 formats upto 50MB</span>
                     <button type="button" onClick={() => document.getElementById("file2").click()} className="inline-block bg-white border font-medium text-sm px-5 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition">Browse</button>
                     {errors.file2 && <ErrorText>{errors.file2}</ErrorText>}
                   </div>
@@ -857,16 +1267,41 @@ useEffect(() => {
               </div>
 
               <div className="mb-7 mt-2">
-                <label className="block font-semibold text-[16px] text-black mb-1">Write your query</label>
-                <textarea name="message"   className={`${inputClass("installation")} w-full`}
-  placeholder="Write your message here" rows={3} value={formData.message} onChange={handleChange} />
-              </div>
-             {errors.message && <ErrorText>{errors.message}</ErrorText>}
-             
+  <label htmlFor="message" className="block font-semibold text-[16px] text-black mb-1">
+    Write your query
+  </label>
+  <div
+    className={`rounded-lg p-[1px] transition ${
+      errors.message
+        ? "bg-gradient-to-t from-red-400 to-red-600"
+        : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
+    }`}
+  >
+    <div
+      className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+        errors.message
+          ? "border-red-500"
+          : "border-[#D7D7D7] focus-within:border-transparent"
+      }`}
+    >
+      <textarea
+        id="message"
+        name="message"
+        rows={3}
+        value={formData.message}
+        onChange={handleChange}
+        placeholder="Write your message here"
+        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs resize-none"
+      />
+    </div>
+  </div>
+  {errors.message && <ErrorText>{errors.message}</ErrorText>}
+</div>
+
               <div className="flex justify-end gap-3">
-              <button
+             <button
   type="button"
-  className="font-inter border text-black px-8 py-2 rounded mb-6"
+  className="font-inter border text-black px-8 py-1 rounded mb-6"
 
   onClick={() => {
 setFormData(initialFormData);
@@ -880,7 +1315,7 @@ setFormData(initialFormData);
 >
   Cancel
 </button>
-                <button type="submit" className="font-inter bg-[#871B58] text-white px-8 py-2 rounded mb-6 hover:scale-105 transition-transform duration-200" disabled={submitting}>
+                <button type="submit" className="font-inter bg-[#871B58] text-white px-8 py-1 rounded mb-6 hover:scale-105 transition-transform duration-200" disabled={submitting}>
                   {submitting ? "Submitting..." : "Submit"}
                 </button>
               </div>
@@ -983,28 +1418,17 @@ setFormData(initialFormData);
                       </svg>
 
                       
-                    </button>*/}
+                    </button> */}
+                 
+
 <button
   onClick={() => removeProduct(index)}
   aria-label={`Remove ${item.productName}`}
   className="p-1 rounded-md bg-gray-100 hover:bg-red-200 transition"
 >
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    className="w-5 h-5 text-red-600"
-    fill="currentColor"
-  >
-    <path
-      fillRule="evenodd"
-      d="M9 3a1 1 0 00-1 1v1H5.5a.5.5 0 000 1h13a.5.5 0 000-1H16V4a1 1 0 00-1-1H9zm-2 6a.75.75 0 011.5 0v9a.75.75 0 01-1.5 0V9zm4 0a.75.75 0 011.5 0v9a.75.75 0 01-1.5 0V9zm4 0a.75.75 0 011.5 0v9a.75.75 0 01-1.5 0V9z"
-      clipRule="evenodd"
-    />
-    <path d="M5 7h14v12a2 2 0 01-2 2H7a2 2 0 01-2-2V7z" />
-  </svg>
+  <MdDelete className="w-5 h-5 text-red-600" />
 </button>
 
-                    
                   </div>
 
           
