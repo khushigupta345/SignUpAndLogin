@@ -1208,8 +1208,7 @@ useEffect(() => {
            
               
                {/*   <div className="w-full h-auto min-h-[160px] border-2 w-full max-w-[688px] border-dashed border-gray-300 rounded-lg p-4 text-gray-500 relative">*/}
-        <div className="w-full max-w-full md:max-w-[688px] h-auto min-h-[160px] border-2 border-dashed border-gray-300 rounded-lg p-4 text-gray-500 relative">
-               <div className="mb-4">
+        <div className="w-full h-auto min-h-[160px] border-2 border-dashed border-gray-300 rounded-lg p-4 text-gray-500 relative">
   <label htmlFor="installation" className="mb-0.5 text-xs">
     Installation <span className="text-gray-400 text-sm">(optional)</span>
   </label>
