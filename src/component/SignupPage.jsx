@@ -6,54 +6,37 @@ import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import image from "../assets/image.png";
 
 const schema = Yup.object({
-  fullName: Yup.string()
-    .matches(/^[a-zA-Z ]+$/, "Full name must contain only letters")
-    .min(3, "Full name must be at least 3 characters")
-    .max(50, "Full name must be less than 50 characters")
-    .required("Full name is required"),
-
   email: Yup.string()
-    .email("Enter a valid email address")
-    .matches(
-      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
-      "Enter a valid email format like name@example.com"
-    )
-    .required("Email is required"),
+  .required("Email is required")
+  .matches(
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+    "Enter a valid email address"
+  ),
+  
 
   password: Yup.string()
     .required("Password is required")
-    .min(8, "Password must be at least 8 characters")
-    .matches(/[A-Z]/, "Must contain at least one uppercase letter")
-    .matches(/[0-9]/, "Must contain at least one number")
-    .matches(/[@$!%*?&]/, "Must contain at least one special character"),
+    .min(8, "Password must be at least 8 characters"),
+  remember: Yup.boolean().default(true),
 }).required();
 
-export default function SignupPage() {
+export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const {
     register,
-    handleSubmit,
+    handleSubmit,reset,
     formState: { errors },
-    watch,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: { fullName: "", email: "", password: "" },
-    mode: "onBlur",
+    defaultValues: { email: "", password: "", remember: true },
+    mode: "onSubmit",
   });
 
-  const password = watch("password", "");
-  const rules = [
-    { label: "At least 8 characters", valid: password.length >= 8 },
-    { label: "1 uppercase letter", valid: /[A-Z]/.test(password) },
-    { label: "1 number", valid: /[0-9]/.test(password) },
-    { label: "1 special character ", valid: /[@$!%?&]/.test(password) },
-  ];
-
   const onSubmit = (values) => {
-    alert("Signup successful!");
+    alert("Login successful!");
     console.log(values);
     reset();
   };
@@ -62,26 +45,17 @@ export default function SignupPage() {
     <div className="overflow-x-hidden bg-white relative font-serif flex items-center justify-center">
       <div className="max-h-screen">
         <div className="mx-auto px-2 py-8 md:py-2.5">
-<div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-3 items-start">
-           <section className="px-4 w-full max-w-full sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
-                <div className="h-12 w-12 rounded-lg bg-[#5336F2] text-white flex items-center justify-center font-semibold">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-3 items-start">
+            <section className="pl-2 w-full max-w-[400px] sm:max-w-sm md:max-w-md lg:max-w-lg max-auto">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="h-13 w-13 rounded-lg bg-[#5336F2] text-white flex items-center justify-center font-semibold">
                   B
                 </div>
                 <span className="text-gray-900 text-lg font-semibold">BlackCoat Ai</span>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end ml-auto gap-1 sm:gap-2">
-  <p className="text-xs sm:text-sm text-gray-500">Already have an account?</p>
-  <a
-    href="#"
-    className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 underline"
-  >
-    Login
-  </a>
-</div>
               </div>
 
-              <div className="flex flex-col items-center mt-3 md:mt-0 mb-2">
-                <div className="w-14 h-14 grid place-items-center rounded-xl border border-gray-200 mb-3">
+              <div className="flex flex-col items-center mb-3">
+                <div className="w-14 h-14 grid place-items-center max-auto rounded-xl border border-gray-200 mb-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="w-6 h-6 text-black flex justify-center"
@@ -101,12 +75,13 @@ export default function SignupPage() {
                   </svg>
                 </div>
               </div>
-<h1 className="text-lg sm:text-xl md:text-2xl text-center font-semibold text-gray-900 mb-1">
-  Create an account
-</h1>
-<p className="text-xs sm:text-sm md:text-base text-center text-gray-400 mb-6">
-  Please enter your details to get started
-</p>
+
+              <h1 className="text-xl sm:text-2xl md:text-xl text-center font-semibold text-gray-900 mb-1">
+                Login to your account
+              </h1>
+              <p className="text-sm sm:text-base md:text-lg text-center text-gray-400 mb-8">
+                Welcome back, please enter your details
+              </p>
 
               {serverError && (
                 <div
@@ -117,46 +92,9 @@ export default function SignupPage() {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-[4px]  px-6">
+              <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-[3px] px-6">
                 <div>
-                  <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
-                    Full name*
-                  </label>
-                  <div
-                    className={`relative flex items-center rounded-xl border bg-white ${
-                      errors.fullName ? "border-red-300" : "border-gray-300"
-                    } focus-within:ring-2 focus-within:ring-indigo-500`}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                      className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
-                    >
-                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4  
-                          1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8  
-                          4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                    </svg>
-
-                    <input
-                      id="fullName"
-                      type="text"
-                      placeholder="Full Name"
-                      className="w-full rounded-xl pl-10 pr-3 py-3 text-gray-900 placeholder:text-gray-400 focus:outline-none"
-                      {...register("fullName")}
-                      aria-invalid={!!errors.fullName}
-                      aria-describedby={errors.fullName ? "fullname-error" : undefined}
-                    />
-                  </div>
-                  {errors.fullName && (
-                    <p id="fullname-error" className="mt-1 text-sm text-red-600">
-                      {errors.fullName.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 ">
                     Email address*
                   </label>
                   <div
@@ -184,7 +122,10 @@ export default function SignupPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Password*
                   </label>
                   <div
@@ -196,10 +137,12 @@ export default function SignupPage() {
                     <input
                       id="password"
                       type={showPassword ? "text" : "password"}
+                      autoComplete="current-password"
                       className="peer w-full rounded-xl border-0 pl-9 pr-10 py-3 text-gray-900 placeholder:text-gray-400 focus:outline-none"
-                      placeholder="••••••••"
+                      placeholder="•••••••••"
                       {...register("password")}
                       aria-invalid={!!errors.password}
+                      aria-describedby={errors.password ? "password-error" : undefined}
                     />
                     <button
                       type="button"
@@ -210,60 +153,44 @@ export default function SignupPage() {
                       {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
                   </div>
-
-                  <div className="mt-2 space-y-1 text-sm">
-                    {rules.map((rule, i) => (
-                      <div key={i} className="flex items-center gap-2">
-                        {rule.valid ? (
-                          <span className="text-green-600">✔</span>
-                        ) : (
-                          <span className="text-gray-400">✖</span>
-                        )}
-                        <span className={rule.valid ? "text-green-600" : "text-gray-500"}>
-                          {rule.label}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
                   {errors.password && (
-                    <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+                    <p id="password-error" className="mt-1 text-sm text-red-600">
+                      {errors.password.message}
+                    </p>
                   )}
                 </div>
 
-                <div className="flex items-center gap-5 md:gap-0  justify-between">
-                 <label className="inline-flex items-start sm:items-center gap-2 text-xs sm:text-sm text-gray-700 select-none flex-wrap">
-  <input
-    type="checkbox"
-    className="h-4 w-4 mt-1 sm:mt-0 rounded border-gray-300 text-[#5336F2] focus:ring-[#5336F2]"
-  />
-  <p>
-    I agree to the
-    <span className="font-bold underline"> terms of use </span>
-    and
-    <span className="font-bold underline"> privacy policy</span>
-  </p>
-</label>
-             <a
-  href="#"
-  className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 underline-offset-2 hover:underline"
->
-  Forgot Password?
-</a>
+                <div className="flex items-center justify-between">
+                  <label className="inline-flex items-center gap-2 text-sm text-gray-700 select-none">
+                    <input
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      defaultChecked
+                      {...register("remember")}
+                    />
+                    <span>Keep me Logged in</span>
+                  </label>
+
+                  <a
+                    href="#"
+                    className="text-sm text-gray-500 hover:text-gray-700 underline-offset-2 hover:underline"
+                  >
+                    Forgot Password?
+                  </a>
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full inline-flex items-center justify-center rounded-xl bg-[#5336F2] px-4 py-3 text-white font-medium shadow-sm hover:opacity-95 focus:outline-none focus:ring-offset-2 focus:ring-[#5336F2]"
+                  className="w-full inline-flex items-center justify-center rounded-xl bg-[#5336F2] px-4 py-3 text-white font-medium shadow-sm hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5336F2]"
                 >
                   {loading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing in…
+                      Logging in…
                     </>
                   ) : (
-                    "Register"
+                    "Log in"
                   )}
                 </button>
 
@@ -301,13 +228,24 @@ export default function SignupPage() {
                       d="M43.611 20.083H42V20H24v8h11.303a12.02 12.02 0 0 1-4.303 5.946l.003-.002 6.191 5.238C36.838 40.049 44 35 44 24c0-1.341-.138-2.65-.389-3.917z"
                     />
                   </svg>
-                  Signup with Google
+                  Log in with Google
                 </button>
+
+                <p className="text-center text-sm text-gray-600">
+                  Not registered yet?{" "}
+                  <a
+                    href="#"
+                    className="font-medium text-gray-800 underline-offset-2 hover:underline"
+                  >
+                    Create an account
+                  </a>
+                </p>
               </form>
             </section>
-<aside className="w-full md:flex-1 flex items-center justify-center mt-6 md:mt-0">
-  <div className="w-full max-w-sm md:max-w-md lg:max-w-lg rounded-2xl bg-gray-100 p-4 sm:p-6 shadow-inner">
-                <div className="rounded-2xl overflow-hidden">
+
+            <aside className="w-full md:flex-1 flex items-center justify-center">
+              <div className="w-full max-w-full sm:max-w-sm md:max-w-md lg:max-w-lg rounded-2xl bg-gray-100 p-4 md:p-6 shadow-inner">
+                <div className="rounded-2xl overflow-hidden ">
                   <img
                     src={image}
                     alt="Workspace preview"
@@ -320,10 +258,10 @@ export default function SignupPage() {
                     Search all your data in one place
                   </h3>
                   <p className="text-gray-500 text-sm max-w-[520px] mx-auto">
-                    Lorem ipsum, the page creator placed that apparent
+                    lorem ipsum, the page creator placed that apparent
                   </p>
                   <p className="text-gray-500 text-sm max-w-[520px] mx-auto">
-                    Gibberish there on purpose.
+                    gibberish there on purpose.
                   </p>
                   <div className="mt-6 flex items-center justify-center gap-2">
                     <span className="inline-block h-2 w-10 bg-[#5B61FF] rounded-full" />

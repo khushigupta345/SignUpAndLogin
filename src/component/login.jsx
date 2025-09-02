@@ -6,7 +6,14 @@ import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import image from "../assets/image.png";
 
 const schema = Yup.object({
-  email: Yup.string().email("Enter a valid email").required("Email is required"),
+  email: Yup.string()
+  .required("Email is required")
+  .matches(
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+    "Enter a valid email address"
+  ),
+  
+
   password: Yup.string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters"),
@@ -25,7 +32,7 @@ export default function Login() {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: { email: "", password: "", remember: true },
-    mode: "onBlur",
+    mode: "onSubmit",
   });
 
   const onSubmit = (values) => {
