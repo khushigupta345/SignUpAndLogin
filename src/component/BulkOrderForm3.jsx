@@ -1144,7 +1144,7 @@ useEffect(() => {
   </div>
 </div>
 
-                <div className="border mt-4 border-dashed mb-4 border-[#871B58] rounded-lg p-6 text-center text-gray-600 relative bg-white hover:shadow-md transition">
+   {/*<div className="border mt-4 border-dashed mb-4 border-[#871B58] rounded-lg p-6 text-center text-gray-600 relative bg-white hover:shadow-md transition">
   <input
     id="productImageInput"
     type="file"
@@ -1171,7 +1171,39 @@ useEffect(() => {
     Browse
   </button>
   {errors.image && <ErrorText>{errors.image}</ErrorText>}
-</div>
+</div>*/}
+
+
+   <div className="border mt-4 border-dashed mb-4 border-[#871B58] rounded-lg p-6 text-center text-gray-600 relative bg-white hover:shadow-md transition">  <input    
+                id="productImageInput"    
+                type="file"    
+                className="absolute inset-0 opacity-0 cursor-pointer"    
+                accept="image/*"    
+                name="image"    
+                onChange={handleChange}    
+              />    
+                  
+  
+                
+              <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-3 w-10 h-10 text-black pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">    
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 16V4m0 0l-4 4m4-4l4 4M20 16v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4" />    
+              </svg>    
+  
+              <p className="text-black text-sm sm:text-base md:text-lg font-medium pointer-events-none mb-1">    
+                {productImage ? productImage.name : "Choose an Image or drag & drop it here"}    
+              </p>    
+              <span className="text-xs  block mb-4 text-gray-400 pointer-events-none">JPEG, PNG and MP4 formats up to 50MB</span>    
+  
+              <button    
+                type="button"    
+                onClick={() => document.getElementById("productImageInput").click()}    
+                className="inline-block bg-white border font-medium text-sm px-6 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition"    
+              >    
+                Browse    
+              </button>    
+              {errors.image && <ErrorText>{errors.image}</ErrorText>}    
+            </div>  
+  
            
               
                {/*   <div className="w-full h-auto min-h-[160px] border-2 w-full max-w-[688px] border-dashed border-gray-300 rounded-lg p-4 text-gray-500 relative">*/}
