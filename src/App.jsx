@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom"
 import SignupPage from "./component/SignupPage"
 import { Home } from "./component/home"*/
 
-import BulkOrderForm2 from "./component/BulkOrderForm3"
+import BulkOrderForm2 from "./component/BulkOrderForm2"
 
 function App() {
   return (
