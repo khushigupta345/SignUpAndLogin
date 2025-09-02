@@ -987,7 +987,7 @@ setFormData(initialFormData);
 <button
   onClick={() => removeProduct(index)}
   aria-label={`Remove ${item.productName}`}
-  className="p-1 rounded-md bg-red-100 hover:bg-red-200 transition"
+  className="p-1 rounded-md bg-gray-100 hover:bg-red-200 transition"
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"
