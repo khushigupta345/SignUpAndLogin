@@ -1209,63 +1209,109 @@ useEffect(() => {
               
                {/*   <div className="w-full h-auto min-h-[160px] border-2 w-full max-w-[688px] border-dashed border-gray-300 rounded-lg p-4 text-gray-500 relative">*/}
         <div className="w-full h-auto min-h-[160px] border-2 border-dashed border-gray-300 rounded-lg p-4 text-gray-500 relative">
-  <label htmlFor="installation" className="mb-0.5 text-xs">
-    Installation <span className="text-gray-400 text-sm">(optional)</span>
-  </label>
-  <div
-    className={`rounded-lg p-[1px] transition ${
-      errors.installation
-        ? "bg-gradient-to-t from-red-400 to-red-600"
-        : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
-    }`}
-  >
+  {/* Installation input */}
+  <div className="mb-4">
+    <label htmlFor="installation" className="mb-0.5 text-xs">
+      Installation <span className="text-gray-400 text-sm">(optional)</span>
+    </label>
     <div
-      className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+      className={`rounded-lg p-[1px] transition ${
         errors.installation
-          ? "border-red-500"
-          : "border-[#D7D7D7] focus-within:border-transparent"
+          ? "bg-gradient-to-t from-red-400 to-red-600"
+          : "bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]"
       }`}
     >
-      <input
-        id="installation"
-        type="text"
-        name="installation"
-        value={formData.installation}
-        onChange={handleChange}
-        placeholder="Enter here"
-        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-      />
+      <div
+        className={`flex items-center gap-2 rounded-lg bg-white border transition ${
+          errors.installation
+            ? "border-red-500"
+            : "border-[#D7D7D7] focus-within:border-transparent"
+        }`}
+      >
+        <input
+          id="installation"
+          type="text"
+          name="installation"
+          value={formData.installation}
+          onChange={handleChange}
+          placeholder="Enter here"
+          className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+        />
+      </div>
     </div>
   </div>
-  
+
+  {/* File upload boxes */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    {/* Rate list upload */}
+    <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition w-full">
+      <input
+        type="file"
+        id="file3"
+        name="file3"
+        className="absolute inset-0 opacity-0 cursor-pointer"
+        accept=".pdf,image/*"
+        onChange={handleChange}
+      />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="mx-auto mb-3 w-10 h-10 text-black pointer-events-none"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 16V4m0 0l-4 4m4-4l4 4M20 16v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4" />
+      </svg>
+      <p className="text-black text-sm sm:text-base md:text-lg font-medium pointer-events-none mb-1">
+        {files3?.[0]?.name ? files3[0].name : "Choose a Rate list or drag & drop it here"}
+      </p>
+      <span className="text-xs block mb-4 text-gray-400 pointer-events-none">Upload rate list (If Any)</span>
+      <button
+        type="button"
+        onClick={() => document.getElementById("file3").click()}
+        className="inline-block bg-white border font-medium text-sm px-6 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition"
+      >
+        Browse
+      </button>
+      {errors.file3 && <ErrorText>{errors.file3}</ErrorText>}
+    </div>
+
+    {/* Image/Video upload */}
+    <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition w-full">
+      <input
+        type="file"
+        id="file2"
+        name="file2"
+        className="absolute inset-0 opacity-0 cursor-pointer"
+        accept="image/*,video/mp4"
+        onChange={handleChange}
+      />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="mx-auto mb-3 w-10 h-10 text-black pointer-events-none"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 16V4m0 0l-4 4m4-4l4 4M20 16v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4" />
+      </svg>
+      <p className="text-black font-semibold text-sm sm:text-base md:text-lg font-medium pointer-events-none mb-1">
+        {files2?.[0]?.name ? files2[0].name : "Choose an Image or drag & drop it here"}
+      </p>
+      <span className="text-xs block mb-3 text-gray-400 pointer-events-none">JPEG, PNG and MP4 formats upto 50MB</span>
+      <button
+        type="button"
+        onClick={() => document.getElementById("file2").click()}
+        className="inline-block bg-white border font-medium text-sm px-5 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition"
+      >
+        Browse
+      </button>
+      {errors.file2 && <ErrorText>{errors.file2}</ErrorText>}
+    </div>
+  </div>
 </div>
-
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition">
-                    <input type="file" id="file3" name="file3" className="absolute inset-0 opacity-0 cursor-pointer" accept=".pdf,image/*" onChange={handleChange} />
-                    <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-3 w-10 h-10 text-black pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 16V4m0 0l-4 4m4-4l4 4M20 16v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4" />
-                    </svg>
-                    <p className="text-black text-sm sm:text-base md:text-lg font-medium pointer-events-none mb-1">{files3?.[0]?.name ? files3[0].name : "Choose a Rate list or drag & drop it here"}</p>
-                    <span className="text-xs block mb-4 text-gray-400 pointer-events-none">Upload rate list (If Any)</span>
-                    <button type="button" onClick={() => document.getElementById("file3").click()} className="inline-block bg-white border font-medium text-sm px-6 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition">Browse</button>
-                     {errors.file3 && <ErrorText>{errors.file3}</ErrorText>}
-                  </div>
-
-                  <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition">
-                    <input type="file" id="file2" name="file2" className="absolute inset-0 opacity-0 cursor-pointer" accept="image/*,video/mp4" onChange={handleChange} />
-                    <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-3 w-10 h-10 text-black pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 16V4m0 0l-4 4m4-4l4 4M20 16v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4" />
-                    </svg>
-                    <p className="text-black font-semibold text-sm sm:text-base md:text-lg font-medium pointer-events-none mb-1">{files2?.[0]?.name ? files2[0].name : "Choose an Image or drag & drop it here"}</p>
-                    <span className="text-xs block mb-3 text-gray-400 pointer-events-none">JPEG, PNG and MP4 formats upto 50MB</span>
-                    <button type="button" onClick={() => document.getElementById("file2").click()} className="inline-block bg-white border font-medium text-sm px-5 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition">Browse</button>
-                    {errors.file2 && <ErrorText>{errors.file2}</ErrorText>}
-                  </div>
-                </div>
-              </div>
-
               <div className="mb-7 mt-2">
   <label htmlFor="message" className="block font-semibold text-[16px] text-black mb-1">
     Write your query
