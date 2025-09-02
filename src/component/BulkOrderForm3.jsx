@@ -1320,7 +1320,13 @@ setFormData(initialFormData);
                 </button>
               </div>
               {errors.products && <ErrorText>{errors.products}</ErrorText>}
+<<<<<<< HEAD
             </form>
+=======
+               
+            </form>
+             </div>
+>>>>>>> e64b6faf5c409ed79078937aff94d9996c4693d6
           </div>
 
           {/* <div className="bg-white/90 backdrop-blur-md w-full shadow-xl rounded-2xl p-4 border border-gray-100"> */}
@@ -1461,6 +1467,7 @@ setFormData(initialFormData);
     </div>
   );
 }
+<<<<<<< HEAD
 // import React, { useEffect, useState } from "react";
 // import { LuUserRound } from "react-icons/lu";
 
@@ -2205,3 +2212,5 @@ setFormData(initialFormData);
 //     </div>
 //   );
 // }
+=======
+>>>>>>> e64b6faf5c409ed79078937aff94d9996c4693d6
