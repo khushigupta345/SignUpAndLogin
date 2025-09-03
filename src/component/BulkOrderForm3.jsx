@@ -1155,7 +1155,7 @@ useEffect(() => {
 
             
                    <p className="text-[#2C2C2C] text-base font-semibold tracking-wide pointer-events-none mb-1">
-      {files3?.[0]?.name ? files3[0].name : "Choose a Rate list or drag & drop it here"}
+    {productImage ? productImage.name : "Choose an Image or drag & drop it here"}
     </p>
     <span className="text-xs block mb-4 text-gray-500 tracking-wide leading-relaxed pointer-events-none">
       Upload rate list (If Any)
