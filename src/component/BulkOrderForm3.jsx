@@ -540,7 +540,7 @@ useEffect(() => {
                     name="gstNumber"
                     value={formData.gstNumber}
                     onChange={handleChange}
-                    placeholder="Choose"
+                    placeholder="Enter here"
                    className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
                   />
                   </div>
@@ -574,7 +574,7 @@ useEffect(() => {
                     name="gstNumber"
                     value={formData.gstNumber}
                     onChange={handleChange}
-                    placeholder="Choose"
+                    placeholder="Enter here"
                    className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
                   />
                   </div>
