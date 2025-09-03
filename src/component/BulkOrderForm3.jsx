@@ -1158,7 +1158,7 @@ useEffect(() => {
     {productImage ? productImage.name : "Choose an Image or drag & drop it here"}
     </p>
     <span className="text-xs block mb-4 text-gray-500 tracking-wide leading-relaxed pointer-events-none">
-      Upload rate list (If Any)
+      JPEG, PNG and MP4 formats up to 50MB
     </span>
     <button
       type="button"
