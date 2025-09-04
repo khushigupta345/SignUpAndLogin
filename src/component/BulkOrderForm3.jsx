@@ -505,18 +505,16 @@ setFormData(initialFormData);
      <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
                     <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
     <input
-   
-            id="email"
-     type="text"
-      name="email"
-      required
-      value={formData.email}
-      onChange={handleChange}
-        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$"
-       className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-  
-      placeholder="Enter full name"
-    />
+  id="email"
+  type="email"   
+  name="email"
+  required
+  value={formData.email}
+  onChange={handleChange}
+  pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$"
+  className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+  placeholder="Enter your email"
+/>
 
               <label htmlFor="email" className="pr-3 text-gray-600">
                        <CiMail size={16} />
