@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom"
 // import Login from "./component/login"
 // import SignupPage from "./component/SignupPage"
 import { Home } from "./component/home"
-import BulkOrderForm1 from "./component/BulkOrderForm1"
+import BulkOrderForm3 from "./component/BulkOrderForm3"
 import Hello from "./hello"
 
 
@@ -26,7 +26,7 @@ function App() {
 
     
      </Routes> */}
-     <BulkOrderForm1 />
+     <BulkOrderForm3 />
      {/* <Hello /> */}
     </>
   )
