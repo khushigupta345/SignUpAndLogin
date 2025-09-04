@@ -176,7 +176,7 @@ const onSubmit = (e) => {
   }
 
   
-  const MAX_FILE_SIZE_MB = 5; 
+  const MAX_FILE_SIZE_MB = 20; 
   for (const key in formData) {
     const file = formData[key];
     if (file && file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
@@ -228,8 +228,9 @@ setFormData(initialFormData);
 
         {/* <div className="flex flex-col lg:flex-row gap-8"> */}
         <div className="flex flex-col lg:flex-row gap-8 items-start">
-          {/* <div className="shadow-2xl p-5 md:p-10 w-full bg-white rounded-2xl"> */}
-          <div className="shadow-2xl p-5 md:p-10 flex-1  w-full bg-white rounded-2xl">
+          
+         {/*<div className="shadow-2xl p-5 md:p-10 flex-1  w-full bg-white rounded-2xl">*/}
+           <div className="shadow-2xl p-5 md:p-10 w-full lg:w-[65%] bg-white rounded-2xl">
             <div className="flex flex-wrap gap-2 mb-6">
               <button
                 disabled={submitting}
@@ -1017,7 +1018,7 @@ setFormData(initialFormData);
           </div>
 
        
-            <div className="w-full max-w-5xl mx-auto px-4 bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-4 border border-gray-100">
+            <div className="w-full lg:w-[35%] mx-auto px-4 bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-4 border border-gray-100">
 
           
       <div className="w-full">
