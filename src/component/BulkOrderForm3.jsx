@@ -68,11 +68,11 @@ const handleChange = (e) => {
    
       setFormData((prev) => ({ ...prev, [name]: file }));
 
-    if (name === "image") {
+    
       
- if (name === "image") setProductImage(file);
+ if (name === "image"){ setProductImage(file);
     }
-  } else {
+   else {
     setFormData((prev) => ({ ...prev, [name]: value }));
   }
 };
@@ -929,7 +929,7 @@ setFormData(initialFormData);
                         </div>
               </div>
 
-                <label className="block  font-semibold text-[16px] text-black mb-1">Upload BOQ File</label>
+                <label className="block  font-medium text-[16px] text-black mb-1">Upload BOQ File</label>
               <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition">
 
                 <input
@@ -1112,7 +1112,7 @@ setFormData(initialFormData);
 )}
 
                       <div className="break-words whitespace-normal">
-                        <h4 className="text-2xl font-medium text-black">
+                        <h4 className="font-medium text-[16px] text-black">
                           {item.productName}
                         </h4>
                         <p className="text-sm text-[#838383]">
@@ -1142,7 +1142,7 @@ setFormData(initialFormData);
 
           
                   {item.showDetails && (
-                    <div className="mt-3 text-sm text-gray-900 space-y-1">
+                    <div className="mt-3   font-medium text-xs  text-gray-900 space-y-1">
                       <div className="border border-gray-200 rounded-lg p-4 flex flex-col">
                                <p><strong>Selected Finishes:</strong> {item.productFinish}</p>
                               <p><strong>Selected Unit:</strong> {item.unit}</p>
