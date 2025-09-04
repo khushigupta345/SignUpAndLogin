@@ -723,7 +723,7 @@ setFormData(initialFormData);
                     <div className=" relative flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
       <input
         id="value"
-        type="text"
+        type="number"
          required
         name="value"
         value={formData.value}
@@ -783,7 +783,7 @@ setFormData(initialFormData);
         <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
                     <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
             <input
-              type="text"
+              type="number"
               name="width"
               placeholder="Width"
               value={formData.width}
@@ -803,7 +803,7 @@ setFormData(initialFormData);
          <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
                     <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
             <input
-              type="text"
+              type="number"
               name="height"
               placeholder="Height"
               value={formData.height}
