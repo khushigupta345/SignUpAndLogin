@@ -58,26 +58,22 @@ const handleChange = (e) => {
     const file = files && files[0] ? files[0] : null;
     if (!file) return;
 
-
     if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
       toast.error(`${file.name} Maximum ${MAX_FILE_SIZE_MB}MB allowed`);
-      e.target.value = ""; 
+      e.target.value = "";
       return;
     }
 
-   
-      setFormData((prev) => ({ ...prev, [name]: file }));
+    setFormData((prev) => ({ ...prev, [name]: file }));
 
-    
-      
- if (name === "image"){ setProductImage(file);
+    if (name === "image") {
+      setProductImage(file);
     }
-   else {
+  } else {
+    // ye part file ke andar nahi aana chahiye
     setFormData((prev) => ({ ...prev, [name]: value }));
   }
-  }
 };
-
   const toggleDetails = (index) => {
     const newProducts = [...products];
     newProducts[index].showDetails = !newProducts[index].showDetails;
