@@ -868,7 +868,7 @@ setFormData(initialFormData);
     </span>
     <button
       type="button"
-      onClick={() => document.getElementById("file3").click()}
+      onClick={() => document.getElementById("productImageInput").click()}
       className="inline-block bg-white border  font-medium text-sm px-6 py-2 rounded-xl shadow-sm hover:bg-[#871B58] hover:text-white hover:shadow-md transition"
     >
       Browse
