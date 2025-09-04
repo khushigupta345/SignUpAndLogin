@@ -245,56 +245,52 @@ const onSubmit = (e) => {
 const onSubmit = (e) => {
   e.preventDefault();
 
-  // Temporarily remove required from product fields
-  const productReqElements = Array.from(
+  // --- Step 1: Check at least one product ---
+  if (products.length === 0) {
+    toast.error("At least one product is required");
+    return;
+  }
+
+  // --- Step 2: Temporarily disable required for product fields ---
+  const productFields = Array.from(
     document.querySelectorAll("#product-fields [required]")
   );
-  productReqElements.forEach((el) => (el.required = false));
+  productFields.forEach((el) => (el.required = false));
 
-  try {
-    const formEl = document.querySelector("form");
-    if (!formEl.checkValidity()) {
-      formEl.reportValidity();
-      return;
-    }
-
-    // Check at least one product added
-    if (products.length === 0) {
-      toast.error("At least one product is required");
-      return;
-    }
-
-
-    const MAX_FILE_SIZE_MB = 20;
-    for (const f of ["file1", "file2", "file3"]) {
-      const file = formData[f];
-      if (file && file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-        toast.error(`${file.name} Maximum ${MAX_FILE_SIZE_MB}MB allowed`);
-        return;
-      }
-    }
-
-    setSubmitting(true);
-
-    const finalData = {
-      ...formData,
-      products,
-    };
-
-    console.log("Final data:", finalData);
-    toast.success("Form submitted successfully");
-
-    setFormData(initialFormData);
-    setProducts([]);
-    setErrors({});
-    setProductImage(null);
-    setSubmitting(false);
-  } finally {
-    productReqElements.forEach((el) => (el.required = true));
+  // --- Step 3: Validate other form fields ---
+  const formEl = document.querySelector("form");
+  if (!formEl.checkValidity()) {
+    formEl.reportValidity();
+    // Restore required fields before returning
+    productFields.forEach((el) => (el.required = true));
+    return;
   }
+
+  // --- Step 4: Check file sizes ---
+  const MAX_FILE_SIZE_MB = 5; // example
+  for (const key in formData) {
+    const file = formData[key];
+    if (file && file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      toast.error(`${file.name} Maximum ${MAX_FILE_SIZE_MB}MB allowed`);
+      productFields.forEach((el) => (el.required = true));
+      return;
+    }
+  }
+
+  // --- Step 5: Submit form ---
+  const finalData = { ...formData, products };
+  console.log("Form submitted:", finalData);
+  toast.success("Form submitted successfully");
+
+  // --- Step 6: Reset form ---
+  setFormData(initialFormData);
+  setProducts([]);
+  setErrors({});
+  setProductImage(null);
+
+  // --- Step 7: Restore required fields ---
+  productFields.forEach((el) => (el.required = true));
 };
-
-
 
  
 
@@ -314,6 +310,7 @@ setFormData(initialFormData);
 
   return (
    <div className="min-h-screen font-poppins bg-white px-4 sm:px-6 lg:px-16 py-8">
+        <Toaster position="top-right" />
       <div className="max-w-5xl mx-auto">
         <div className="mb-3">
           <h1 className="text-2xl sm:text-4xl font-medium text-[#000000]">Stonepedia Bulk Orders</h1>
