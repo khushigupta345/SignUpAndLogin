@@ -1,7 +1,13 @@
 @import "tailwindcss";
 @layer base {
-  input:-webkit-autofill {
-    @apply border border-gray-300 shadow-none;
-    -webkit-box-shadow: 0 0 0px 1000px white inset;
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    border-radius: 0.75rem !important;  /* same radius jo aap input pe use karte ho (rounded-xl, rounded-2xl etc) */
+    border: 1px solid #D7D7D7 !important; /* normal border force karo */
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    box-shadow: 0 0 0px 1000px white inset !important;
+    -webkit-text-fill-color: #000 !important;
+    background-color: #fff !important;
   }
 }
