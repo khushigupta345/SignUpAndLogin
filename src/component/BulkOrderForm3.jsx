@@ -260,7 +260,7 @@ setFormData(initialFormData);
    <div className="min-h-screen font-poppins bg-white px-4 sm:px-6 lg:px-16 py-8">
       <div className="max-w-5xl mx-auto">
         <div className="mb-3">
-          <h1 className="text-2xl sm:text-4xl font-semibold text-[#000000]">Stonepedia Bulk Orders</h1>
+          <h1 className="text-2xl sm:text-4xl font-medium text-[#000000]">Stonepedia Bulk Orders</h1>
           <p className="text-sm sm:text-lg text-[#BDBDBD]">Fill this form to connect with us..</p>
         </div>
 
@@ -664,7 +664,7 @@ setFormData(initialFormData);
 </div>
               </div>
 
-              <p className="block font-semibold text-[16px] text-black mb-2">Product Details <span className="text-gray-400">(Add multiple products here)</span></p>
+              <p className="block font-medium text-[16px] text-black mb-2">Product Details <span className="text-gray-400">(Add multiple products here)</span></p>
 
               <div  className="border-2 border-dashed border-gray-300 rounded-lg mb-6 p-4">
            <div id="product-fields">     <div  className=" grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
