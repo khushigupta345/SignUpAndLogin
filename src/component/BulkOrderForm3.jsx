@@ -75,6 +75,7 @@ const handleChange = (e) => {
    else {
     setFormData((prev) => ({ ...prev, [name]: value }));
   }
+  }
 };
 
   const toggleDetails = (index) => {
