@@ -70,7 +70,7 @@ const handleChange = (e) => {
       setProductImage(file);
     }
   } else {
-    // ye part file ke andar nahi aana chahiye
+
     setFormData((prev) => ({ ...prev, [name]: value }));
   }
 };
@@ -147,97 +147,6 @@ const removeProduct = (index) => {
     return prev.filter((_, i) => i !== index);
   });
 };
- {/*
-const onSubmit = (e) => {
-
-  e.preventDefault();
-
-
-  const productReqElements = Array.from(
-    document.querySelectorAll("#product-fields [required]")
-  );
-
-
-  productReqElements.forEach((el) => (el.required = false));
-
-  try {
-    
-    const formEl = document.querySelector("form"); 
-    if (!formEl.checkValidity()) {
-
-      formEl.reportValidity();
-      return;
-    }
-
-    // 4) your own checks: ensure at least one product added
-    if (products.length === 0) {
-      toast.error("At least one product is required");
-      return;
-    }
-
-    // 5) filesize checks
-    for (const f of ["file1", "file2", "file3"]) {
-      const file = formData[f];
-      if (file && file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-        toast.error(`${file.name} Maximum ${MAX_FILE_SIZE_MB}MB allowed`);
-        return;
-      }
-    }
-
-    // 6) proceed with submit flow
-    setSubmitting(true);
-
-    const {
-      companyType,
-      companyName,
-      gstNumber,
-      fullName,
-      email,
-      phone,
-      pinCode,
-      city,
-      state,
-      country,
-      file1,
-      file2,
-      file3,
-      message,
-    } = formData;
-
-    const finalData = {
-      companyType,
-      companyName,
-      gstNumber,
-      fullName,
-      email,
-      phone,
-      pinCode,
-      city,
-      state,
-      country,
-      file1,
-      file2,
-      file3,
-      message,
-      products,
-    };
-
-    console.log("Final data:", finalData);
-    toast.success("Submitted successfully");
-
-    // reset UI state
-    setFormData(initialFormData);
-    setProducts([]);
-    setErrors({});
-    setProductImage(null);
-    setSubmitting(false);
-  } finally {
-    // 7) always restore the required attributes back
-    productReqElements.forEach((el) => (el.required = true));
-  }
-};
-
-*/}
 
 
 
@@ -245,29 +154,29 @@ const onSubmit = (e) => {
 const onSubmit = (e) => {
   e.preventDefault();
 
-  // --- Step 1: Check at least one product ---
+
   if (products.length === 0) {
     toast.error("At least one product is required");
     return;
   }
 
-  // --- Step 2: Temporarily disable required for product fields ---
+  
   const productFields = Array.from(
     document.querySelectorAll("#product-fields [required]")
   );
   productFields.forEach((el) => (el.required = false));
 
-  // --- Step 3: Validate other form fields ---
+  
   const formEl = document.querySelector("form");
   if (!formEl.checkValidity()) {
     formEl.reportValidity();
-    // Restore required fields before returning
+    
     productFields.forEach((el) => (el.required = true));
     return;
   }
 
-  // --- Step 4: Check file sizes ---
-  const MAX_FILE_SIZE_MB = 5; // example
+  
+  const MAX_FILE_SIZE_MB = 5; 
   for (const key in formData) {
     const file = formData[key];
     if (file && file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
@@ -277,18 +186,18 @@ const onSubmit = (e) => {
     }
   }
 
-  // --- Step 5: Submit form ---
+  
   const finalData = { ...formData, products };
   console.log("Form submitted:", finalData);
   toast.success("Form submitted successfully");
 
-  // --- Step 6: Reset form ---
+  
   setFormData(initialFormData);
   setProducts([]);
   setErrors({});
   setProductImage(null);
 
-  // --- Step 7: Restore required fields ---
+  
   productFields.forEach((el) => (el.required = true));
 };
 
@@ -509,7 +418,7 @@ setFormData(initialFormData);
               
               )}
 
-              {/* Personal Info */}
+              
               <div className="flex flex-col md:flex-row md:justify-between gap-2 w-full">
               {/* <div className="flex flex-col sm:flex-row gap-4 w-full"> */}
      {/* <div className="flex-1 min-w-[200px]"> */}
@@ -518,7 +427,7 @@ setFormData(initialFormData);
   <label htmlFor="name" className="mb-0.5 font-semibold text-xs">
             Full Name
           </label>
-  {/* <div className="relative w-full"> */}
+
      <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
                     <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
 
@@ -582,8 +491,7 @@ setFormData(initialFormData);
      </div>
 <div className="flex flex-col md:flex-row md:justify-between gap-4 w-full">
 
-  {/* Phone Field */}
-  <div className="w-full md:w-1/2 flex flex-col">
+   <div className="w-full md:w-1/2 flex flex-col">
     <label htmlFor="phone" className="mb-0.5 font-semibold text-xs">
       Phone Number
     </label>
@@ -613,7 +521,7 @@ setFormData(initialFormData);
 
   </div>
 
-  {/* Pincode Field */}
+  
   <div className="w-full md:w-1/2 flex flex-col">
     <label htmlFor="pinCode" className="mb-0.5 font-semibold text-xs">
       Pincode
@@ -805,7 +713,7 @@ setFormData(initialFormData);
 
 </div>
 
-{/* Value */}
+
 <div>
   <label htmlFor="value" className="mb-0.5 font-semibold text-xs">
     Enter Value
@@ -865,11 +773,11 @@ setFormData(initialFormData);
                 </div>
 <div className="mb-6">
                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-  {/* Size of Product (W × H) */}
+
   <div>
     <label className="mb-0.5 font-semibold text-xs">Size of Product (W × H)</label>
     <div className="grid grid-cols-2 gap-3">
-      {/* Width */}
+      
       <div>
         <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
                     <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
@@ -911,7 +819,7 @@ setFormData(initialFormData);
     </div>
   </div>
 
-  {/* Estimate Delivery Time */}
+
   <div>
     <label htmlFor="deliveryTime" className="mb-0.5 font-semibold text-xs">
       Estimate Delivery Time
