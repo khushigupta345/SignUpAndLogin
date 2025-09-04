@@ -80,7 +80,7 @@ const handleChange = (e) => {
     setProducts(newProducts);
   };
 
-  
+ {/*
 const addProduct = () => {
   const productFields = document
     .getElementById("product-fields")
@@ -237,7 +237,118 @@ const onSubmit = (e) => {
   }
 };
 
+*/}
 
+
+const addProduct = () => {
+  const productFields = document
+    .getElementById("product-fields")
+    .querySelectorAll("input, select");
+
+  const file = formData.image || null;
+  if (file) {
+    const MAX_MB = 20;
+    if (file.size > MAX_MB * 1024 * 1024) {
+      toast.error(`File size must be less than ${MAX_MB}MB`);
+      return;
+    }
+  }
+
+  for (let field of productFields) {
+    if (!field.checkValidity()) {
+      field.reportValidity();
+      return;
+    }
+  }
+
+  toast.success("Product added successfully!");
+
+  const preview = file && typeof file !== "string" ? URL.createObjectURL(file) : null;
+
+  const p = {
+    productName: formData.productName,
+    productFinish: formData.productFinish,
+    unit: formData.unit,
+    value: formData.value,
+    thickness: formData.thickness,
+    width: formData.width,
+    height: formData.height,
+    deliveryTime: formData.deliveryTime,
+    image: file,
+    _preview: preview,
+    showDetails: false,
+  };
+
+  setProducts(prev => [...prev, p]);
+
+  setFormData(prev => ({
+    ...prev,
+    productName: "",
+    productFinish: "",
+    unit: "",
+    value: "",
+    thickness: "",
+    width: "",
+    height: "",
+    deliveryTime: "",
+    image: null,
+  }));
+
+  setProductImage(null);
+};
+
+const onSubmit = (e) => {
+  e.preventDefault();
+
+  const productReqElements = Array.from(
+    document.querySelectorAll("#product-fields [required]")
+  );
+  productReqElements.forEach((el) => (el.required = false));
+
+  try {
+    const formEl = document.querySelector("form");
+    if (!formEl.checkValidity()) {
+      formEl.reportValidity();
+      return;
+    }
+
+    if (products.length === 0) {
+      toast.error("At least one product is required");
+      return;
+    }
+
+    const MAX_FILE_SIZE_MB = 20;
+    for (const f of ["file1", "file2", "file3"]) {
+      const file = formData[f];
+      if (file && file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+        toast.error(`${file.name} Maximum ${MAX_FILE_SIZE_MB}MB allowed`);
+        return;
+      }
+    }
+
+    setSubmitting(true);
+
+    const finalData = {
+      ...formData,
+      products,
+    };
+
+    console.log("Final data:", finalData);
+    toast.success("Form submitted successfully");
+
+    setFormData(initialFormData);
+    setProducts([]);
+    setErrors({});
+    setProductImage(null);
+    setSubmitting(false);
+  } finally {
+    productReqElements.forEach((el) => (el.required = true));
+  }
+};
+
+
+
+ 
 
 const handleCancel=()=>{
 setFormData(initialFormData);
@@ -675,7 +786,7 @@ setFormData(initialFormData);
       <input
         id="productName"
         type="text"
-       required
+       
         name="productName"
         value={formData.productName}
         onChange={handleChange}
@@ -698,7 +809,7 @@ setFormData(initialFormData);
                     <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
       <select
         id="productFinish"
-   required
+   
         name="productFinish"
         value={formData.productFinish}
         onChange={handleChange}
@@ -734,7 +845,7 @@ setFormData(initialFormData);
                     <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
       <select
         id="unit"
-    required
+    
         name="unit"
         value={formData.unit}
         onChange={handleChange}
@@ -759,7 +870,7 @@ setFormData(initialFormData);
       <input
         id="value"
         type="text"
-         required
+         
         name="value"
         value={formData.value}
         onChange={handleChange}
@@ -785,7 +896,7 @@ setFormData(initialFormData);
                     <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
       <select
         id="thickness"
-  required
+  
         name="thickness"
         value={formData.thickness}
         onChange={handleChange}
@@ -864,7 +975,7 @@ setFormData(initialFormData);
                     <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
         <input
           id="deliveryTime"
-            required
+            
           type="date"
           name="deliveryTime"
           value={formData.deliveryTime}
