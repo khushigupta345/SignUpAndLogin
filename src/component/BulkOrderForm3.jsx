@@ -384,7 +384,7 @@ setFormData(initialFormData);
                   />
                   </div>
                   </div>
-                        
+                        {errors.gstNumber && <ErrorText>{errors.gstNumber}</ErrorText>}
                 </div>
               ) : (
               
@@ -414,7 +414,7 @@ setFormData(initialFormData);
                   />
                   </div>
                   </div>
-                        
+                        {errors.gstNumber && <ErrorText>{errors.gstNumber}</ErrorText>}
                 </div>    
               
               )}
@@ -723,7 +723,7 @@ setFormData(initialFormData);
                     <div className=" relative flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
       <input
         id="value"
-        type="number"
+        type="text"
          required
         name="value"
         value={formData.value}
@@ -783,7 +783,7 @@ setFormData(initialFormData);
         <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
                     <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
             <input
-              type="number"
+              type="text"
               name="width"
               placeholder="Width"
               value={formData.width}
@@ -803,7 +803,7 @@ setFormData(initialFormData);
          <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
                     <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
             <input
-              type="number"
+              type="text"
               name="height"
               placeholder="Height"
               value={formData.height}
@@ -868,7 +868,7 @@ setFormData(initialFormData);
     </span>
     <button
       type="button"
-      onClick={() => document.getElementById("productImageInput").click()}
+      onClick={() => document.getElementById("file3").click()}
       className="inline-block bg-white border  font-medium text-sm px-6 py-2 rounded-xl shadow-sm hover:bg-[#871B58] hover:text-white hover:shadow-md transition"
     >
       Browse
@@ -1074,7 +1074,7 @@ setFormData(initialFormData);
 )}
 
                       <div className="break-words whitespace-normal">
-                        <h4 className="font-medium text-sm text-black">
+                        <h4 className="font-medium text-[16px] text-black">
                           {item.productName}
                         </h4>
                         <p className="text-sm text-[#838383]">
