@@ -1074,7 +1074,7 @@ setFormData(initialFormData);
 )}
 
                       <div className="break-words whitespace-normal">
-                        <h4 className="font-medium text-[16px] text-black">
+                        <h4 className="font-medium text-sm text-black">
                           {item.productName}
                         </h4>
                         <p className="text-sm text-[#838383]">
@@ -1104,9 +1104,9 @@ setFormData(initialFormData);
 
           
                   {item.showDetails && (
-                    <div className="mt-3   font-medium text-xs  text-gray-900 space-y-1">
+                    <div className="mt-3 text-xs text-gray-600   space-y-1">
                       <div className="border border-gray-200 rounded-lg p-4 flex flex-col">
-                               <p><strong>Selected Finishes:</strong> {item.productFinish}</p>
+                               <p><strong className="font-normal text-black">Selected Finishes:</strong> {item.productFinish}</p>
                               <p><strong>Selected Unit:</strong> {item.unit}</p>
                               <p><strong>Selected {item.unit} value
                                 :</strong> {item.value}</p>
