@@ -384,7 +384,7 @@ setFormData(initialFormData);
                   />
                   </div>
                   </div>
-                        {errors.gstNumber && <ErrorText>{errors.gstNumber}</ErrorText>}
+                        
                 </div>
               ) : (
               
@@ -414,7 +414,7 @@ setFormData(initialFormData);
                   />
                   </div>
                   </div>
-                        {errors.gstNumber && <ErrorText>{errors.gstNumber}</ErrorText>}
+                        
                 </div>    
               
               )}
@@ -1131,4 +1131,4 @@ setFormData(initialFormData);
       </div>
     </div>
   );
-}
+}}
