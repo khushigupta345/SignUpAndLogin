@@ -1107,13 +1107,13 @@ setFormData(initialFormData);
                     <div className="mt-3 text-xs text-gray-600   space-y-1">
                       <div className="border border-gray-200 rounded-lg p-4 flex flex-col">
                                <p><strong className="font-normal text-black">Selected Finishes:</strong> {item.productFinish}</p>
-                              <p><strong>Selected Unit:</strong> {item.unit}</p>
-                              <p><strong>Selected {item.unit} value
+                              <p><strong  className="font-normal text-black"   >Selected Unit:</strong> {item.unit}</p>
+                              <p><strong className="font-normal text-black"   >Selected {item.unit} value
                                 :</strong> {item.value}</p>
-                              <p><strong>Selected Thickness:</strong> {item.thickness}</p>
+                              <p><strong className="font-normal text-black"  >Selected Thickness:</strong> {item.thickness}</p>
  {item.width && item.height && (
         <p>
-          <strong>Selected Size:</strong> W: {item.width} | H: {item.height}
+          <strong className="font-normal text-black"  >Selected Size:</strong> W: {item.width} | H: {item.height}
         </p>
       )}
                               <p><strong>Estimate Delivery timer:</strong> {item.deliveryTime}</p>
