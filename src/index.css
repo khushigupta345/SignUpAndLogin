@@ -1,13 +1,18 @@
 @import "tailwindcss";
+
 @layer base {
+
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0px 1000px white inset !important;
     box-shadow: 0 0 0px 1000px white inset !important;
-    -webkit-text-fill-color: inherit !important; /* jo normal color hai wahi use karega */
-    border-radius: inherit !important; /* jo normal Tailwind rounded hai wahi rahega */
-    background-color: transparent !important; /* naya bg force nahi karega */
+    -webkit-text-fill-color: inherit !important;
+    /* jo normal color hai wahi use karega */
+    border-radius: inherit !important;
+    /* jo normal Tailwind rounded hai wahi rahega */
+    background-color: transparent !important;
+    /* naya bg force nahi karega */
   }
 }
 
@@ -16,7 +21,7 @@
 /* Hide arrows from number input fields */
 
 /* Chrome, Safari, Edge, Opera */
-input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
@@ -25,4 +30,5 @@ input[type=number]::-webkit-outer-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+
 }
