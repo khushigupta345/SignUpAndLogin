@@ -458,7 +458,7 @@ export default function BulkOrderForm3() {
                         placeholder="Enter full name"
                       />
 
-                      <label htmlFor="name" className="pr-3 text-gray-600">
+                      <label htmlFor="name" className="pr-3 text-gray-400">
                         <LuUserRound size={16} />
                       </label>
 
