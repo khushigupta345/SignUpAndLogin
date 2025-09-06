@@ -1,9 +1,12 @@
 import { Route, Routes } from "react-router-dom"
 // import Login from "./component/login"
 // import SignupPage from "./component/SignupPage"
-import { Home } from "./component/home"
+// import { Home } from "./component/home"
 import BulkOrderForm3 from "./component/BulkOrderForm3"
-import Hello from "./hello"
+import QuarryForm from "./component/QuarryForm"
+// import Hello from "./hello"
+// import QuarryDashboard from "./component/QuarryDashboard"
+// import QuarryForm from "./component/QuarryForm"
 
 
 
@@ -26,8 +29,10 @@ function App() {
 
     
      </Routes> */}
-     <BulkOrderForm3 />
+     {/* <BulkOrderForm3 /> */}
      {/* <Hello /> */}
+       {/* <QuarryForm/>   */}
+             <BulkOrderForm3 />   
     </>
   )
 }
