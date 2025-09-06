@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { LuUserRound } from "react-icons/lu";
+// import { LuUserRound } from "react-icons/lu";
+import { UserRound as LuUserRound } from 'lucide-react';
 import toast, { Toaster } from "react-hot-toast";
 import { FiUpload, FiTrash2 } from "react-icons/fi";
 import { CiMail, CiMobile3 } from "react-icons/ci";
