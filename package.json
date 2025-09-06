@@ -20,7 +20,9 @@
     "tailwindcss": "^4.1.12",
     "yup": "^1.7.0",
     "react-hot-toast": "^2.4.1",
-    "react-icons": "^4.10.1"
+    "react-icons": "^4.10.1", 
+"country-state-city": "^3.1.1"
+    
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
