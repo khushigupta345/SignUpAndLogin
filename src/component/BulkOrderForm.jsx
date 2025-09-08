@@ -267,7 +267,7 @@ export default function BulkOrderForm() {
                             <button
                                 disabled={submitting}
                                 onClick={() => setTab("individual")}
-                                className={`px-6 py-2 rounded-lg text-sm font-medium ${tab === "individual" ? "bg-[#871B58] text-white" : "bg-white border text-gray-600"
+                                className={`cursor-pointer px-6 py-2 rounded-lg text-sm font-medium ${tab === "individual" ? "bg-[#871B58] text-white" : "bg-white border text-gray-600"
                                     }`}
                             >
                                 Individual
@@ -275,7 +275,7 @@ export default function BulkOrderForm() {
 
                             <button
                                 onClick={() => setTab("business")}
-                                className={`px-5 py-2 rounded-lg text-sm font-medium ${tab === "business" ? "bg-[#871B58] text-white" : "bg-white border text-gray-600"
+                                className={` cursor-pointer px-5 py-2 rounded-lg text-sm font-medium ${tab === "business" ? "bg-[#871B58] text-white" : "bg-white border text-gray-600"
                                     }`}
                             >
                                 Business
@@ -926,7 +926,7 @@ export default function BulkOrderForm() {
                                             <button
                                                 type="button"
                                                 onClick={addProduct}
-                                                className="font-inter    hover:scale-105 transition-transform duration-200  bg-[#871B58] text-white px-3 py-2 rounded "
+                                                className="font-inter cursor-pointer   hover:scale-105 transition-transform duration-200  bg-[#871B58] text-white px-3 py-2 rounded "
                                                 disabled={submitting}
                                             >
                                                 Add this Product
@@ -1059,14 +1059,14 @@ export default function BulkOrderForm() {
                                 <button
                                     type="button"
 
-                                    className="font-inter border text-black px-8 py-1 rounded mb-6"
+                                    className="cursor-pointer font-inter border text-black px-8 py-1 rounded mb-6"
 
                                     onClick={handleCancel}
                                 >
 
                                     Cancel
                                 </button>
-                                <button type="submit" formNoValidate className="font-inter bg-[#871B58] text-white px-8 py-1 rounded mb-6 hover:scale-105 transition-transform duration-200" disabled={submitting}>
+                                <button type="submit" formNoValidate className="cursor-pointer font-inter bg-[#871B58] text-white px-8 py-1 rounded mb-6 hover:scale-105 transition-transform duration-200" disabled={submitting}>
                                     {submitting ? "Submitting..." : "Submit"}
                                 </button>
                             </div>
@@ -1123,7 +1123,7 @@ export default function BulkOrderForm() {
                                                                 <button
                                                                     onClick={() => removeProduct(index)}
                                                                     aria-label={`Remove ${item.productName}`}
-                                                                    className="p-2 mt-2 rounded-md bg-gray-100 hover:bg-gray-200 transition"
+                                                                    className="cursor-pointer p-2 mt-2 rounded-md bg-gray-100 hover:bg-gray-200 transition"
                                                                 >
                                                                     <FiTrash2 className="w-6 h-6 text-red-600" />
                                                                 </button>
@@ -1134,7 +1134,7 @@ export default function BulkOrderForm() {
                                                             <div className="mt-1">
                                                                 <button
                                                                     onClick={() => toggleDetails(index)}
-                                                                    className="text-gray-600 text-sm underline whitespace-nowrap"
+                                                                    className="cursor-pointer text-gray-600 text-sm underline whitespace-nowrap"
                                                                 >
                                                                     {item.showDetails ? "Hide" : "Product"} Details
                                                                 </button>
