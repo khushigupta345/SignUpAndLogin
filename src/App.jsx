@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom"
 // import SignupPage from "./component/SignupPage"
 // import { Home } from "./component/home"
 import BulkOrderForm3 from "./component/BulkOrderForm3"
+import BulkOrderForm from "./component/BulkOrderForm"
 // import QuarryForm from "./component/QuarryForm"
 // import Hello from "./hello"
 // import QuarryDashboard from "./component/QuarryDashboard"
@@ -32,7 +33,7 @@ function App() {
      {/* <BulkOrderForm3 /> */}
      {/* <Hello /> */}
        {/* <QuarryForm/>   */}
-             <BulkOrderForm3 />   
+             <BulkOrderForm />   
     </>
   )
 }

@@ -218,8 +218,7 @@ export default function BulkOrderForm3() {
     products.forEach(p => p._preview && URL.revokeObjectURL(p._preview));
     setFormData(initialFormData);
     setProducts([]);
-    setErrors({});
-    setProductImage(null);
+    
   };
 
   const handleCancel = () => {
@@ -227,7 +226,7 @@ export default function BulkOrderForm3() {
 
     window.scrollTo({ top: 0, behavior: "smooth" });
     setProducts([]);
-    setErrors({});
+
     setProductImage(null);
     setSubmitting(false);
 
