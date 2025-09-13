@@ -4,6 +4,8 @@ import { Route, Routes } from "react-router-dom"
 // import { Home } from "./component/home"
 import BulkOrderForm3 from "./component/BulkOrderForm3"
 import BulkOrderForm from "./component/BulkOrderForm"
+import Finishes from "./component/finishes"
+
 // import QuarryForm from "./component/QuarryForm"
 // import Hello from "./hello"
 // import QuarryDashboard from "./component/QuarryDashboard"
@@ -13,13 +15,13 @@ import BulkOrderForm from "./component/BulkOrderForm"
 
 
 function App() {
-  
+
 
   return (
     <>
 
 
-     {/* <Routes>
+      {/* <Routes>
       <Route path="/login" element={<Login/>} />
 
     <Route path="/" element={<Home/>} />
@@ -30,10 +32,11 @@ function App() {
 
     
      </Routes> */}
-     {/* <BulkOrderForm3 /> */}
-     {/* <Hello /> */}
-       {/* <QuarryForm/>   */}
-             <BulkOrderForm />   
+      {/* <BulkOrderForm3 /> */}
+      {/* <Hello /> */}
+      {/* <QuarryForm/>   */}
+      {/* <BulkOrderForm />    */}
+      <Finishes />
     </>
   )
 }
