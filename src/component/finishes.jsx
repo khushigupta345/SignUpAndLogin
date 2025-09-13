@@ -62,7 +62,7 @@ export default function Finishes() {
                         >
                             <div className="pb-8 text-center transition-all duration-300 group-focus:pb-17  group-active:pb-17 group-hover:pb-18  sm:focus:pb-20 sm:active:pb-20">
 
-                                <div className="w-full h-71   overflow-hidden">
+                                <div className="w-full h-42 sm:h-71   overflow-hidden">
                                     <img
                                         src={item.image}
                                         alt={item.title}
