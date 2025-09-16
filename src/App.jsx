@@ -5,6 +5,9 @@ import { Route, Routes } from "react-router-dom"
 import BulkOrderForm3 from "./component/BulkOrderForm3"
 import BulkOrderForm from "./component/BulkOrderForm"
 import Finishes from "./component/finishes"
+import BulkOrderForm2 from "./component/BulkOrderForm2"
+import FinishDetails from "./component/finishDetails"
+import { Home } from "./component/home"
 
 // import QuarryForm from "./component/QuarryForm"
 // import Hello from "./hello"
@@ -21,22 +24,20 @@ function App() {
     <>
 
 
-      {/* <Routes>
-      <Route path="/login" element={<Login/>} />
+      <Routes>
 
-    <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/finishes" element={<Finishes />} />
+        <Route path="/finishes/:id" element={<FinishDetails />} />
 
-     </Routes>
-       <Routes>
-      <Route path="/signup" element={<SignupPage/>} />
-
-    
-     </Routes> */}
+      </Routes>
       {/* <BulkOrderForm3 /> */}
       {/* <Hello /> */}
       {/* <QuarryForm/>   */}
       {/* <BulkOrderForm />    */}
-      <Finishes />
+      {/* <BulkOrderForm2 /> */}
+
+      {/* <Finishes /> */}
     </>
   )
 }

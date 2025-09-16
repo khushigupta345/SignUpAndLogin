@@ -1,10 +1,8 @@
-export function Home(){
-    return(
-    <>
-        <a href="/login">Login</a>
-       <br />
-         <br />
-     <a href="/signup">SignUp</a>
-    </>
+export function Home() {
+    return (
+        <>
+            <a className="text-center" href="/finishes">finishes</a>
+
+        </>
     );
 }
