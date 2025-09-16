@@ -49,7 +49,7 @@ export default function Finishes() {
   ];
   const navigate = useNavigate();
   return (
-    <div className="font-poppins min-h-screen ">
+    <div className="font-poppins min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-6 py-14">
         <div className="grid sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-6">
           {finishes.map((item) => (
@@ -63,7 +63,7 @@ export default function Finishes() {
                   className="mx-0 h-[340px] sm:h-[380px] md:h-[380px] lg:h-[330px] xl:h-[430px] transition-all duration-300 ease-in-out
                    md:group-hover:h-[400px]  lg:group-hover:h-[370px] xl:group-hover:h-[480px]"
                 >
-                  <div className="bg-white rounded-xl overflow-hidden shadow-xl  h-full flex flex-col">
+                  <div className="bg-white rounded-xl overflow-hidden shadow-md group-hover:shadow-xl  h-full flex flex-col">
                     <div className="w-full h-[200px]  md:h-[220px] lg:h-[180px] xl:h-[280px] overflow-hidden">
 
                       <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
