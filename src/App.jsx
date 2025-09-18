@@ -24,18 +24,18 @@ function App() {
     <>
 
 
-      <Routes>
+      {/* <Routes>
 
         <Route path="/" element={<Home />} />
         <Route path="/finishes" element={<Finishes />} />
         <Route path="/finishes/:id" element={<FinishDetails />} />
 
-      </Routes>
+      </Routes> */}
       {/* <BulkOrderForm3 /> */}
       {/* <Hello /> */}
       {/* <QuarryForm/>   */}
       {/* <BulkOrderForm />    */}
-      {/* <BulkOrderForm2 /> */}
+      <BulkOrderForm2 />
 
       {/* <Finishes /> */}
     </>

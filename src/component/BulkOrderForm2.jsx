@@ -11,12 +11,10 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { Country, State, City } from "country-state-city";
 import Select from "react-select";
 export default function BulkOrderForm() {
-
+    const [showFull, setShowFull] = useState(false);
     const [tab, setTab] = useState("individual");
     const [submitting, setSubmitting] = useState(false);
     const [products, setProducts] = useState([]);
-    const [isSubmitted, setIsSubmitted] = useState(false);
-
     const [installationType, setInstallationType] = useState("pattern");
     const initialFormData = {
 
@@ -51,7 +49,7 @@ export default function BulkOrderForm() {
         deliveryTime: "",
         image: [],
         message: "",
-        _preview: null,
+        // _preview: null,
     }
     const [editIndex, setEditIndex] = useState(null);
     const [formData, setFormData] = useState(initialFormData);
@@ -91,8 +89,13 @@ export default function BulkOrderForm() {
 
     const editProduct = (index) => {
         setProductData(products[index]);
-        setEditIndex(index);              // editing index set
-        document.getElementById("stoneCategory").focus(); // cursor first field me
+        setEditIndex(index);
+        const el = document.getElementById("stoneCategory");
+        if (el) {
+            const y = el.getBoundingClientRect().top + window.scrollY - 80;
+            window.scrollTo({ top: y, behavior: "smooth" });
+            el.focus();
+        }
     };
 
 
@@ -118,7 +121,7 @@ export default function BulkOrderForm() {
                 return {
                     ...prev,
                     image: mergedFiles,
-                    _preview: mergedFiles.map((f) => URL.createObjectURL(f)),
+                    // _preview: mergedFiles.map((f) => URL.createObjectURL(f)),
                 };
             });
         } else {
@@ -126,31 +129,31 @@ export default function BulkOrderForm() {
         }
     };
     {
-        products.map((product, index) => (
-            <div key={index} className="flex gap-3 mt-2 flex-wrap">
+        // products.map((product, index) => (
+        //     <div key={index} className="flex gap-3 mt-2 flex-wrap">
 
-                {/* Image select button */}
-                <button className="relative w-20 h-20 border rounded-lg flex flex-col items-center justify-center text-gray-500 text-xs">
-                    + Add Image
-                    <input
-                        type="file"
-                        className="absolute inset-0 opacity-0 cursor-pointer"
-                        accept="image/*"
-                        onChange={(e) => handleImageSelect(e, index)}
-                    />
-                </button>
+        //         {/* Image select button */}
+        //         <button className="relative w-20 h-20 border rounded-lg flex flex-col items-center justify-center text-gray-500 text-xs">
+        //             + Add Image
+        //             <input
+        //                 type="file"
+        //                 className="absolute inset-0 opacity-0 cursor-pointer"
+        //                 accept="image/*"
+        //                 onChange={(e) => handleImageSelect(e, index)}
+        //             />
+        //         </button>
 
-                {/* Preview section for this product */}
-                {product._previews?.map((preview, i) => (
+        {/* Preview section for this product */ }
+        {/* {product._previews?.map((preview, i) => (
                     <img
                         key={i}
                         src={preview}
                         alt={`product-${index}-file-${i}`}
                         className="w-24 h-20 rounded-lg object-cover border"
                     />
-                ))}
-            </div>
-        ))
+                ))} */}
+        //     </div>
+        // ))
     }
 
     const handleChange = (e) => {
@@ -178,8 +181,8 @@ export default function BulkOrderForm() {
         }
     };
     const handleDeleteFile = (type, index) => {
-        const updated = [...formData[type]];  // copy of the array
-        updated.splice(index, 1);             // remove the file at index
+        const updated = [...formData[type]];
+        updated.splice(index, 1);
         setFormData({
             ...formData,
             [type]: updated
@@ -193,17 +196,44 @@ export default function BulkOrderForm() {
     };
     const handleDeleteImage = (pIndex, iIndex) => {
         const updated = [...products];
-        updated[pIndex]._previews.splice(iIndex, 1);
+
         updated[pIndex].image.splice(iIndex, 1);
         setProducts(updated);
     };
 
+    const handleFileUpload = (e, index, type) => {
+        const files = Array.from(e.target.files);
+        if (!files.length) return;
+
+        const MAX_SIZE_MB = type === "image" ? 20 : 50;
+
+        let addedFiles = [];
+        for (let i = 0; i < files.length; i++) {
+            if (files[i].size <= MAX_SIZE_MB * 1024 * 1024) {
+                addedFiles.push(files[i]);
+            } else {
+                toast.error(`${files[i].name} exceeds ${MAX_SIZE_MB}MB limit`);
+            }
+        }
+
+
+        setProducts((prevProducts) =>
+            prevProducts.map((p, i) =>
+                i === index
+                    ? {
+                        ...p,
+                        image: [...(p.image || []), ...addedFiles],
+
+                    }
+                    : p
+            )
+        );
+    };
+
+
 
     const addProduct = (e) => {
         e.preventDefault();
-        // const productFields = document
-        //     .getElementById("product-fields")
-        //     ?.querySelectorAll("input, select,textarea");
 
 
         const files = productData.image || [];
@@ -217,21 +247,12 @@ export default function BulkOrderForm() {
         }
 
 
-        // if (productFields) {
-        //     for (let field of productFields) {
-        //         if (!field.reportValidity()) return;
-        //     }
-        // }
 
-        // toast.success("Product added successfully!");
-
-
-        const previews = files.map(file => URL.createObjectURL(file));
 
         const newProduct = {
             ...productData,
             image: files,
-            _previews: previews,
+
             showDetails: false,
         };
 
@@ -251,17 +272,15 @@ export default function BulkOrderForm() {
             toast.success("Product added successfully!");
         }
 
-        // setProducts((prev) => [...prev, newProduct]);
-
-
+        console.log(initialProductData)
         setProductData(initialProductData);
     };
     const removeProduct = (index) => {
         setProducts((prev) => {
             const item = prev[index];
-            if (item?._preview) {
-                URL.revokeObjectURL(item._preview);
-            }
+            // if (item?._preview) {
+            //     URL.revokeObjectURL(item._preview);
+            // }
             return prev.filter((_, i) => i !== index);
         });
     };
@@ -269,17 +288,6 @@ export default function BulkOrderForm() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        // const formEl = e.target;
-        // const productContainer = formEl.querySelector("#product-fields");
-
-
-        // const topLevelFields = Array.from(formEl.querySelectorAll("[required]"))
-        //     .filter(el => !productContainer?.contains(el));
-
-        // for (const el of topLevelFields) {
-        //     if (!el.reportValidity()) return;
-        // }
-
         if (products.length === 0) {
             toast.error("At least one product is required");
             return;
@@ -306,7 +314,6 @@ export default function BulkOrderForm() {
         toast.success("Form submitted successfully");
 
 
-        products.forEach(p => p._preview && URL.revokeObjectURL(p._preview));
         setFormData(initialFormData);
         setProducts([]);
 
@@ -322,26 +329,28 @@ export default function BulkOrderForm() {
     }
 
     const selectedUnit = productData.unit;
-    const companyName = formData.companyName;
-    const gstNumber = formData.gstNumber;
+
     return (
-        <div className="min-h-screen font-poppins bg-white px-4 sm:px-6 lg:px-10 py-8">
+        <div className="min-h-screen font-poppins bg-white px-4 sm:px-6 lg:px-30 py-8">
             <Toaster position="top-right" />
             <div className="max-w-7xl mx-auto">
-                <div className="mb-6">
-
-                    <h1 className="text-2xl sm:text-4xl font-medium text-[#000000]">Stonepedia Bulk Orders</h1>
-                    <p className="text-sm sm:text-lg text-[#BDBDBD]">Fill this form to connect with us.</p>
-                    <p className="text-sm text-gray-400">We only consider 10,000 to 1,00,000 sqft orders here. More than 1,00,000 buy it
+                <div className="max-w-2xl">
+                    <h1 className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-medium">
+                        Stonepedia Bulk Orders
+                    </h1>
+                    <p className="text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl text-[#BDBDBD]">
+                        Fill this form to connect with us.
                     </p>
-                    <p className="text-sm text-gray-400">from project collaboration.</p>
+                    <p className="text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl text-[#BDBDBD]">
+                        We only consider 10,000 to 1,00,000 sqft orders here. More than 1,00,000 buy it from project collaboration.
+                    </p>
 
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-12 items-start">
 
                     {/* <div className="shadow-2xl p-5 md:p-10 flex-1  w-full bg-white rounded-2xl"> */}
-                    <div className="shadow-2xl p-5 md:p-10 w-full lg:w-[60%]  bg-white rounded-2xl">
+                    <div className="shadow-2xl sm:mt-6 p-5 md:p-10 w-full lg:w-[55%]  bg-white rounded-2xl">
                         <div className="flex flex-wrap gap-2 mb-6">
 
                             <button
@@ -363,214 +372,86 @@ export default function BulkOrderForm() {
                         </div>
 
                         <form id="myForm" onSubmit={onSubmit} className="space-y-4">
-                            {tab === "business" ? (
-                                <div className="flex flex-col md:flex-row md:justify-between gap-2 w-full">
+                            <div className="flex flex-col md:flex-row md:justify-between gap-2 w-full">
 
 
-
-                                    <div className="w-full flex flex-col md:w-[60%]">
-
-                                        <label htmlFor="name" className="mb-0.5 font-semibold text-xs">
-                                            Full Name
-                                        </label>
-
-                                        <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                            <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
-
-                                                <input
-                                                    className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-                                                    id="name"
-                                                    type="text"
-                                                    required
-                                                    name="fullName"
-                                                    value={formData.fullName}
-
-                                                    onChange={handleChange}
-
-
-                                                    placeholder="Enter full name"
-                                                />
-
-                                                <label htmlFor="name" className="pr-3 text-gray-600">
-                                                    <LuUserRound size={16} />
-                                                </label>
-
-                                            </div>
+                                <div className="w-full flex flex-col md:w-[50%]">
+                                    <label htmlFor="fullName" className="mb-0.5 font-semibold text-xs min-h-[20px]">
+                                        Full Name
+                                    </label>
+                                    <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
+                                        <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
+                                            <input
+                                                className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+                                                id="fullName"
+                                                type="text"
+                                                name="fullName"
+                                                value={formData.fullName}
+                                                onChange={handleChange}
+                                                placeholder="Enter full name"
+                                                required
+                                            />
+                                            <label htmlFor="fullName" className="pr-3 text-gray-600">
+                                                <LuUserRound size={16} />
+                                            </label>
                                         </div>
-
-
-                                    </div>
-
-                                    <div className="w-full flex flex-col">
-                                        <label htmlFor="companyName" className="mb-0.5 font-semibold text-xs">Company Name  </label>
-                                        <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                            <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
-
-
-                                                <input
-                                                    type="text"
-                                                    required
-                                                    name="companyName"
-                                                    value={formData.companyName}
-                                                    onChange={handleChange}
-
-                                                    className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-
-
-                                                    placeholder="Globex industries pvt.ltd"
-                                                />
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
 
 
-
-                            ) : (
-
-                                <div className="flex flex-col md:flex-row md:justify-between gap-2 w-full">
-
-
-
-                                    <div className="w-full flex flex-col md:w-[60%]">
-
-                                        <label htmlFor="name" className="mb-0.5 font-semibold text-xs">
-                                            Full Name
-                                        </label>
-
-                                        <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                            <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
-
-                                                <input
-                                                    className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-                                                    id="name"
-                                                    type="text"
-                                                    required
-                                                    name="fullName"
-                                                    value={formData.fullName}
-
-                                                    onChange={handleChange}
-
-
-                                                    placeholder="Enter full name"
-                                                />
-
-                                                <label htmlFor="name" className="pr-3 text-gray-600">
-                                                    <LuUserRound size={16} />
-                                                </label>
-
-                                            </div>
+                                <div className="w-full flex flex-col">
+                                    <label htmlFor="companyName" className="mb-0.5 font-semibold text-xs min-h-[20px]">
+                                        Company Name
+                                        {tab !== "business" && <span className="text-gray-400 text-sm"> (optional)</span>}
+                                    </label>
+                                    <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
+                                        <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
+                                            <input
+                                                type="text"
+                                                name="companyName"
+                                                value={formData.companyName}
+                                                onChange={handleChange}
+                                                placeholder="Globex industries pvt.ltd"
+                                                className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+                                                required={tab === "business"}
+                                            />
                                         </div>
-
-
-                                    </div>
-
-                                    <div className="w-full flex flex-col">
-                                        <label htmlFor="companyName" className="mb-0.5 font-semibold text-xs">Company Name<span className="text-gray-400 text-sm">(optional)</span>  </label>
-                                        <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                            <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
-
-
-                                                <input
-                                                    type="text"
-                                                    required
-                                                    name="companyName"
-                                                    value={formData.companyName}
-                                                    onChange={handleChange}
-
-                                                    className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-
-
-                                                    placeholder="Globex industries pvt.ltd"
-                                                />
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
-
-
-
-
-
-
-
-
-
-
-
-                            )}
+                            </div>
 
 
                             <div className="flex flex-col md:flex-row md:justify-between gap-2 w-full">
+                                <div className="w-full flex flex-col">
+                                    <label htmlFor="gstNumber" className="mb-0.5 font-semibold text-xs min-h-[20px]">
+                                        GST Number
+                                        {tab !== "business" && <span className="text-gray-400 text-sm"> (optional)</span>}
+                                    </label>
+                                    <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
+                                        <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
+                                            <input
+                                                id="gstNumber"
+                                                type="number"
+                                                name="gstNumber"
+                                                value={formData.gstNumber}
+                                                onChange={handleChange}
+                                                placeholder="Enter here"
+                                                className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+                                                required={tab === "business"}
 
-                                {tab === "business" ? (
-                                    <div className="w-full flex flex-col ">
-
-
-
-
-                                        <label htmlFor="gstNumber" className="mb-0.5 font-semibold text-xs">GST Number  </label>
-                                        <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                            <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
-
-
-
-
-                                                <input
-                                                    id="gstNumber"
-                                                    type="number"
-                                                    name="gstNumber"
-                                                    required
-                                                    value={formData.gstNumber}
-                                                    onChange={handleChange}
-                                                    placeholder="Enter here"
-
-                                                    className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-                                                />
-                                            </div>
+                                            />
                                         </div>
-
                                     </div>
-                                ) : (
-
-                                    <div className="w-full flex flex-col ">
+                                </div>
 
 
-
-                                        <label htmlFor="gstNumber" className="mb-0.5 font-semibold text-xs">GST Number <span className="text-gray-400 text-sm">(optional)</span> </label>
-                                        <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                            <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
-
-
-
-
-
-                                                <input
-                                                    id="gstNumber"
-                                                    type="number"
-                                                    name="gstNumber"
-                                                    value={formData.gstNumber}
-                                                    onChange={handleChange}
-                                                    placeholder="Enter here"
-
-
-                                                    className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-                                                />
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                )}
 
 
 
 
                                 <div className="w-full flex flex-col ">
 
-                                    <label htmlFor="email" className="mb-0.5 font-semibold text-xs">
+                                    <label htmlFor="email" className="mb-0.5 font-semibold text-xs min-h-[20px]">
                                         Email Address
                                     </label>
 
@@ -601,6 +482,7 @@ export default function BulkOrderForm() {
                                 </div>
 
                             </div>
+
 
 
 
@@ -690,7 +572,7 @@ export default function BulkOrderForm() {
                                 </div>
 
                             </div>
-                            <div className="flex flex-col md:flex-row md:justify-between gap-4 w-full">
+                            <div className="flex flex-col md:flex-row md:justify-between gap-8 mb-3 w-full">
 
 
                                 <div className="w-full  flex flex-col">
@@ -730,7 +612,7 @@ export default function BulkOrderForm() {
                         <form onSubmit={addProduct} className="space-y-4">
                             <p className="block font-medium text-[16px] text-black mb-2">Product Details <span className="text-gray-400">(Add multiple products here)</span></p>
 
-                            <div className="border-2 border-dashed border-gray-300 rounded-lg mb-6 p-4">
+                            <div className="border border-dashed border-gray-300 rounded-lg mb-6 p-4">
                                 <div id="product-fields">
                                     <div className=" grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
 
@@ -941,8 +823,8 @@ export default function BulkOrderForm() {
                                                                 >
 
                                                                     <option value="">Choose</option>
-                                                                    <option value="5-8ft">5-8ft</option>
-                                                                    <option value="8-11ft">8-11ft</option>
+                                                                    <option value="5-8 ft">5-8 ft</option>
+                                                                    <option value="8-11 ft">8-11 ft</option>
 
                                                                 </select>
                                                             </div>
@@ -970,8 +852,8 @@ export default function BulkOrderForm() {
                                                                 >
 
                                                                     <option value="">Choose</option>
-                                                                    <option value="2-3ft">2-3ft</option>
-                                                                    <option value="4-5ft">4-5ft</option>
+                                                                    <option value="2-3 ft">2-3 ft</option>
+                                                                    <option value="4-5 ft">4-5 ft</option>
 
                                                                 </select>
                                                             </div>
@@ -1100,7 +982,7 @@ export default function BulkOrderForm() {
                             </div>
 
 
-                            <div className="w-full h-auto min-h-[160px] border-2 border-dashed border-gray-300 rounded-lg p-4  relative">
+                            <div className="w-full h-auto min-h-[160px] border border-dashed border-gray-300 rounded-lg p-4  relative">
 
 
 
@@ -1146,7 +1028,7 @@ export default function BulkOrderForm() {
                                             id="installationimages"
                                             name="installationimages"
                                             className="absolute inset-0 opacity-0 cursor-pointer"
-                                            accept=".pdf,image/*"
+                                            accept="image/*"
                                             onChange={handleChange}
                                         />
                                         <FiUpload size={20} className="mx-auto mb-2 text-gray-900" />
@@ -1204,433 +1086,409 @@ export default function BulkOrderForm() {
 
 
 
-                    <div className="w-full lg:w-[40%]">
-                        {/* <button onClick={(e)=>{document.getElementById("stoneCategory").focus()}}></button> */}
+                    <div className="w-full  lg:w-[45%]">
+
                         {products.length === 0 ? (
-
-                            <div onClick={(e) => { document.getElementById("stoneCategory").focus() }} className="flex flex-col items-center justify-center py-20 px-6 text-center border-2 border-dashed border-gray-300 rounded-2xl ">
-                                <HiPlus className="h-10 w-10 text-[#871B58]  mb-6" />
-                                <h4 className="text-2xl font-semibold text-gray-700 mb-2">No products added yet</h4>
-
+                            <div
+                                onClick={() => {
+                                    const el = document.getElementById("stoneCategory");
+                                    if (el) {
+                                        const y =
+                                            el.getBoundingClientRect().top + window.scrollY - 80;
+                                        window.scrollTo({ top: y, behavior: "smooth" });
+                                        el.focus();
+                                    }
+                                }}
+                                className="flex flex-col   sm:mt-6  items-center justify-center py-13 px-8 text-center border border-dashed border-gray-300 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 hover:shadow-xl hover:border-[#871B58]/60 transition-all duration-300 cursor-pointer"
+                            >
+                                <HiPlus className="h-12 w-12 text-[#871B58] mb-4" />
+                                <h4 className="text-2xl font-semibold text-gray-700">
+                                    No products added yet
+                                </h4>
+                                <p className="text-sm text-gray-500 mt-1">
+                                    Click to start adding your products
+                                </p>
                             </div>
+
+
                         ) : (
 
 
-                            <div className="space-y-4">
-                                {products.map((product, index) => (
+                            <>
 
-                                    <div key={product.id} className="bg-white rounded-2xl shadow-lg p-6">
-                                        <div className="flex items-start gap-5 justify-between w-full">
 
-                                            <div className="flex items-start gap-3">
-                                                <div>
-                                                    {/* <div className="w-20 h-20 bg-gray-100 border rounded-lg flex flex-col items-center justify-center text-gray-500 text-xs">
-                                                    <RiGalleryLine className="w-6 h-6 mb-1" />
-                                                    <button>Add Thumbnail</button>
-                                                </div> */}
-                                                    <div key={index} className="flex gap-3 mt-2 flex-wrap">
-                                                        <button className=" relative w-20 h-20 bg-gray-100  flex flex-col items-center justify-center text-gray-500 text-xs" >
+                                <h3 className="text-[#414141] font-semibold text-sm ">
+                                    {products.length < 10
+                                        ? `Products Added -0${products.length}`
+                                        : `Products Added - ${products.length}`
+                                    }
+                                </h3>
+
+                                <div className="space-y-4">
+                                    {products.map((product, index) => (
+
+                                        <div key={product.id} className="bg-white rounded-2xl shadow-lg p-3">
+                                            <div className="flex items-start justify-between gap-3 ">
+
+                                                <div className="flex items-start gap-3 flex-1 min-w-0">
+
+                                                    <div className="shrink-0">
+                                                        <button className="relative w-20 h-20 sm:w-24 sm:h-24 bg-gray-50  flex flex-col items-center justify-center text-gray-400 hover:shadow-md transition">
                                                             {product.thumbnail && product.thumbnail.length > 0 ? (
                                                                 <img
                                                                     src={URL.createObjectURL(products[index].thumbnail[0])}
                                                                     alt="preview"
-                                                                    className="h-full w-full object-cover"
+                                                                    className="h-full w-full object-cover rounded-xl"
                                                                 />
                                                             ) : (
-
-                                                                <div clsassName="border flext item-center rounded-lg">
-                                                                    <RiGalleryLine className="w-6 h-6 mb-1" />
-                                                                    <span>Add Tumbnail</span>
+                                                                <div className="flex flex-col w-20 h-20 sm:w-24 sm:h-24 items-center justify-center">
+                                                                    <RiGalleryLine className="w-6 h-6 mb-1 sm:w-7 sm:h-7" />
+                                                                    <span className="text-[11px] sm:text-xs font-medium">Add Thumbnail</span>
                                                                 </div>
-
                                                             )}
-
-
-
-
                                                             <input
                                                                 type="file"
                                                                 className="absolute inset-0 opacity-0 cursor-pointer"
                                                                 accept="image/*"
-
                                                                 onChange={(e) => {
                                                                     const file = e.target.files[0];
                                                                     if (!file) return;
-
-
                                                                     if (file.size <= 50 * 1024 * 1024) {
-
-                                                                        setProducts((prevProducts) =>
-                                                                            prevProducts.map((p, i) =>
-                                                                                i === index
-                                                                                    ? {
-                                                                                        ...p,
-                                                                                        thumbnail: [file],
-
-                                                                                    }
-                                                                                    : p
+                                                                        setProducts((prev) =>
+                                                                            prev.map((p, i) =>
+                                                                                i === index ? { ...p, thumbnail: [file] } : p
                                                                             )
                                                                         );
                                                                     } else {
-                                                                        toast.error(`${files[i].name} 50MB maximum`);
+                                                                        toast.error(`${file.name} 50MB maximum`);
                                                                     }
-
-
-
-
                                                                 }}
-
                                                             />
-
                                                         </button>
-                                                    </div></div>
+                                                    </div>
 
 
-                                                <div className="flex flex-col">
-                                                    <div className="mb-2">
-                                                        <h3 className="text-base font-semibold text-gray-800">
+
+                                                    <div className="text-xs space-y-1 min-w-0">
+                                                        <h3 className="font-semibold text-sm text-gray-800 ">
                                                             {product.stoneName}
                                                         </h3>
-                                                        <p className="text-sm text-gray-600">{product.stoneFinish}</p>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-xs text-gray-500">
-                                                            Company Name: {formData.companyName}
+                                                        <p className="text-[#A5A5A5]">
+                                                            {product.stoneCategory}
                                                         </p>
-                                                        <p className="text-xs text-gray-500">
-                                                            GST Number: {formData.gstNumber}
-                                                        </p>
+                                                        {formData.companyName && (
+                                                            <p className="text-[10px]  text-[#636363]">
+                                                                <span className="font-medium">Company Name: </span>
+                                                                {formData.companyName}
+                                                            </p>
+                                                        )}
+                                                        {formData.gstNumber && (
+                                                            <p className="text-[10px]  text-[#636363]">
+                                                                <span className="font-medium">GST Number: </span>
+                                                                {formData.gstNumber}
+                                                            </p>
+                                                        )}
                                                     </div>
+                                                </div>
+
+
+                                                <div className="flex mt-0 sm:mt-1 items-center gap-2 shrink-0">
+                                                    {editIndex === null && (
+                                                        <>
+                                                            <button
+                                                                className="cursor-pointer p-2 rounded-lg bg-gray-50 hover:bg-gray-100 shadow-sm transition"
+                                                                title="Edit"
+                                                                onClick={() => editProduct(index)}
+                                                            >
+                                                                <FiEdit2 className="w-2 h-2 sm:w-4 sm:h-4 text-gray-600" />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => removeProduct(index)}
+                                                                className="cursor-pointer p-2 rounded-lg bg-gray-50 hover:bg-red-50 shadow-sm transition"
+                                                                title="Delete"
+                                                            >
+                                                                <FiTrash2 className="w-2 h-2 sm:w-4 sm:h-4 text-red-600" />
+                                                            </button>
+                                                        </>
+                                                    )}
+
                                                 </div>
                                             </div>
 
 
-                                            <div className="flex items-center gap-3">
+                                            <div className=" border-gray-200 pt-2">
                                                 <button
-                                                    className="p-2 rounded-md bg-gray-100 transition"
-                                                    title="Edit"
-                                                    onClick={() => editProduct(index)}
+                                                    onClick={() => toggleDetails(index)}
+                                                    className="flex gap-3 items-center text-xs cursor-pointer"
                                                 >
-                                                    <FiEdit2 className="w-6 h-6 text-gray-600" />
+                                                    <span>Product Details</span>
+                                                    <RiArrowDropDownLine
+                                                        className={`w-7 h-7 text-[#474747] transition-transform duration-300 ${product.showDetails ? "rotate-180 text-[#871B58]" : ""
+                                                            }`}
+                                                    />
                                                 </button>
-                                                <button
-                                                    onClick={() => removeProduct(index)}
-                                                    className="p-2 rounded-md bg-gray-100 transition"
-                                                    title="Delete"
-                                                >
-                                                    <FiTrash2 className="w-6 h-6 text-red-600" />
-                                                </button>
-                                            </div>
-                                        </div>
 
 
 
 
 
+                                                {product.showDetails && (
+                                                    <div className="scrollbar-thumb-gray-100 scrollbar-thin overflow-y-auto px-2 space-y-2 text-xs  max-h-[55vh] sm:max-h-[367px] ">
 
-                                        <div className=" border-gray-200 pt-3">
+                                                        <div className="grid grid-cols-2 gap-y-2 border-[1px] p-2 rounded-md border-[#C8C8C8] ">
+                                                            <p className="font-medium">
+                                                                Selected Finishes:
+                                                                <span className="font-normal text-[#838383]"> {product.stoneFinish}</span>
+                                                            </p>
 
+                                                            <p className="font-medium">
+                                                                Selected Thickness:
+                                                                <span className="font-normal text-[#838383]"> {product.thickness}</span>
+                                                            </p>
 
+                                                            <p className="font-medium">
+                                                                Selected Unit:
+                                                                <span className="font-normal text-[#838383]"> {product.unit}</span>
+                                                            </p>
 
-                                            <button
-                                                onClick={() => toggleDetails(index)}
-                                                className="cursor-pointer text-gray-600 text-sm underline whitespace-nowrap"
-                                            >
-                                                <span>Product details</span>
-                                                <RiArrowDropDownLine className={`w-4 h-4 transition-transform ${product.showDetails ? 'rotate-180' : ''}`} />
-                                            </button>
-                                            {product.showDetails && (
-                                                <div className="space-y-4 text-sm text-gray-700">
-                                                    {/* Grid Details */}
-                                                    <div className="grid grid-cols-2 gap-y-2 text-gray-700">
-                                                        <p>
-                                                            <span className="font-medium">Selected Finishes: </span>
-                                                            {product.stoneFinish}
-                                                        </p>
+                                                            <p className="font-medium">
+                                                                Entered Value:
+                                                                <span className="font-normal text-[#838383]"> {product.value}</span>
+                                                            </p>
 
-                                                        <p>
-                                                            <span className="font-medium">Selected Thickness: </span>
-                                                            {product.thickness}
-                                                        </p>
-                                                        <p>
-                                                            <span className="font-medium">Selected Unit: </span>
-                                                            {product.unit}
-                                                        </p>
-                                                        <p>
-                                                            <span className="font-medium">Entered Value: </span>
-                                                            {product.value}
-                                                        </p>
-                                                        <p>
-                                                            <span className="font-medium">Stone Size: </span>
-                                                            w: {product.width} || H:{product.height}
-                                                        </p>
-                                                        <p>
-                                                            <span className="font-medium">Delivery Expected: </span>
-                                                            {product.deliveryTime}
-                                                        </p>
-                                                    </div>
+                                                            <p className="font-medium">
+                                                                Stone Size:
+                                                                <span className="font-normal text-[#838383]"> w: {product.width} | H: {product.height}</span>
+                                                            </p>
+
+                                                            <p className="font-medium">
+                                                                Delivery Expected:
+                                                                <span className="font-normal text-[#838383]"> {product.deliveryTime}</span>
+                                                            </p>
+                                                        </div>
 
 
-                                                    <div >
+                                                        <div className=" border-[1px] p-2 rounded-md  border-[#C8C8C8] ">
 
-                                                        <p className="font-medium">Description:</p>
+                                                            <p className="font-medium text-xs mb-2">Description:</p>
 
-                                                        <p className="mt-1 border rounded-lg bg-gray-50 p-3 border-gray-400 text-gray-600 leading-relaxed">
-                                                            {product.message}
-                                                        </p>
-                                                    </div>
+                                                            <p className=" text-[#3B3B3B]">
+                                                                {product.message}
+                                                            </p>
+
+                                                        </div>
 
 
 
 
 
-                                                    <div>
-                                                        <p className="font-medium">Stone Images / Videos:</p>
-                                                        <div className="flex gap-3 mt-2 flex-wrap">
+                                                        <div>
 
+                                                            <p className="text-[#414141] text-xs font-medium">Stone Image’s/Videos</p>
 
+                                                            <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4   gap-2 w-full">
 
-                                                            {/* {products.map((product, index) => ( */}
-
-
-                                                            <div key={index} className="flex gap-2 mt-2 flex-wrap">
-                                                                <button className="border-dashed dashed-4 relative w-25 h-25 border border-[#871B58] rounded-lg flex flex-col hover:shadow-md transition items-center justify-center text-gray-900 text-xs">
-                                                                    <HiPlus className="h-5 w-5 text-black  mb-6" /> Add Video
+                                                                <button className="border-dashed border relative aspect-square border-[#871B58] rounded-lg flex flex-col items-center justify-center text-gray-900 text-xs hover:shadow-md transition">
+                                                                    <HiPlus className="h-5 w-5 text-black mb-1" />
+                                                                    <span className="text-xs text-center">Add Video</span>
                                                                     <input
                                                                         type="file"
                                                                         className="absolute inset-0 opacity-0 cursor-pointer"
                                                                         accept="video/*"
                                                                         multiple
-                                                                        onChange={(e) => {
-                                                                            const files = Array.from(e.target.files);
-                                                                            if (!files.length) return;
-
-                                                                            let addedFiles = [];
-                                                                            for (let i = 0; i < files.length; i++) {
-                                                                                if (files[i].size <= 50 * 1024 * 1024) {
-                                                                                    addedFiles.push(files[i]);
-                                                                                } else {
-                                                                                    toast.error(`${files[i].name} 50MB maximum`);
-                                                                                }
-                                                                            }
-
-
-                                                                            const previews = addedFiles.map((file) => URL.createObjectURL(file));
-
-                                                                            setProducts((prevProducts) =>
-                                                                                prevProducts.map((p, i) =>
-                                                                                    i === index
-                                                                                        ? {
-                                                                                            ...p,
-                                                                                            image: [...(p.image || []), ...addedFiles],
-                                                                                            _previews: [...(p._previews || []), ...previews],
-                                                                                        }
-                                                                                        : p
-                                                                                )
-                                                                            );
-                                                                        }}
-
+                                                                        onChange={(e) => handleFileUpload(e, index, "video")}
                                                                     />
-
                                                                 </button>
-                                                                <button className="border-dashed dashed-4 relative w-25 h-25 border border-[#871B58] rounded-lg flex flex-col hover:shadow-md transition items-center justify-center text-gray-900 text-xs">
-                                                                    <HiPlus className="h-5  text-black  mb-6" /> Add Image
+                                                                <button className="border-dashed border relative aspect-square border-[#871B58] rounded-lg flex flex-col items-center justify-center text-gray-900 text-xs hover:shadow-md transition">
+                                                                    <HiPlus className="h-5 w-5 text-black mb-1" />
+                                                                    <span className="text-xs text-center">Add Image</span>
                                                                     <input
                                                                         type="file"
                                                                         className="absolute inset-0 opacity-0 cursor-pointer"
                                                                         accept="image/*"
                                                                         multiple
-                                                                        onChange={(e) => {
-                                                                            const files = Array.from(e.target.files);
-                                                                            if (!files.length) return;
-                                                                            let addedFiles = [];
-                                                                            for (let i = 0; i < files.length; i++) {
-                                                                                if (files[i].size <= MAX_FILE_SIZE_MB * 1024 * 1024) {
-                                                                                    addedFiles.push(files[i]);
-                                                                                } else {
-                                                                                    toast.error(`${files[i].name} exceeds ${MAX_FILE_SIZE_MB}MB limit`);
-                                                                                }
-                                                                            }
-
-                                                                            const previews = addedFiles.map((file) => URL.createObjectURL(file));
-
-
-                                                                            setProducts((prevProducts) =>
-                                                                                prevProducts.map((p, i) =>
-                                                                                    i === index
-                                                                                        ? {
-                                                                                            ...p,
-                                                                                            image: [...(p.image || []), ...addedFiles],
-                                                                                            _previews: [...(p._previews || []), ...previews],
-                                                                                        }
-                                                                                        : p
-                                                                                )
-                                                                            );
-                                                                        }}
+                                                                        onChange={(e) => handleFileUpload(e, index, "image")}
                                                                     />
-
                                                                 </button>
 
-
-                                                                {product._previews?.map((preview, i) => (
-                                                                    <div key={i} className="relative inline-block mr-2">
+                                                                {product.image.map((img, i) => (
+                                                                    <div key={i} className="group  relative aspect-square  "
+                                                                    >
                                                                         <img
-                                                                            key={`${product.id}-${preview}`}
 
-                                                                            src={preview}
-                                                                            alt={`product-${index}-file-${i}`}
-                                                                            className="w-25 h-25 rounded-lg object-cover border"
+                                                                            src={URL.createObjectURL(img)}
+                                                                            alt=""
+                                                                            className="w-full h-full rounded-lg object-coverr"
                                                                         />
                                                                         <button
                                                                             onClick={() => handleDeleteImage(index, i)}
-                                                                            className="absolute top-0 right-0  text-red-700 rounded-full w-5 h-5 flex items-center justify-center opacity-0 hover:opacity-100"
+                                                                            className="cursor-pointer absolute -top-3 -right-2 text-red-600 rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
                                                                         >
-                                                                            <TiDeleteOutline />
+                                                                            <TiDeleteOutline size={24} />
                                                                         </button>
                                                                     </div>
                                                                 ))}
-                                                            </div>
-                                                            {/* ))} */}
 
+                                                            </div>
                                                         </div>
+
                                                     </div>
 
-                                                   
+
+
+                                                )}
+
+                                            </div>
+                                        </div>
+                                    ))}
+
+                                </div>
+
+
+
+
+
+                                {((formData.boqfiles && formData.boqfiles.length > 0) ||
+                                    (formData.installationimages && formData.installationimages.length > 0)) && (
+                                        <div className="bg-white rounded-2xl shadow-lg mt-5 p-5">
+                                            {formData.boqfiles && formData.boqfiles.length > 0 && (
+                                                <div>
+                                                    <p className="text-[#414141] text-xs font-medium">BOQ Certificate:</p>
+                                                    <div className="flex flex-col gap-2 mt-2 mb-2 border-[1px] p-3 rounded-md bg-[#ABABAB1F] border-[#C8C8C8] ">
+                                                        {formData.boqfiles.map((file, index) => (
+                                                            <div key={index} className="flex items-center  justify-between gap-2">
+                                                                <div className="flex items-center gap-2">
+                                                                    <div className="w-7 h-7 bg-[#FF0000] rounded flex items-center justify-center">
+                                                                        <span className="text-white text-xs font-bold">PDF</span>
+                                                                    </div>
+                                                                    <span className="text-xs text-[#000000]">{file.name}</span>
+                                                                </div>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => handleDeleteFile("boqfiles", index)}
+                                                                    //     className="cursor-pointer text-red-500 text-xs font-bold"
+                                                                    // >
+                                                                    //     <FiTrash2 className="w-4 h-4 text-red-600" />
+                                                                    className="cursor-pointer   text-red-600 rounded-full w-6 h-6 flex items-center justify-center  transition"
+                                                                >
+                                                                    <TiDeleteOutline size={24} />
+                                                                </button>
+                                                            </div>
+                                                        ))}
+
+                                                    </div>
                                                 </div>
                                             )}
+                                            {formData.installationimages && formData.installationimages.length > 0 && (
+                                                <div>
+                                                    <p className="text-[#414141] text-xs font-medium">Installation Design Image/Video:</p>
+                                                    <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4   gap-2 w-full">
+                                                        <button className="border-dashed border relative aspect-square border-[#871B58] rounded-lg flex flex-col items-center justify-center text-gray-900 text-xs hover:shadow-md transition"
+                                                        >
+                                                            <HiPlus className="h-5 w-5 text-black  mb-6" /> Add Video
+                                                            <input
+                                                                type="file"
+                                                                id="installationimages"
+                                                                name="installationimages"
+                                                                className="absolute inset-0 opacity-0 cursor-pointer"
+                                                                accept="video/*"
+                                                                multiple
+                                                                onChange={handleChange}
+                                                            />
 
-                                        </div>
-                                    </div>
-                                ))}
-
-                            </div>
-                        )}
 
 
-                                             
-                        
-                        {((formData.boqfiles && formData.boqfiles.length > 0) ||
-                            (formData.installationimages && formData.installationimages.length > 0)) && (
-                                <div className="bg-white rounded-2xl shadow-lg mt-5 p-6">
-                                    {formData.boqfiles && formData.boqfiles.length > 0 && (
-                                        <div>
-                                            <p className="font-medium">BOQ Certificate:</p>
-                                            <div className="flex flex-col gap-2 mt-2 border rounded-lg px-3 py-2">
-                                                {formData.boqfiles.map((file, index) => (
-                                                    <div key={index} className="flex items-center justify-between gap-2">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-7 h-7 bg-red-100 rounded flex items-center justify-center">
-                                                                <span className="text-red-600 text-xs font-bold">PDF</span>
+
+                                                        </button>
+                                                        <button className="border-dashed dashed-4 relative  border border-[#871B58] rounded-lg flex flex-col hover:shadow-md transition items-center justify-center text-gray-900 text-xs">
+                                                            <HiPlus className="h-5 w-5 text-black  mb-6" /> Add Image
+                                                            <input
+                                                                id="installationimages"
+                                                                name="installationimages"
+                                                                type="file"
+                                                                className="absolute inset-0 opacity-0 cursor-pointer"
+                                                                accept="image/*"
+                                                                multiple
+                                                                onChange={handleChange}
+                                                            />
+
+                                                        </button>
+
+                                                        {formData.installationimages.map((img, i) => (
+                                                            <div key={i} className="group relative aspect-square  ">
+                                                                <img
+
+                                                                    src={URL.createObjectURL(img)}
+                                                                    alt=""
+                                                                    className="w-full h-full rounded-lg object-coverr"
+                                                                />
+                                                                <button
+                                                                    onClick={() => handleDeleteFile("installationimages", i)}
+                                                                    className="cursor-pointer absolute -top-3 -right-2 text-red-600 rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
+                                                                >
+                                                                    <TiDeleteOutline size={24} />
+                                                                </button>
                                                             </div>
-                                                            <span className="text-sm text-gray-700">{file.name}</span>
-                                                        </div>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => handleDeleteFile("boqfiles", index)}
-                                                            className="text-red-500 text-xs font-bold"
-                                                        >
-                                                           <FiTrash2 className="w-8 h-8 text-red-600" />
-                                                        </button>
+
+                                                        ))}
+
                                                     </div>
-                                                ))}
 
-                                            </div>
+
+
+                                                </div>
+
+                                            )}
+
+
+
+
+
+
+
+
+
                                         </div>
+
+
                                     )}
-     {formData.installationimages && formData.installationimages.length > 0 && (
-                                        <div>
-                                            <p className="font-medium">Installation Design Image/Video:</p>
-                                            <div className="flex gap-3 mt-2 flex-wrap">
-                                                <button className="border-dashed dashed-4 relative w-20 h-20 border border-[#871B58] rounded-lg flex flex-col hover:shadow-md transition items-center justify-center text-gray-900 text-xs">
-                                                    <HiPlus className="h-5 w-5 text-black  mb-6" /> Add Video
-                                                    <input
-                                                        type="file"
-                                                        id="installationimages"
-                                                        name="installationimages"
-                                                        className="absolute inset-0 opacity-0 cursor-pointer"
-                                                        accept="video/*"
-                                                        multiple
-                                                        onChange={handleChange}
-                                                    />
+                                <div>
+                                    {editIndex === null && (
+
+
+                                        <div className="flex justify-end gap-3 mt-4">
 
 
 
+                                            <div className="flex justify-end gap-3">
+                                                <button
+                                                    type="button"
 
-  </button>
-                                                <button className="border-dashed dashed-4 relative w-20 h-20 border border-[#871B58] rounded-lg flex flex-col hover:shadow-md transition items-center justify-center text-gray-900 text-xs">
-                                                    <HiPlus className="h-5 w-5 text-black  mb-6" /> Add Image
-                                                    <input
-                                                        id="installationimages"
-                                                        name="installationimages"
-                                                        type="file"
-                                                        className="absolute inset-0 opacity-0 cursor-pointer"
-                                                        accept="image/*"
-                                                        multiple
-                                                        onChange={handleChange}
-                                                    />
+                                                    className="cursor-pointer font-inter border text-black px-8 py-1 rounded mb-6"
 
+                                                    onClick={handleCancel}
+                                                >
+
+                                                    Cancel
                                                 </button>
+                                                <button form="myForm" type="submit" className="cursor-pointer font-inter bg-[#871B58] text-white px-8 py-1 rounded mb-6 hover:scale-105 transition-transform duration-200" disabled={submitting}>
 
-                                                {formData.installationimages.map((img, i) => (
-                                                    <div key={i} className="relative inline-block mr-2">
-                                                        <img
-
-                                                            src={URL.createObjectURL(img)}
-                                                            alt=""
-                                                            className="w-24 h-20 rounded-lg object-cover border"
-                                                        />
-                                                        <button
-                                                            onClick={() => handleDeleteFile("installationimages", i)}
-                                                            className="absolute top-0 right-0  text-red-700 rounded-full w-5 h-5 flex items-center justify-center opacity-0 hover:opacity-100"
-                                                        >
-                                                            <TiDeleteOutline />
-                                                        </button>
-                                                    </div>
-                                                ))}
-
+                                                    {submitting ? "Submitting..." : "Submit"}
+                                                </button>
                                             </div>
+
+
 
                                         </div>
                                     )}
-
-
-
                                 </div>
-
-
-                            )}
-
-                        <div>
-
-
-
-                            <div className="flex justify-end gap-3 mt-4">
-                                <div className="flex justify-end gap-3">
-                                    <button
-                                        type="button"
-
-                                        className="font-inter border text-black px-8 py-1 rounded mb-6"
-
-                                        onClick={handleCancel}
-                                    >
-
-                                        Cancel
-                                    </button>
-                                    <button form="myForm" type="submit" className="font-inter bg-[#871B58] text-white px-8 py-1 rounded mb-6 hover:scale-105 transition-transform duration-200" disabled={submitting}>
-
-                                        {submitting ? "Submitting..." : "Submit"}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-
-
+                            </>
+                        )}
 
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 // import { useState } from "react";

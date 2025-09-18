@@ -1426,6 +1426,7 @@ export default function BulkOrderForm3() {
       <Toaster position="top-right" />
       <div className="max-w-5xl mx-auto">
         <div className="mb-3">
+          
 
           <h1 className="text-2xl sm:text-4xl font-medium text-[#000000]">Stonepedia Bulk Orders</h1>
           <p className="text-sm sm:text-lg text-[#BDBDBD]">Fill this form to connect with us..</p>

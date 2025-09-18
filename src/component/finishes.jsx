@@ -68,7 +68,7 @@ export default function Finishes() {
 
                       <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                     </div>
-                    <div className="pt-4 pl-4 pr-4 pb-0 flex-1 ">
+                    <div className="pt-4 pl-4  pb-0 flex-1 ">
                       <h3 className="text-black text-lg md:text-xl font-medium">{item.title}</h3>
                       <p className="text-gray-600 text-sm md:text-base ">{item.desc}</p>
                     </div>
@@ -78,7 +78,7 @@ export default function Finishes() {
                     <button
 
 
-                      className="cursor-pointer opacity-0 group-hover:opacity-100 transition-all duration-300 bg-[#871B58] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg"
+                      className="cursor-pointer opacity-0 group-hover:opacity-100 transition-all duration-300 bg-[#871B58] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg"
 
                     >
                       <FaArrowRight />
