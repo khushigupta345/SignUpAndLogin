@@ -10,8 +10,10 @@ import { CiMail, CiMobile3 } from "react-icons/ci";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Country, State, City } from "country-state-city";
 import Select from "react-select";
+
 export default function BulkOrderForm() {
     const [showFull, setShowFull] = useState(false);
+    const [selected, setSelected] = useState("");
     const [tab, setTab] = useState("individual");
     const [submitting, setSubmitting] = useState(false);
     const [products, setProducts] = useState([]);
@@ -112,7 +114,8 @@ export default function BulkOrderForm() {
                 if (files[i].size <= MAX_FILE_SIZE_MB * 1024 * 1024) {
                     addedFiles.push(files[i]);
                 } else {
-                    toast.error(`${files[i].name} ${MAX_FILE_SIZE_MB}MB maximum`);
+
+                    toast.error(`${files[i].name} exceeds ${MAX_FILE_SIZE_MB}MB limit`);
                 }
             }
 
@@ -164,7 +167,7 @@ export default function BulkOrderForm() {
 
             const validFiles = Array.from(files).filter(file => {
                 if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-                    toast.error(`${file.name} Maximum ${MAX_FILE_SIZE_MB}MB allowed`);
+                    toast.error(`${file.name} exceeds ${MAX_FILE_SIZE_MB}MB limit`);
                     return false;
                 }
                 return true;
@@ -175,11 +178,11 @@ export default function BulkOrderForm() {
                 [name]: [...(prev[name] || []), ...validFiles],
             }));
 
-        }
-        else {
+        } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
     };
+
     const handleDeleteFile = (type, index) => {
         const updated = [...formData[type]];
         updated.splice(index, 1);
@@ -212,7 +215,7 @@ export default function BulkOrderForm() {
             if (files[i].size <= MAX_SIZE_MB * 1024 * 1024) {
                 addedFiles.push(files[i]);
             } else {
-                toast.error(`${files[i].name} exceeds ${MAX_SIZE_MB}MB limit`);
+                toast.error(`${files[i].name} exceeds 20MB limit`);
             }
         }
 
@@ -375,7 +378,7 @@ export default function BulkOrderForm() {
                             <div className="flex flex-col md:flex-row md:justify-between gap-2 w-full">
 
 
-                                <div className="w-full flex flex-col md:w-[50%]">
+                                <div className="w-full flex flex-col ">
                                     <label htmlFor="fullName" className="mb-0.5 font-semibold text-xs min-h-[20px]">
                                         Full Name
                                     </label>
@@ -672,9 +675,39 @@ export default function BulkOrderForm() {
                                             <label htmlFor="stoneFinish" className="mb-0.5 font-semibold text-xs">
                                                 Stone Finish
                                             </label>
-                                            <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                                <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
-                                                    <select
+                                            <Select
+                                                options={[
+                                                    { label: "Mirror Polished", value: "mirror polished" },
+                                                    { label: "Honed", value: "honed" },
+                                                    { label: "Tumbled", value: "tumbled" },
+                                                    { label: "Brushed", value: "brushed" },
+                                                    { label: "Flamed", value: "flamed" },
+                                                    { label: "Lapato", value: "lapato" },
+                                                    { label: "Leather", value: "leather" },
+                                                    { label: "River-Polished", value: "river-polished" },
+                                                    { label: "Sand-blast", value: "sand-blast" },
+                                                    { label: "Shot-blast", value: "shot-blast" },
+                                                ]}
+                                                // value={productData.stoneFinish}
+                                                // onChange={(selected) =>
+                                                //     setProductData((prev) => ({ ...prev, stoneFinish: selected }))
+                                                // }
+                                                // placeholder="Finish"
+                                                // className="text-xs"
+                                                value={
+                                                    productData.stoneFinish
+                                                        ? { label: productData.stoneFinish, value: productData.stoneFinish }
+                                                        : null
+                                                }
+                                                onChange={(selected) =>
+                                                    setProductData((prev) => ({ ...prev, stoneFinish: selected.value }))
+                                                }
+                                                required
+                                                placeholder="Finish"
+                                                className="text-xs"
+                                            />
+
+                                            {/* <select
                                                         id="stoneFinish"
                                                         required
                                                         name="stoneFinish"
@@ -699,42 +732,57 @@ export default function BulkOrderForm() {
                                                         <option value="sand-blast">Sand-blast</option>
                                                         <option value="shot-blast">Shot-blast</option>
 
-                                                    </select>
-                                                </div>
-                                            </div>
+                                                    </select> */}
 
                                         </div>
                                         <div>
                                             <label htmlFor="thickness" className="mb-0.5 font-semibold text-xs">
                                                 Thickness
                                             </label>
-                                            <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                                <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
-                                                    <select
-                                                        id="thickness"
-                                                        required
-                                                        name="thickness"
 
-                                                        value={productData.thickness}
+                                            <Select
+                                                // options={[
+                                                // { label: "8MM", value: "8mm" },
+                                                // { label: "12MM", value: "12mm" },
+                                                // { label: "14MM", value: "14mm" },
+                                                // { label: "16MM", value: "16mm" },
+                                                // { label: "18MM", value: "18mm" },
+                                                // { label: "20MM", value: "20mm" },
+                                                // { label: "25MM", value: "25mm" },
+                                                // { label: "30MM", value: "30mm" },
+                                                // { label: "Other", value: "other" },
+                                                // ]}
+                                                // value={productData.thickness}
+                                                // onChange={(selected) =>
+                                                //     setProductData((prev) => ({ ...prev, thickness: selected }))
+                                                // }
+                                                // placeholder="Thickness"
+                                                // className="text-xs"
+                                                options={[
+                                                    { label: "8MM", value: "8mm" },
+                                                    { label: "12MM", value: "12mm" },
+                                                    { label: "14MM", value: "14mm" },
+                                                    { label: "16MM", value: "16mm" },
+                                                    { label: "18MM", value: "18mm" },
+                                                    { label: "20MM", value: "20mm" },
+                                                    { label: "25MM", value: "25mm" },
+                                                    { label: "30MM", value: "30mm" },
+                                                    { label: "Other", value: "other" },
 
+                                                ]}
+                                                value={
+                                                    productData.thickness
+                                                        ? { label: productData.thickness, value: productData.thickness }
+                                                        : null
+                                                }
+                                                onChange={(selected) =>
+                                                    setProductData((prev) => ({ ...prev, thickness: selected.value }))
+                                                }
+                                                required
+                                                placeholder="Thickness"
+                                                className="text-xs"
+                                            />
 
-                                                        onChange={handleProductChange}
-
-                                                        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-                                                    >
-                                                        <option value="">Choose</option>
-                                                        <option value="8mm">8MM</option>
-                                                        <option value="12mm">12MM</option>
-                                                        <option value="14mm">14MM</option>
-                                                        <option value="16mm">16MM</option>
-                                                        <option value="18mm">18MM</option>
-                                                        <option value="20mm">20MM</option>
-                                                        <option value="25mm">25MM</option>
-                                                        <option value="30mm">30MM</option>
-                                                        <option value="other">Other</option>
-                                                    </select>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
 
@@ -745,26 +793,64 @@ export default function BulkOrderForm() {
                                             <label htmlFor="unit" className="mb-0.5 font-semibold text-xs">
                                                 Select Unit
                                             </label>
-                                            <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                                <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
-                                                    <select
-                                                        id="unit"
-                                                        required
-                                                        name="unit"
+                                            {/* <Select
+                                                options={[
+                                                    { label: "MM", value: "mm" },
+                                                    { label: "SQFT", value: "sqft" },
+                                                ]}
+                                                value={
+                                                    productData.unit
+                                                        ? { label: productData.unit.toUpperCase(), value: productData.unit }
+                                                        : null
+                                                }
+                                                onChange={(selected) =>
+                                                    setProductData((prev) => ({
+                                                        ...prev,
+                                                        unit: selected.value, // sirf value store ho rahi
+                                                    }))
+                                                }
+                                                placeholder="Units"
+                                                required
+                                                name="unit"
+                                                className="text-xs"
+                                            /> */}
 
-                                                        value={productData.unit}
-                                                        onChange={handleProductChange}
-
-
-                                                        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-                                                    >
-                                                        <option value="">Choose</option>
-                                                        <option value="sqm">MM</option>
-                                                        <option value="sqft">Sqft</option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            <Select
+                                                // options={[
+                                                //     { label: "MM", value: "mm" },
+                                                //     { label: "SQFT", value: "sqft" },
+                                                // ]}
+                                                // value={
+                                                //     productData.unit
+                                                //         ? { label: productData.unit.toUpperCase(), value: productData.unit }
+                                                //         : null
+                                                // }
+                                                // onChange={(selected) =>
+                                                //     setProductData((prev) => ({
+                                                //         ...prev,
+                                                //         unit: selected.value, // sirf value store ho rahi
+                                                //     }))
+                                                // }
+                                                // placeholder="Units"
+                                                // required
+                                                // name="unit"
+                                                // className="text-xs"
+                                                options={[
+                                                    { label: "MM", value: "mm" },
+                                                    { label: "SQFT", value: "sqft" },
+                                                ]}
+                                                value={
+                                                    productData.unit
+                                                        ? { label: productData.unit, value: productData.unit }
+                                                        : null
+                                                }
+                                                onChange={(selected) =>
+                                                    setProductData((prev) => ({ ...prev, unit: selected.value }))
+                                                }
+                                                required
+                                                placeholder="Units"
+                                                className="text-xs"
+                                            />
 
                                         </div>
 
@@ -808,9 +894,40 @@ export default function BulkOrderForm() {
                                                 <div className="grid grid-cols-2 gap-3">
 
                                                     <div>
-                                                        <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                                            <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
-                                                                <select
+                                                        <Select
+                                                            options={[
+                                                                { label: "5-8 ft", value: "5-8 ft" },
+                                                                { label: "8-11 ft", value: "8-11 ft" },
+                                                            ]}
+                                                            value={
+                                                                productData.width
+                                                                    ? { label: productData.width, value: productData.width }
+                                                                    : null
+                                                            }
+                                                            onChange={(selected) =>
+                                                                setProductData((prev) => ({ ...prev, width: selected.value }))
+                                                            }
+                                                            required
+                                                            placeholder="Width"
+                                                            className="text-xs"
+                                                        />
+                                                        {
+                                                    /*
+
+                                                        <Select
+                                                            options={[
+                                                                { label: "5-8 ft", value: "5-8 ft" },
+                                                                { label: "8-11 ft", value: "8-11 ft" },
+                                                            ]}
+                                                            value={productData.width}
+                                                            onChange={(selected) =>
+                                                                setProductData((prev) => ({ ...prev, width: selected }))
+                                                            }
+                                                            placeholder="Width"
+                                                            className="text-xs"
+                                                        /> */}
+
+                                                        {/* <select
                                                                     id="width"
                                                                     name="width"
                                                                     placeholder="Width"
@@ -826,17 +943,16 @@ export default function BulkOrderForm() {
                                                                     <option value="5-8 ft">5-8 ft</option>
                                                                     <option value="8-11 ft">8-11 ft</option>
 
-                                                                </select>
-                                                            </div>
-                                                        </div>
+                                                                </select> */}
+
+
+
 
                                                     </div>
 
 
                                                     <div>
-                                                        <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                                            <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
-                                                                <select
+                                                        {/* <select
                                                                     id="height"
                                                                     name="height"
                                                                     placeholder="Height"
@@ -855,9 +971,38 @@ export default function BulkOrderForm() {
                                                                     <option value="2-3 ft">2-3 ft</option>
                                                                     <option value="4-5 ft">4-5 ft</option>
 
-                                                                </select>
-                                                            </div>
-                                                        </div>
+                                                                </select> */}
+                                                        {/* <Select
+                                                            options={[
+                                                                { label: "2-3 ft", value: "2-3 ft" },
+                                                                { label: "4-5 ft", value: "4-5 ft" },
+                                                            ]}
+                                                            value={productData.height}
+                                                            onChange={(selected) =>
+                                                                setProductData((prev) => ({ ...prev, height: selected }))
+                                                            }
+                                                            placeholder="Height"
+                                                            className="text-xs"
+                                                        /> */}
+                                                        <Select
+                                                            options={[
+                                                                { label: "2-3 ft", value: "2-3 ft" },
+                                                                { label: "4-5 ft", value: "4-5 ft" },
+                                                            ]}
+                                                            value={
+                                                                productData.height
+                                                                    ? { label: productData.height, value: productData.height }
+                                                                    : null
+                                                            }
+                                                            onChange={(selected) =>
+                                                                setProductData((prev) => ({ ...prev, height: selected.value }))
+                                                            }
+                                                            required
+                                                            placeholder="Height"
+                                                            className="text-xs"
+                                                        />
+
+
 
                                                     </div>
                                                 </div>
@@ -911,7 +1056,7 @@ export default function BulkOrderForm() {
                                                 id="productImageInput"
                                                 type="file"
                                                 className="absolute inset-0 opacity-0 cursor-pointer"
-                                                accept="image/*"
+                                                accept="video/*,image/*"
                                                 name="image"
                                                 multiple
 
@@ -982,7 +1127,8 @@ export default function BulkOrderForm() {
                             </div>
 
 
-                            <div className="w-full h-auto min-h-[160px] border border-dashed border-gray-300 rounded-lg p-4  relative">
+
+                            <div className="w-full h-auto  border border-dashed border-gray-300 rounded-lg pl-4 pr-4 pt-4  relative">
 
 
 
@@ -990,95 +1136,115 @@ export default function BulkOrderForm() {
                                     <input
                                         type="checkbox"
                                         id="installation"
+                                        onChange={(e) => setSelected(e.target.checked)}
                                         className="mr-2"
                                     />
                                     <label htmlFor="installation" className="text-lg font-medium text-gray-900">Installation (optional)</label>
                                 </div>
-                                <p className="text-[#414141] text-xs font-medium tracking-wide pointer-events-none mb-1">Choose bwtween normal and patterned tiles</p>
-                                <div className="flex gap-6 mb-6">
-                                    <label className="flex items-center">
-                                        <input
-                                            type="radio"
-                                            name="installationType"
-                                            value="pattern"
-                                            checked={installationType === "pattern"}
-                                            onChange={(e) => setInstallationType(e.target.value)}
-                                            className="mr-2 text-[#871B58]"
-                                        />
-                                        <span className="text-sm font-medium">Pattern</span>
-                                    </label>
-                                    <label className="flex items-center">
-                                        <input
-                                            type="radio"
-                                            name="installationType"
-                                            value="normal"
-                                            checked={installationType === "normal"}
-                                            onChange={(e) => setInstallationType(e.target.value)}
-                                            className="mr-2 text-[#871B58]"
-                                        />
-                                        <span className="text-sm font-medium">Normal</span>
-                                    </label>
-                                </div>
+                                <div  >
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    {selected === true && (
+                                        <>
+                                            <p className="text-[#414141] text-xs font-medium tracking-wide pointer-events-none mb-2">Choose bwtween normal and patterned tiles</p>
 
-                                    <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition w-full">
-                                        <input
-                                            type="file"
-                                            id="installationimages"
-                                            name="installationimages"
-                                            className="absolute inset-0 opacity-0 cursor-pointer"
-                                            accept="image/*"
-                                            onChange={handleChange}
-                                        />
-                                        <FiUpload size={20} className="mx-auto mb-2 text-gray-900" />
-                                        <p className="text-[#2C2C2C] text-xs font-medium tracking-wide pointer-events-none mb-1">
-                                            {formData.installationimages?.length > 0
-                                                ? ` Uploaded ${formData.installationimages.length} `
-                                                : "Choose a Image & video drag & drop it here"}
+                                            <div className="flex gap-6  mb-6  ">
 
-                                        </p>
-                                        <span className="text-[8px] block mb-4 text-gray-400 pointer-events-none">JPEG, PNG and MP4 formats upto 20MB</span>
-                                        <button
-                                            type="button"
-                                            onClick={() => document.getElementById("installationimages").click()}
-                                            className="inline-block bg-white border font-medium text-sm px-6 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition"
-                                        >
-                                            Browse
-                                        </button>
+                                                <label className={`" p-2  rounded-lg flex gap-4 items-center ${installationType === "pattern"
+                                                    ? "bg-[#FFF7FB] text-black  border border-[#871B58]"
+                                                    : "bg-white  text-gray-600  border border-[#D7D7D7]"
+                                                    }`}>
 
-                                    </div>
+                                                    <input
+                                                        type="radio"
+                                                        name="installationType"
+                                                        value="pattern"
+                                                        checked={installationType === "pattern"}
+                                                        onChange={(e) => setInstallationType(e.target.value)}
+                                                        className="mr-2 accent-[#871B58] text-[#871B58]"
 
-                                    <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition w-full">
-                                        <input
-                                            type="file"
-                                            id="file2"
-                                            multiple
-                                            name="file2"
-                                            className="absolute inset-0 opacity-0 cursor-pointer"
-                                            accept="image/*,video/mp4"
-                                            onChange={handleChange}
-                                        />
-                                        <FiUpload size={20} className="mx-auto mb-2 text-gray-900" />
-                                        <p className="text-[#2C2C2C] text-xs font-medium tracking-wide pointer-events-none mb-1">
-                                            {formData.file2?.length > 0
-                                                ? `Uploaded ${formData.file2.length} `
-                                                : "Upload pattern design file here"}
 
-                                        </p>
-                                        <span className="text-[8px] block mb-3 text-gray-400 pointer-events-none">Upload upto 20mb file here</span>
-                                        <button
-                                            type="button"
-                                            onClick={() => document.getElementById("file2").click()}
-                                            className="inline-block bg-white border font-medium text-sm px-5 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition"
-                                        >
-                                            Browse
-                                        </button>
+                                                    />
+                                                    <span className="mr-5 text-sm font-medium">Pattern</span>
+                                                </label>
 
-                                    </div>
+                                                <label className={` p-2  rounded-lg flex gap-4 items-center ${installationType === "normal"
+                                                    ? "bg-[#FFF7FB] text-black  border border-[#871B58]"
+                                                    : "bg-white  text-gray-600  border border-[#D7D7D7]"
+                                                    }`}>
+                                                    <input
+                                                        type="radio"
+                                                        name="installationType"
+                                                        value="normal"
+                                                        checked={installationType === "normal"}
+                                                        onChange={(e) => setInstallationType(e.target.value)}
+                                                        className="mr-2 accent-[#871B58] text-[#871B58]"
+                                                    />
+                                                    <span className="mr-5 text-sm font-medium">Normal</span>
+                                                </label>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+                                                <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition w-full">
+                                                    <input
+                                                        type="file"
+                                                        id="installationimages"
+                                                        name="installationimages"
+                                                        className="absolute inset-0 opacity-0 cursor-pointer"
+                                                        accept="video/*,image/*"
+                                                        onChange={handleChange}
+                                                    />
+                                                    <FiUpload size={20} className="mx-auto mb-2 text-gray-900" />
+                                                    <p className="text-[#2C2C2C] text-xs font-medium tracking-wide pointer-events-none mb-1">
+                                                        {formData.installationimages?.length > 0
+                                                            ? ` Uploaded ${formData.installationimages.length} `
+                                                            : "Choose a Image & video drag & drop it here"}
+
+                                                    </p>
+                                                    <span className="text-[8px] block mb-4 text-gray-400 pointer-events-none">JPEG, PNG and MP4 formats upto 20MB</span>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => document.getElementById("installationimages").click()}
+                                                        className="inline-block bg-white border font-medium text-sm px-6 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition"
+                                                    >
+                                                        Browse
+                                                    </button>
+
+                                                </div>
+
+                                                <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition w-full">
+                                                    <input
+                                                        type="file"
+                                                        id="file2"
+                                                        multiple
+                                                        name="file2"
+                                                        className="absolute inset-0 opacity-0 cursor-pointer"
+                                                        accept="image/*,video/mp4"
+                                                        onChange={handleChange}
+                                                    />
+                                                    <FiUpload size={20} className="mx-auto mb-2 text-gray-900" />
+                                                    <p className="text-[#2C2C2C] text-xs font-medium tracking-wide pointer-events-none mb-1">
+                                                        {formData.file2?.length > 0
+                                                            ? `Uploaded ${formData.file2.length} `
+                                                            : "Upload pattern design file here"}
+
+                                                    </p>
+                                                    <span className="text-[8px] block mb-3 text-gray-400 pointer-events-none">Upload upto 20mb file here</span>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => document.getElementById("file2").click()}
+                                                        className="inline-block bg-white border font-medium text-sm px-5 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition"
+                                                    >
+                                                        Browse
+                                                    </button>
+
+                                                </div>
+                                            </div>
+
+                                        </>
+                                    )}
                                 </div>
                             </div>
-
 
 
                         </form>
@@ -1487,7 +1653,7 @@ export default function BulkOrderForm() {
 
                     </div>
                 </div>
-            </div>
+            </div >
         </div >
     );
 }
