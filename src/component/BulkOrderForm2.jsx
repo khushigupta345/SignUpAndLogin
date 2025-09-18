@@ -560,17 +560,16 @@ export default function BulkOrderForm() {
 
                                 <label htmlFor="address" className="mb-0.5 font-semibold text-xs">Address </label>
                                 <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                    <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">  <input
-                                        id="address"
-                                        type="text"
-                                        name="address"
-                                        required
-                                        value={formData.address}
-                                        onChange={handleChange}
-                                        placeholder="Enter here"
-
-                                        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-                                    />
+                                    <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">  <textarea
+    id="address"
+    name="address"
+    required
+    value={formData.address}
+    onChange={handleChange}
+    placeholder="Enter here"
+    rows={4}   // initial height
+    className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs resize-y"
+/>
                                     </div>
                                 </div>
 
