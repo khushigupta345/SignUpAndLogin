@@ -1147,7 +1147,7 @@ export default function BulkOrderForm() {
                                         <>
                                             <p className="text-[#414141] text-xs font-medium tracking-wide pointer-events-none mb-2">Choose bwtween normal and patterned tiles</p>
 
-                                            <div className="flex gap-6  mb-6  ">
+                                            <div className="flex gap-4   mb-6  ">
 
                                                 <label className={`" p-2  rounded-lg flex gap-4 items-center ${installationType === "pattern"
                                                     ? "bg-[#FFF7FB] text-black  border border-[#871B58]"
@@ -1160,7 +1160,7 @@ export default function BulkOrderForm() {
                                                         value="pattern"
                                                         checked={installationType === "pattern"}
                                                         onChange={(e) => setInstallationType(e.target.value)}
-                                                        className="mr-2 accent-[#871B58] text-[#871B58]"
+                                                        className="mr-1 accent-[#871B58] text-[#871B58]"
 
 
                                                     />
@@ -1177,7 +1177,7 @@ export default function BulkOrderForm() {
                                                         value="normal"
                                                         checked={installationType === "normal"}
                                                         onChange={(e) => setInstallationType(e.target.value)}
-                                                        className="mr-2 accent-[#871B58] text-[#871B58]"
+                                                        className="mr-1 accent-[#871B58] text-[#871B58]"
                                                     />
                                                     <span className="mr-5 text-sm font-medium">Normal</span>
                                                 </label>
