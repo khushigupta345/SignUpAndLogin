@@ -1233,7 +1233,7 @@ export default function BulkOrderForm() {
 
 
                                                 {product.showDetails && (
-                                                    <div className="scrollbar-thumb-gray-100 scrollbar-thin overflow-y-auto px-2 space-y-2 text-xs  max-h-[55vh] sm:max-h-[367px] ">
+                                                    <div className="  overflow-y-auto px-2 space-y-2 text-xs  max-h-[55vh] sm:max-h-[367px] ">
 
                                                         <div className="grid grid-cols-2 gap-y-2 border-[1px] p-2 rounded-md border-[#C8C8C8] ">
                                                             <p className="font-medium">
