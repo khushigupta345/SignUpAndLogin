@@ -607,17 +607,16 @@ export default function BulkOrderForm() {
 
                                 <label htmlFor="address" className="mb-0.5 font-semibold text-xs">Address </label>
                                 <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-                                    <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">  <input
-                                        id="address"
-                                        type="text"
-                                        name="address"
-                                        required
-                                        value={formData.address}
-                                        onChange={handleChange}
-                                        placeholder="Enter here"
-
-                                        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-                                    />
+                                    <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">  <textarea
+    id="address"
+    name="address"
+    required
+    value={formData.address}
+    onChange={handleChange}
+    placeholder="Enter here"
+    rows={4}   // initial height
+    className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs resize-y"
+/>
                                     </div>
                                 </div>
 
@@ -1237,6 +1236,7 @@ export default function BulkOrderForm() {
                                                 <span className="mr-5 text-sm font-medium">Normal</span>
                                             </label>
 
+<<<<<<< HEAD
                                             <label
                                                 className={`p-2 rounded-lg flex gap-4 items-center ${installationType === "pattern"
                                                     ? "bg-[#FFF7FB] text-black border border-[#871B58]"
@@ -1254,6 +1254,43 @@ export default function BulkOrderForm() {
                                                 <span className="mr-5 text-sm font-medium">Pattern</span>
                                             </label>
                                         </div>
+=======
+                                                <label className={`" p-2  rounded-lg flex gap-4 items-center ${installationType === "pattern"
+                                                    ? "bg-[#FFF7FB] text-black  border border-[#871B58]"
+                                                    : "bg-white  text-gray-600  border border-[#D7D7D7]"
+                                                    }`}>
+
+                                                    <input
+                                                        type="radio"
+                                                        name="installationType"
+                                                        value="pattern"
+                                                        checked={installationType === "pattern"}
+                                                        onChange={(e) => setInstallationType(e.target.value)}
+                                                        className="mr-1 accent-[#871B58] text-[#871B58]"
+
+
+                                                    />
+                                                    <span className="mr-5 text-sm font-medium">Pattern</span>
+                                                </label>
+
+                                                <label className={` p-2  rounded-lg flex gap-4 items-center ${installationType === "normal"
+                                                    ? "bg-[#FFF7FB] text-black  border border-[#871B58]"
+                                                    : "bg-white  text-gray-600  border border-[#D7D7D7]"
+                                                    }`}>
+                                                    <input
+                                                        type="radio"
+                                                        name="installationType"
+                                                        value="normal"
+                                                        checked={installationType === "normal"}
+                                                        onChange={(e) => setInstallationType(e.target.value)}
+                                                        className="mr-1 accent-[#871B58] text-[#871B58]"
+                                                    />
+                                                    <span className="mr-5 text-sm font-medium">Normal</span>
+                                                </label>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6 sm:mb-6">
+>>>>>>> 81e5e3878acb8edf8ee7631cb586fd74f06de28c
 
                                         {/* File uploads */}
                                         {installationType === "pattern" && (
