@@ -26,7 +26,7 @@ export default function BulkOrderForm() {
         email: "",
         phone: "",
         address: "",
-        // pinCode: "",
+        pinCode: "",
         city: null,
         state: null,
         country: null,
@@ -51,7 +51,7 @@ export default function BulkOrderForm() {
         deliveryTime: "",
         image: [],
         message: "",
-        // _preview: null,
+
     }
     const [editIndex, setEditIndex] = useState(null);
     const [formData, setFormData] = useState(initialFormData);
@@ -83,11 +83,11 @@ export default function BulkOrderForm() {
     const stateOptions = getStateOptions(formData.country);
     const cityOptions = getCityOptions(formData.country, formData.state);
 
-    const quarryStateOptions = getStateOptions(formData.quarryCountry);
-    const quarryCityOptions = getCityOptions(
-        formData.quarryCountry,
-        formData.quarryState
-    );
+    // const quarryStateOptions = getStateOptions(formData.quarryCountry);
+    // const quarryCityOptions = getCityOptions(
+    //     formData.quarryCountry,
+    //     formData.quarryState
+    // );
 
     const editProduct = (index) => {
         setProductData(products[index]);
@@ -103,187 +103,241 @@ export default function BulkOrderForm() {
 
     const MAX_FILE_SIZE_MB = 20;
 
+    // const handleProductChange = (e) => {
+    //     const { name, type, value, files } = e.target;
+
+    //     if (type === "file") {
+    //         if (!files?.length) return;
+
+    //         let addedFiles = [];
+    //         for (let i = 0; i < files.length; i++) {
+    //             if (files[i].size <= MAX_FILE_SIZE_MB * 1024 * 1024) {
+    //                 addedFiles.push(files[i]);
+    //             } else {
+
+    //                 toast.error(`${files[i].name} exceeds ${MAX_FILE_SIZE_MB}MB limit`);
+    //             }
+    //         }
+
+    //         setProductData((prev) => {
+    //             const mergedFiles = [...(prev.image || []), ...addedFiles];
+    //             return {
+    //                 ...prev,
+    //                 image: mergedFiles,
+    //             };
+    //         });
+    //     } else {
+    //         setProductData((prev) => ({ ...prev, [name]: value }));
+    //     }
+    // };
     const handleProductChange = (e) => {
         const { name, type, value, files } = e.target;
 
-        if (type === "file") {
-            if (!files?.length) return;
-
-            let addedFiles = [];
-            for (let i = 0; i < files.length; i++) {
-                if (files[i].size <= MAX_FILE_SIZE_MB * 1024 * 1024) {
-                    addedFiles.push(files[i]);
-                } else {
-
-                    toast.error(`${files[i].name} exceeds ${MAX_FILE_SIZE_MB}MB limit`);
-                }
-            }
-
-            setProductData((prev) => {
-                const mergedFiles = [...(prev.image || []), ...addedFiles];
-                return {
-                    ...prev,
-                    image: mergedFiles,
-                    // _preview: mergedFiles.map((f) => URL.createObjectURL(f)),
-                };
-            });
+        if (type === "file" && files?.length) {
+            const validFiles = validateFiles(files, MAX_FILE_SIZE_MB);
+            setProductData((prev) => ({
+                ...prev,
+                image: [...(prev.image || []), ...validFiles],
+            }));
         } else {
             setProductData((prev) => ({ ...prev, [name]: value }));
         }
     };
-    {
-        // products.map((product, index) => (
-        //     <div key={index} className="flex gap-3 mt-2 flex-wrap">
-
-        //         {/* Image select button */}
-        //         <button className="relative w-20 h-20 border rounded-lg flex flex-col items-center justify-center text-gray-500 text-xs">
-        //             + Add Image
-        //             <input
-        //                 type="file"
-        //                 className="absolute inset-0 opacity-0 cursor-pointer"
-        //                 accept="image/*"
-        //                 onChange={(e) => handleImageSelect(e, index)}
-        //             />
-        //         </button>
-
-        {/* Preview section for this product */ }
-        {/* {product._previews?.map((preview, i) => (
-                    <img
-                        key={i}
-                        src={preview}
-                        alt={`product-${index}-file-${i}`}
-                        className="w-24 h-20 rounded-lg object-cover border"
-                    />
-                ))} */}
-        //     </div>
-        // ))
-    }
-
     const handleChange = (e) => {
-        const { name, type, files, value } = e.target;
+        const { name, type, value, files } = e.target;
 
-        if (type === "file") {
-            if (!files?.length) return;
-
-            const validFiles = Array.from(files).filter(file => {
-                if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-                    toast.error(`${file.name} exceeds ${MAX_FILE_SIZE_MB}MB limit`);
-                    return false;
-                }
-                return true;
-            });
-
-            setFormData(prev => ({
+        if (type === "file" && files?.length) {
+            const validFiles = validateFiles(files, MAX_FILE_SIZE_MB);
+            setFormData((prev) => ({
                 ...prev,
                 [name]: [...(prev[name] || []), ...validFiles],
             }));
-
         } else {
-            setFormData(prev => ({ ...prev, [name]: value }));
+            setFormData((prev) => ({ ...prev, [name]: value }));
         }
     };
 
-    const handleDeleteFile = (type, index) => {
-        const updated = [...formData[type]];
-        updated.splice(index, 1);
-        setFormData({
-            ...formData,
-            [type]: updated
-        });
+    // const handleChange = (e) => {
+    //     const { name, type, files, value } = e.target;
+
+    //     if (type === "file") {
+    //         if (!files?.length) return;
+
+    //         const validFiles = Array.from(files).filter(file => {
+    //             if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+    //                 toast.error(`${file.name} exceeds ${MAX_FILE_SIZE_MB}MB limit`);
+    //                 return false;
+    //             }
+    //             return true;
+    //         });
+
+    //         setFormData(prev => ({
+    //             ...prev,
+    //             [name]: [...(prev[name] || []), ...validFiles],
+    //         }));
+
+    //     } else {
+    //         setFormData(prev => ({ ...prev, [name]: value }));
+    //     }
+    // };
+
+
+    const handleDelete = (type, pIndex, iIndex) => {
+        if (["boqfiles", "installationimages"].includes(type)) {
+            setFormData(p => ({
+                ...p,
+                [type]: p[type].filter((_, i) => i !== iIndex)
+            }));
+        } else if (type === "image") {
+            setProducts(p =>
+                p.map((x, i) =>
+                    i === pIndex
+                        ? { ...x, image: x.image.filter((_, j) => j !== iIndex) }
+                        : x
+                )
+            );
+        }
     };
+
+
 
     const toggleDetails = (index) => {
         const newProducts = [...products];
         newProducts[index].showDetails = !newProducts[index].showDetails;
         setProducts(newProducts);
     };
-    const handleDeleteImage = (pIndex, iIndex) => {
-        const updated = [...products];
-
-        updated[pIndex].image.splice(iIndex, 1);
-        setProducts(updated);
+    const validateFiles = (files, maxSizeMB) => {
+        return Array.from(files).filter((file) => {
+            if (file.size > maxSizeMB * 1024 * 1024) {
+                toast.error(`${file.name} exceeds ${maxSizeMB}MB limit`);
+                return false;
+            }
+            return true;
+        });
     };
 
-    const handleFileUpload = (e, index, type) => {
+    const handleFileUpload = (e, index) => {
         const files = Array.from(e.target.files);
         if (!files.length) return;
 
-        const MAX_SIZE_MB = type === "image" ? 20 : 50;
+        const MAX_SIZE_MB = 20;
 
-        let addedFiles = [];
-        for (let i = 0; i < files.length; i++) {
-            if (files[i].size <= MAX_SIZE_MB * 1024 * 1024) {
-                addedFiles.push(files[i]);
-            } else {
-                toast.error(`${files[i].name} exceeds 20MB limit`);
-            }
-        }
+        // ✅ Utility ka use
+        const addedFiles = validateFiles(files, MAX_SIZE_MB);
 
+        if (!addedFiles.length) return;
 
         setProducts((prevProducts) =>
             prevProducts.map((p, i) =>
                 i === index
-                    ? {
-                        ...p,
-                        image: [...(p.image || []), ...addedFiles],
-
-                    }
+                    ? { ...p, image: [...(p.image || []), ...addedFiles] }
                     : p
             )
         );
     };
 
 
+    // const handleFileUpload = (e, index, type) => {
+    //     const files = Array.from(e.target.files);
+    //     if (!files.length) return;
 
+    //     const MAX_SIZE_MB = type === "image" ? 20 : 50;
+
+    //     let addedFiles = [];
+    //     for (let i = 0; i < files.length; i++) {
+    //         if (files[i].size <= MAX_SIZE_MB * 1024 * 1024) {
+    //             addedFiles.push(files[i]);
+    //         } else {
+    //             toast.error(`${files[i].name} exceeds 20MB limit`);
+    //         }
+    //     }
+
+
+    //     setProducts((prevProducts) =>
+    //         prevProducts.map((p, i) =>
+    //             i === index
+    //                 ? {
+    //                     ...p,
+    //                     image: [...(p.image || []), ...addedFiles],
+
+    //                 }
+    //                 : p
+    //         )
+    //     );
+    // };
+
+
+
+    // const addProduct = (e) => {
+    //     e.preventDefault();
+
+
+    //     const files = productData.image || [];
+
+
+    //     for (let file of files) {
+    //         if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+    //             toast.error(`${file.name} must be less than ${MAX_FILE_SIZE_MB}MB`);
+    //             return;
+    //         }
+    //     }
+
+
+
+
+    //     const newProduct = {
+    //         ...productData,
+    //         image: files,
+
+    //         showDetails: false,
+    //     };
+
+    //     if (editIndex !== null) {
+    //         const updated = [...products];
+    //         updated[editIndex] = newProduct;
+    //         setProducts(updated);
+    //         setEditIndex(null);
+    //         toast.success("Product updated successfully!");
+    //     } else {
+    //         if (files.length === 0) {
+    //             toast.error("At least one image is required");
+    //             return;
+    //         }
+
+    //         setProducts((prev) => [...prev, newProduct]);
+    //         toast.success("Product added successfully!");
+    //     }
+
+    //     console.log(initialProductData)
+    //     setProductData(initialProductData);
+    // };
     const addProduct = (e) => {
         e.preventDefault();
 
-
-        const files = productData.image || [];
-
-
-        for (let file of files) {
-            if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-                toast.error(`${file.name} must be less than ${MAX_FILE_SIZE_MB}MB`);
-                return;
-            }
+        if (productData.image.length === 0) {
+            toast.error("At least one image is required");
+            return;
         }
 
-
-
-
-        const newProduct = {
-            ...productData,
-            image: files,
-
-            showDetails: false,
-        };
+        const newProduct = { ...productData, showDetails: false };
 
         if (editIndex !== null) {
-            const updated = [...products];
-            updated[editIndex] = newProduct;
-            setProducts(updated);
-            setEditIndex(null);
+            setProducts((prev) =>
+                prev.map((p, i) => (i === editIndex ? newProduct : p))
+            );
             toast.success("Product updated successfully!");
+            setEditIndex(null);
         } else {
-            if (files.length === 0) {
-                toast.error("At least one image is required");
-                return;
-            }
-
             setProducts((prev) => [...prev, newProduct]);
             toast.success("Product added successfully!");
         }
 
-        console.log(initialProductData)
         setProductData(initialProductData);
     };
+
     const removeProduct = (index) => {
         setProducts((prev) => {
             const item = prev[index];
-            // if (item?._preview) {
-            //     URL.revokeObjectURL(item._preview);
-            // }
             return prev.filter((_, i) => i !== index);
         });
     };
@@ -296,13 +350,6 @@ export default function BulkOrderForm() {
             return;
         }
 
-        for (const key in formData) {
-            const file = formData[key];
-            if (file && file.size && file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-                toast.error(`${file.name} Maximum ${MAX_FILE_SIZE_MB}MB allowed`);
-                return;
-            }
-        }
 
 
         const finalProducts = products.map(({ _preview, ...rest }) => rest);
@@ -338,7 +385,7 @@ export default function BulkOrderForm() {
             <Toaster position="top-right" />
             <div className="max-w-7xl mx-auto">
                 <div className="max-w-2xl">
-                    <h1 className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-medium">
+                    <h1 className="text-xl md:text-3xl mb-2 lg:text-4xl xl:text-5xl font-medium">
                         Stonepedia Bulk Orders
                     </h1>
                     <p className="text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl text-[#BDBDBD]">
@@ -367,7 +414,7 @@ export default function BulkOrderForm() {
 
                             <button
                                 onClick={() => setTab("business")}
-                                className={` cursor-pointer px-5 py-2 rounded-lg text-sm font-medium ${tab === "business" ? "bg-[#871B58] text-white" : "bg-white border text-gray-600"
+                                className={` cursor-pointer px-6 py-2 rounded-lg text-sm font-medium  ${tab === "business" ? "bg-[#871B58] text-white" : "bg-white border text-gray-600"
                                     }`}
                             >
                                 Business
@@ -575,9 +622,7 @@ export default function BulkOrderForm() {
                                 </div>
 
                             </div>
-                            <div className="flex flex-col md:flex-row md:justify-between gap-8 mb-3 w-full">
-
-
+                            <div className="flex flex-col md:flex-row md:justify-between gap-2 w-full">
                                 <div className="w-full  flex flex-col">
                                     <label htmlFor="phone" className="mb-0.5 font-semibold text-xs">
                                         Phone Number
@@ -610,10 +655,35 @@ export default function BulkOrderForm() {
 
                                     </div>
                                 </div>
+                                <div className="w-full  flex flex-col">
+                                    <label htmlFor="pinCode" className="mb-0.5 font-semibold text-xs">
+                                        Pincode
+                                    </label>
+
+                                    <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
+                                        <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
+                                            <input
+                                                id="pinCode"
+                                                type="text"
+                                                required
+                                                name="pinCode"
+
+                                                value={formData.pinCode}
+                                                onChange={handleChange}
+                                                placeholder="Enter pincode"
+
+                                                maxLength={6}
+                                                pattern="\d{6}"
+                                                className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+                                            />
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </form>
                         <form onSubmit={addProduct} className="space-y-4">
-                            <p className="block font-medium text-[16px] text-black mb-2">Product Details <span className="text-gray-400">(Add multiple products here)</span></p>
+                            <p className="block font-medium text-[16px] text-black mt-3 mb-2">Product Details <span className="text-gray-400">(Add multiple products here)</span></p>
 
                             <div className="border border-dashed border-gray-300 rounded-lg mb-6 p-4">
                                 <div id="product-fields">
@@ -1045,7 +1115,7 @@ export default function BulkOrderForm() {
                                                 onChange={handleProductChange}
 
                                                 placeholder="Write your message here"
-                                                className="resize-none   w-full border border-gray-300 rounded-md p-2 mt-1 text-xs outline-none "
+                                                className="resize-y   w-full border border-gray-300 rounded-md p-2 mt-1 text-xs outline-none "
                                             />
 
                                         </div>
@@ -1127,11 +1197,8 @@ export default function BulkOrderForm() {
                             </div>
 
 
-
-                            <div className="w-full h-auto  border border-dashed border-gray-300 rounded-lg pl-4 pr-4 pt-4  relative">
-
-
-
+                            <div className="w-full h-auto pl-4 pr-4 pt-4 relative">
+                                {/* Checkbox */}
                                 <div className="flex items-center mb-4">
                                     <input
                                         type="checkbox"
@@ -1139,52 +1206,59 @@ export default function BulkOrderForm() {
                                         onChange={(e) => setSelected(e.target.checked)}
                                         className="mr-2"
                                     />
-                                    <label htmlFor="installation" className="text-lg font-medium text-gray-900">Installation (optional)</label>
+                                    <label htmlFor="installation" className="text-lg font-medium text-gray-900">
+                                        Installation <span className="text-[#CACACA] text-sm">(optional)</span>
+                                    </label>
                                 </div>
-                                <div  >
 
-                                    {selected === true && (
-                                        <>
-                                            <p className="text-[#414141] text-xs font-medium tracking-wide pointer-events-none mb-2">Choose bwtween normal and patterned tiles</p>
+                                {/* Border only when selected */}
+                                {selected && (
+                                    <div className="border border-dashed border-gray-300 rounded-lg pr-4 pt-4 pl-4">
+                                        <p className="text-[#414141] text-xs font-medium tracking-wide pointer-events-none mb-2">
+                                            Choose between normal and patterned tiles
+                                        </p>
 
-                                            <div className="flex gap-4   mb-6  ">
+                                        {/* Radio buttons */}
+                                        <div className="flex gap-4 mb-6">
+                                            <label
+                                                className={`p-2 rounded-lg flex gap-4 items-center ${installationType === "normal"
+                                                    ? "bg-[#FFF7FB] text-black border border-[#871B58]"
+                                                    : "bg-white text-gray-600 border border-[#D7D7D7]"
+                                                    }`}
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    name="installationType"
+                                                    value="normal"
+                                                    checked={installationType === "normal"}
+                                                    onChange={(e) => setInstallationType(e.target.value)}
+                                                    className="mr-1 accent-[#871B58] text-[#871B58]"
+                                                />
+                                                <span className="mr-5 text-sm font-medium">Normal</span>
+                                            </label>
 
-                                                <label className={`" p-2  rounded-lg flex gap-4 items-center ${installationType === "pattern"
-                                                    ? "bg-[#FFF7FB] text-black  border border-[#871B58]"
-                                                    : "bg-white  text-gray-600  border border-[#D7D7D7]"
-                                                    }`}>
+                                            <label
+                                                className={`p-2 rounded-lg flex gap-4 items-center ${installationType === "pattern"
+                                                    ? "bg-[#FFF7FB] text-black border border-[#871B58]"
+                                                    : "bg-white text-gray-600 border border-[#D7D7D7]"
+                                                    }`}
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    name="installationType"
+                                                    value="pattern"
+                                                    checked={installationType === "pattern"}
+                                                    onChange={(e) => setInstallationType(e.target.value)}
+                                                    className="mr-1 accent-[#871B58] text-[#871B58]"
+                                                />
+                                                <span className="mr-5 text-sm font-medium">Pattern</span>
+                                            </label>
+                                        </div>
 
-                                                    <input
-                                                        type="radio"
-                                                        name="installationType"
-                                                        value="pattern"
-                                                        checked={installationType === "pattern"}
-                                                        onChange={(e) => setInstallationType(e.target.value)}
-                                                        className="mr-1 accent-[#871B58] text-[#871B58]"
-
-
-                                                    />
-                                                    <span className="mr-5 text-sm font-medium">Pattern</span>
-                                                </label>
-
-                                                <label className={` p-2  rounded-lg flex gap-4 items-center ${installationType === "normal"
-                                                    ? "bg-[#FFF7FB] text-black  border border-[#871B58]"
-                                                    : "bg-white  text-gray-600  border border-[#D7D7D7]"
-                                                    }`}>
-                                                    <input
-                                                        type="radio"
-                                                        name="installationType"
-                                                        value="normal"
-                                                        checked={installationType === "normal"}
-                                                        onChange={(e) => setInstallationType(e.target.value)}
-                                                        className="mr-1 accent-[#871B58] text-[#871B58]"
-                                                    />
-                                                    <span className="mr-5 text-sm font-medium">Normal</span>
-                                                </label>
-                                            </div>
-
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-
+                                        {/* File uploads */}
+                                        {installationType === "pattern" && (
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
+                                                {/* File 1 */}
                                                 <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition w-full">
                                                     <input
                                                         type="file"
@@ -1199,9 +1273,10 @@ export default function BulkOrderForm() {
                                                         {formData.installationimages?.length > 0
                                                             ? ` Uploaded ${formData.installationimages.length} `
                                                             : "Choose a Image & video drag & drop it here"}
-
                                                     </p>
-                                                    <span className="text-[8px] block mb-4 text-gray-400 pointer-events-none">JPEG, PNG and MP4 formats upto 20MB</span>
+                                                    <span className="text-[8px] block mb-4 text-gray-400 pointer-events-none">
+                                                        JPEG, PNG and MP4 formats upto 20MB
+                                                    </span>
                                                     <button
                                                         type="button"
                                                         onClick={() => document.getElementById("installationimages").click()}
@@ -1209,9 +1284,9 @@ export default function BulkOrderForm() {
                                                     >
                                                         Browse
                                                     </button>
-
                                                 </div>
 
+                                                {/* File 2 */}
                                                 <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition w-full">
                                                     <input
                                                         type="file"
@@ -1227,9 +1302,10 @@ export default function BulkOrderForm() {
                                                         {formData.file2?.length > 0
                                                             ? `Uploaded ${formData.file2.length} `
                                                             : "Upload pattern design file here"}
-
                                                     </p>
-                                                    <span className="text-[8px] block mb-3 text-gray-400 pointer-events-none">Upload upto 20mb file here</span>
+                                                    <span className="text-[8px] block mb-3 text-gray-400 pointer-events-none">
+                                                        Upload upto 20mb file here
+                                                    </span>
                                                     <button
                                                         type="button"
                                                         onClick={() => document.getElementById("file2").click()}
@@ -1237,14 +1313,14 @@ export default function BulkOrderForm() {
                                                     >
                                                         Browse
                                                     </button>
-
                                                 </div>
                                             </div>
-
-                                        </>
-                                    )}
-                                </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
+
+
 
 
                         </form>
@@ -1462,7 +1538,7 @@ export default function BulkOrderForm() {
                                                                         className="absolute inset-0 opacity-0 cursor-pointer"
                                                                         accept="video/*"
                                                                         multiple
-                                                                        onChange={(e) => handleFileUpload(e, index, "video")}
+                                                                        onChange={(e) => handleFileUpload(e, index)}
                                                                     />
                                                                 </button>
                                                                 <button className="border-dashed border relative aspect-square border-[#871B58] rounded-lg flex flex-col items-center justify-center text-gray-900 text-xs hover:shadow-md transition">
@@ -1473,7 +1549,7 @@ export default function BulkOrderForm() {
                                                                         className="absolute inset-0 opacity-0 cursor-pointer"
                                                                         accept="image/*"
                                                                         multiple
-                                                                        onChange={(e) => handleFileUpload(e, index, "image")}
+                                                                        onChange={(e) => handleFileUpload(e, index)}
                                                                     />
                                                                 </button>
 
@@ -1487,7 +1563,9 @@ export default function BulkOrderForm() {
                                                                             className="w-full h-full rounded-lg object-coverr"
                                                                         />
                                                                         <button
-                                                                            onClick={() => handleDeleteImage(index, i)}
+                                                                            onClick={() => handleDelete("image", index, i)}                                                                            // onClick={() => handleDeleteImage(index, i)}, imageIndex);
+
+                                                                            // onClick={() => handleDeleteImage(index, i)}
                                                                             className="cursor-pointer absolute -top-3 -right-2 text-red-600 rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
                                                                         >
                                                                             <TiDeleteOutline size={24} />
@@ -1531,7 +1609,10 @@ export default function BulkOrderForm() {
                                                                 </div>
                                                                 <button
                                                                     type="button"
-                                                                    onClick={() => handleDeleteFile("boqfiles", index)}
+                                                                    onClick={() => handleDelete("boqfiles", null, index)
+                                                                    }
+
+                                                                    // onClick={() => handleDeleteFile("boqfiles", index)}
                                                                     //     className="cursor-pointer text-red-500 text-xs font-bold"
                                                                     // >
                                                                     //     <FiTrash2 className="w-4 h-4 text-red-600" />
@@ -1589,7 +1670,9 @@ export default function BulkOrderForm() {
                                                                     className="w-full h-full rounded-lg object-coverr"
                                                                 />
                                                                 <button
-                                                                    onClick={() => handleDeleteFile("installationimages", i)}
+                                                                    onClick={() => handleDelete("installationimages", null, i)}
+
+                                                                    // onClick={() => handleDeleteFile("installationimages", i)}
                                                                     className="cursor-pointer absolute -top-3 -right-2 text-red-600 rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
                                                                 >
                                                                     <TiDeleteOutline size={24} />

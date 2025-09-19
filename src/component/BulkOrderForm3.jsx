@@ -556,31 +556,31 @@
 
 //                                 </div>
 //                                 {/* 
-//                                 <div className="w-full md:w-1/2 flex flex-col">
-//                                     <label htmlFor="pinCode" className="mb-0.5 font-semibold text-xs">
-//                                         Pincode
-//                                     </label>
+                                // <div className="w-full md:w-1/2 flex flex-col">
+                                //     <label htmlFor="pinCode" className="mb-0.5 font-semibold text-xs">
+                                //         Pincode
+                                //     </label>
 
-//                                     <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
-//                                         <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
-//                                             <input
-//                                                 id="pinCode"
-//                                                 type="text"
-//                                                 required
-//                                                 name="pinCode"
+                                //     <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
+                                //         <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
+                                //             <input
+                                //                 id="pinCode"
+                                //                 type="text"
+                                //                 required
+                                //                 name="pinCode"
 
-//                                                 value={formData.pinCode}
-//                                                 onChange={handleChange}
-//                                                 placeholder="Enter pincode"
+                                //                 value={formData.pinCode}
+                                //                 onChange={handleChange}
+                                //                 placeholder="Enter pincode"
 
-//                                                 maxLength={6}
-//                                                 pattern="\d{6}"
-//                                                 className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-//                                             />
-//                                         </div>
-//                                     </div>
+                                //                 maxLength={6}
+                                //                 pattern="\d{6}"
+                                //                 className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
+                                //             />
+                                //         </div>
+                                //     </div>
 
-//                                 </div>
+                                // </div>
 // */}
 //                             </div>
 
