@@ -1257,7 +1257,7 @@ export default function BulkOrderForm() {
 
                                         {/* File uploads */}
                                         {installationType === "pattern" && (
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 ">
                                                 {/* File 1 */}
                                                 <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition w-full">
                                                     <input
