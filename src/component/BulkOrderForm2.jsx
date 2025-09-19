@@ -267,12 +267,12 @@ export default function BulkOrderForm() {
                         Stonepedia Bulk Orders
                     </h1>
 
-                    <p className="text-xs md:text-sm lg:text-base xl:text-3xl 2xl:text-xl mb-2 text-[#BDBDBD]">
+                    <p className="text-sm md:text-sm lg:text-base xl:text-3xl 2xl:text-xl mb-2 text-[#BDBDBD]">
                         Fill this form to connect with us.
                     </p>
 
                     <div className="max-w-xl">
-                        <p className="text-xs lg:text-base xl:text-base 2xl:text-lg text-[#BDBDBD]">
+                        <p className="text-xs  lg:text-base xl:text-base 2xl:text-lg text-[#BDBDBD]">
                             We only consider 10,000 to 1,00,000 sqft orders here. More than 1,00,000 buy it from project collaboration.
                         </p>
                     </div>
