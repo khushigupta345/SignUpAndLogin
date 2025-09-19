@@ -1182,7 +1182,7 @@ export default function BulkOrderForm() {
                                                 </label>
                                             </div>
 
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:mb-6">
 
                                                 <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition w-full">
                                                     <input
