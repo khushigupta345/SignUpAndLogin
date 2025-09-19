@@ -388,7 +388,7 @@ export default function BulkOrderForm() {
                     <h1 className="text-xl md:text-3xl mb-2 lg:text-4xl xl:text-5xl font-medium">
                         Stonepedia Bulk Orders
                     </h1>
-                    <p className="text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl text-[#BDBDBD]">
+                    <p className="text-xs mb-2 md:text-sm lg:text-base xl:text-lg 2xl:text-xl text-[#BDBDBD]">
                         Fill this form to connect with us.
                     </p>
                     <p className="text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl text-[#BDBDBD]">
