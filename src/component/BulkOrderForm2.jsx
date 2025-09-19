@@ -83,11 +83,6 @@ export default function BulkOrderForm() {
     const stateOptions = getStateOptions(formData.country);
     const cityOptions = getCityOptions(formData.country, formData.state);
 
-    // const quarryStateOptions = getStateOptions(formData.quarryCountry);
-    // const quarryCityOptions = getCityOptions(
-    //     formData.quarryCountry,
-    //     formData.quarryState
-    // );
 
     const editProduct = (index) => {
         setProductData(products[index]);
@@ -103,33 +98,6 @@ export default function BulkOrderForm() {
 
     const MAX_FILE_SIZE_MB = 20;
 
-    // const handleProductChange = (e) => {
-    //     const { name, type, value, files } = e.target;
-
-    //     if (type === "file") {
-    //         if (!files?.length) return;
-
-    //         let addedFiles = [];
-    //         for (let i = 0; i < files.length; i++) {
-    //             if (files[i].size <= MAX_FILE_SIZE_MB * 1024 * 1024) {
-    //                 addedFiles.push(files[i]);
-    //             } else {
-
-    //                 toast.error(`${files[i].name} exceeds ${MAX_FILE_SIZE_MB}MB limit`);
-    //             }
-    //         }
-
-    //         setProductData((prev) => {
-    //             const mergedFiles = [...(prev.image || []), ...addedFiles];
-    //             return {
-    //                 ...prev,
-    //                 image: mergedFiles,
-    //             };
-    //         });
-    //     } else {
-    //         setProductData((prev) => ({ ...prev, [name]: value }));
-    //     }
-    // };
     const handleProductChange = (e) => {
         const { name, type, value, files } = e.target;
 
@@ -156,31 +124,6 @@ export default function BulkOrderForm() {
             setFormData((prev) => ({ ...prev, [name]: value }));
         }
     };
-
-    // const handleChange = (e) => {
-    //     const { name, type, files, value } = e.target;
-
-    //     if (type === "file") {
-    //         if (!files?.length) return;
-
-    //         const validFiles = Array.from(files).filter(file => {
-    //             if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-    //                 toast.error(`${file.name} exceeds ${MAX_FILE_SIZE_MB}MB limit`);
-    //                 return false;
-    //             }
-    //             return true;
-    //         });
-
-    //         setFormData(prev => ({
-    //             ...prev,
-    //             [name]: [...(prev[name] || []), ...validFiles],
-    //         }));
-
-    //     } else {
-    //         setFormData(prev => ({ ...prev, [name]: value }));
-    //     }
-    // };
-
 
     const handleDelete = (type, pIndex, iIndex) => {
         if (["boqfiles", "installationimages"].includes(type)) {
@@ -221,8 +164,6 @@ export default function BulkOrderForm() {
         if (!files.length) return;
 
         const MAX_SIZE_MB = 20;
-
-        // ✅ Utility ka use
         const addedFiles = validateFiles(files, MAX_SIZE_MB);
 
         if (!addedFiles.length) return;
@@ -236,81 +177,6 @@ export default function BulkOrderForm() {
         );
     };
 
-
-    // const handleFileUpload = (e, index, type) => {
-    //     const files = Array.from(e.target.files);
-    //     if (!files.length) return;
-
-    //     const MAX_SIZE_MB = type === "image" ? 20 : 50;
-
-    //     let addedFiles = [];
-    //     for (let i = 0; i < files.length; i++) {
-    //         if (files[i].size <= MAX_SIZE_MB * 1024 * 1024) {
-    //             addedFiles.push(files[i]);
-    //         } else {
-    //             toast.error(`${files[i].name} exceeds 20MB limit`);
-    //         }
-    //     }
-
-
-    //     setProducts((prevProducts) =>
-    //         prevProducts.map((p, i) =>
-    //             i === index
-    //                 ? {
-    //                     ...p,
-    //                     image: [...(p.image || []), ...addedFiles],
-
-    //                 }
-    //                 : p
-    //         )
-    //     );
-    // };
-
-
-
-    // const addProduct = (e) => {
-    //     e.preventDefault();
-
-
-    //     const files = productData.image || [];
-
-
-    //     for (let file of files) {
-    //         if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-    //             toast.error(`${file.name} must be less than ${MAX_FILE_SIZE_MB}MB`);
-    //             return;
-    //         }
-    //     }
-
-
-
-
-    //     const newProduct = {
-    //         ...productData,
-    //         image: files,
-
-    //         showDetails: false,
-    //     };
-
-    //     if (editIndex !== null) {
-    //         const updated = [...products];
-    //         updated[editIndex] = newProduct;
-    //         setProducts(updated);
-    //         setEditIndex(null);
-    //         toast.success("Product updated successfully!");
-    //     } else {
-    //         if (files.length === 0) {
-    //             toast.error("At least one image is required");
-    //             return;
-    //         }
-
-    //         setProducts((prev) => [...prev, newProduct]);
-    //         toast.success("Product added successfully!");
-    //     }
-
-    //     console.log(initialProductData)
-    //     setProductData(initialProductData);
-    // };
     const addProduct = (e) => {
         e.preventDefault();
 
@@ -384,16 +250,34 @@ export default function BulkOrderForm() {
         <div className="min-h-screen font-poppins bg-white px-4 sm:px-6 lg:px-30 py-8">
             <Toaster position="top-right" />
             <div className="max-w-7xl mx-auto">
-                <div className="max-w-2xl">
-                    <h1 className="text-xl md:text-3xl mb-2 lg:text-4xl xl:text-5xl font-medium">
+                {/* <div className="max-w-2xl">
+                    <h1 className="text-xl md:text-3xl mb-4 lg:text-4xl xl:text-6xl font-medium">
                         Stonepedia Bulk Orders
                     </h1>
-                    <p className="text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl text-[#BDBDBD]">
+                    <p className="text-xs mb-2 md:text-sm lg:text-base xl:text-4xl 2xl:text-xl text-[#BDBDBD]">
                         Fill this form to connect with us.
                     </p>
-                    <p className="text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl text-[#BDBDBD]">
-                        We only consider 10,000 to 1,00,000 sqft orders here. More than 1,00,000 buy it from project collaboration.
+                    <div className="max-w-xl">
+                        <p className="text-xs  lg:text-base xl:text-base  2xl:text-lg text-[#BDBDBD]">
+                            We only consider 10,000 to 1,00,000 sqft orders here. More than 1,00,000 buy it from project collaboration.
+                        </p>
+                    </div> */}
+                <div className="max-w-2xl ">
+                    <h1 className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-medium mb-4">
+                        Stonepedia Bulk Orders
+                    </h1>
+
+                    <p className="text-xs md:text-sm lg:text-base xl:text-3xl 2xl:text-xl mb-2 text-[#BDBDBD]">
+                        Fill this form to connect with us.
                     </p>
+
+                    <div className="max-w-xl">
+                        <p className="text-xs lg:text-base xl:text-base 2xl:text-lg text-[#BDBDBD]">
+                            We only consider 10,000 to 1,00,000 sqft orders here. More than 1,00,000 buy it from project collaboration.
+                        </p>
+                    </div>
+
+
 
                 </div>
 
@@ -493,11 +377,6 @@ export default function BulkOrderForm() {
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
-
 
                                 <div className="w-full flex flex-col ">
 
@@ -758,12 +637,7 @@ export default function BulkOrderForm() {
                                                     { label: "Sand-blast", value: "sand-blast" },
                                                     { label: "Shot-blast", value: "shot-blast" },
                                                 ]}
-                                                // value={productData.stoneFinish}
-                                                // onChange={(selected) =>
-                                                //     setProductData((prev) => ({ ...prev, stoneFinish: selected }))
-                                                // }
-                                                // placeholder="Finish"
-                                                // className="text-xs"
+
                                                 value={
                                                     productData.stoneFinish
                                                         ? { label: productData.stoneFinish, value: productData.stoneFinish }
@@ -777,33 +651,6 @@ export default function BulkOrderForm() {
                                                 className="text-xs"
                                             />
 
-                                            {/* <select
-                                                        id="stoneFinish"
-                                                        required
-                                                        name="stoneFinish"
-
-                                                        value={productData.stoneFinish}
-                                                        onChange={handleProductChange}
-
-
-                                                        className="flex-1 bg-transparent outline-none border-0 px-3 py-2 text-xs"
-                                                    >
-                                                        <option value="">Choose</option>
-                                                        <option value="mirror polished">Mirror Polished</option>
-                                                        <option value="honed">Honed</option>
-                                                        <option value="tumbled">Tumbled</option>
-                                                        <option value="brushed">Brushed</option>
-
-                                                        <option value="flamed">Flamed</option>
-
-                                                        <option value="lapato">Lapato</option>
-                                                        <option value="leather">Leather</option>
-                                                        <option value="river-polished">River-Polished</option>
-                                                        <option value="sand-blast">Sand-blast</option>
-                                                        <option value="shot-blast">Shot-blast</option>
-
-                                                    </select> */}
-
                                         </div>
                                         <div>
                                             <label htmlFor="thickness" className="mb-0.5 font-semibold text-xs">
@@ -811,23 +658,7 @@ export default function BulkOrderForm() {
                                             </label>
 
                                             <Select
-                                                // options={[
-                                                // { label: "8MM", value: "8mm" },
-                                                // { label: "12MM", value: "12mm" },
-                                                // { label: "14MM", value: "14mm" },
-                                                // { label: "16MM", value: "16mm" },
-                                                // { label: "18MM", value: "18mm" },
-                                                // { label: "20MM", value: "20mm" },
-                                                // { label: "25MM", value: "25mm" },
-                                                // { label: "30MM", value: "30mm" },
-                                                // { label: "Other", value: "other" },
-                                                // ]}
-                                                // value={productData.thickness}
-                                                // onChange={(selected) =>
-                                                //     setProductData((prev) => ({ ...prev, thickness: selected }))
-                                                // }
-                                                // placeholder="Thickness"
-                                                // className="text-xs"
+
                                                 options={[
                                                     { label: "8MM", value: "8mm" },
                                                     { label: "12MM", value: "12mm" },
@@ -863,48 +694,10 @@ export default function BulkOrderForm() {
                                             <label htmlFor="unit" className="mb-0.5 font-semibold text-xs">
                                                 Select Unit
                                             </label>
-                                            {/* <Select
-                                                options={[
-                                                    { label: "MM", value: "mm" },
-                                                    { label: "SQFT", value: "sqft" },
-                                                ]}
-                                                value={
-                                                    productData.unit
-                                                        ? { label: productData.unit.toUpperCase(), value: productData.unit }
-                                                        : null
-                                                }
-                                                onChange={(selected) =>
-                                                    setProductData((prev) => ({
-                                                        ...prev,
-                                                        unit: selected.value, // sirf value store ho rahi
-                                                    }))
-                                                }
-                                                placeholder="Units"
-                                                required
-                                                name="unit"
-                                                className="text-xs"
-                                            /> */}
+
 
                                             <Select
-                                                // options={[
-                                                //     { label: "MM", value: "mm" },
-                                                //     { label: "SQFT", value: "sqft" },
-                                                // ]}
-                                                // value={
-                                                //     productData.unit
-                                                //         ? { label: productData.unit.toUpperCase(), value: productData.unit }
-                                                //         : null
-                                                // }
-                                                // onChange={(selected) =>
-                                                //     setProductData((prev) => ({
-                                                //         ...prev,
-                                                //         unit: selected.value, // sirf value store ho rahi
-                                                //     }))
-                                                // }
-                                                // placeholder="Units"
-                                                // required
-                                                // name="unit"
-                                                // className="text-xs"
+
                                                 options={[
                                                     { label: "MM", value: "mm" },
                                                     { label: "SQFT", value: "sqft" },
@@ -981,79 +774,13 @@ export default function BulkOrderForm() {
                                                             placeholder="Width"
                                                             className="text-xs"
                                                         />
-                                                        {
-                                                    /*
-
-                                                        <Select
-                                                            options={[
-                                                                { label: "5-8 ft", value: "5-8 ft" },
-                                                                { label: "8-11 ft", value: "8-11 ft" },
-                                                            ]}
-                                                            value={productData.width}
-                                                            onChange={(selected) =>
-                                                                setProductData((prev) => ({ ...prev, width: selected }))
-                                                            }
-                                                            placeholder="Width"
-                                                            className="text-xs"
-                                                        /> */}
-
-                                                        {/* <select
-                                                                    id="width"
-                                                                    name="width"
-                                                                    placeholder="Width"
-
-                                                                    value={productData.width}
-
-                                                                    required
-                                                                    onChange={handleProductChange}
-                                                                    className="w-full bg-transparent outline-none border-0 px-3 py-2 text-xs"
-                                                                >
-
-                                                                    <option value="">Choose</option>
-                                                                    <option value="5-8 ft">5-8 ft</option>
-                                                                    <option value="8-11 ft">8-11 ft</option>
-
-                                                                </select> */}
-
-
 
 
                                                     </div>
 
 
                                                     <div>
-                                                        {/* <select
-                                                                    id="height"
-                                                                    name="height"
-                                                                    placeholder="Height"
-                                                                    required
 
-                                                                    value={productData.height}
-
-
-                                                                    onChange={handleProductChange}
-                                                                    className="w-full bg-transparent outline-none border-0 px-3 py-2 text-xs"
-
-
-                                                                >
-
-                                                                    <option value="">Choose</option>
-                                                                    <option value="2-3 ft">2-3 ft</option>
-                                                                    <option value="4-5 ft">4-5 ft</option>
-
-                                                                </select> */}
-                                                        {/* <Select
-                                                            options={[
-                                                                { label: "2-3 ft", value: "2-3 ft" },
-                                                                { label: "4-5 ft", value: "4-5 ft" },
-                                                            ]}
-                                                            value={productData.height}
-                                                            onChange={(selected) =>
-                                                                setProductData((prev) => ({ ...prev, height: selected }))
-                                                            }
-                                                            placeholder="Height"
-                                                            className="text-xs"
-                                                        /> */}
                                                         <Select
                                                             options={[
                                                                 { label: "2-3 ft", value: "2-3 ft" },
@@ -1160,7 +887,7 @@ export default function BulkOrderForm() {
                                         <div className="flex justify-end mt-[8px]">
                                             <button
                                                 type="submit"
-                                                // onClick={addProduct}
+
                                                 className="font-inter cursor-pointer   hover:scale-105 transition-transform duration-200  bg-[#871B58] text-white px-3 py-2 rounded "
                                                 disabled={submitting}
                                             >
@@ -1198,7 +925,6 @@ export default function BulkOrderForm() {
 
 
                             <div className="w-full h-auto pl-4 pr-4 pt-4 relative">
-                                {/* Checkbox */}
                                 <div className="flex items-center mb-4">
                                     <input
                                         type="checkbox"
@@ -1211,14 +937,12 @@ export default function BulkOrderForm() {
                                     </label>
                                 </div>
 
-                                {/* Border only when selected */}
+
                                 {selected && (
                                     <div className="border border-dashed border-gray-300 rounded-lg pr-4 pt-4 pl-4">
                                         <p className="text-[#414141] text-xs font-medium tracking-wide pointer-events-none mb-2">
                                             Choose between normal and patterned tiles
                                         </p>
-
-                                        {/* Radio buttons */}
                                         <div className="flex gap-4 mb-6">
                                             <label
                                                 className={`p-2 rounded-lg flex gap-4 items-center ${installationType === "normal"
@@ -1255,10 +979,9 @@ export default function BulkOrderForm() {
                                             </label>
                                         </div>
 
-                                        {/* File uploads */}
+
                                         {installationType === "pattern" && (
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 ">
-                                                {/* File 1 */}
                                                 <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition w-full">
                                                     <input
                                                         type="file"
@@ -1286,7 +1009,7 @@ export default function BulkOrderForm() {
                                                     </button>
                                                 </div>
 
-                                                {/* File 2 */}
+
                                                 <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition w-full">
                                                     <input
                                                         type="file"
@@ -1611,11 +1334,6 @@ export default function BulkOrderForm() {
                                                                     type="button"
                                                                     onClick={() => handleDelete("boqfiles", null, index)
                                                                     }
-
-                                                                    // onClick={() => handleDeleteFile("boqfiles", index)}
-                                                                    //     className="cursor-pointer text-red-500 text-xs font-bold"
-                                                                    // >
-                                                                    //     <FiTrash2 className="w-4 h-4 text-red-600" />
                                                                     className="cursor-pointer   text-red-600 rounded-full w-6 h-6 flex items-center justify-center  transition"
                                                                 >
                                                                     <TiDeleteOutline size={24} />
@@ -1690,13 +1408,6 @@ export default function BulkOrderForm() {
                                             )}
 
 
-
-
-
-
-
-
-
                                         </div>
 
 
@@ -1740,201 +1451,3 @@ export default function BulkOrderForm() {
         </div >
     );
 }
-// import { useState } from "react";
-// import { HiPlus } from "react-icons/hi";
-// import { RiArrowDropDownLine } from "react-icons/ri";
-
-// export default function ProductsPanel() {
-//   const [products, setProducts] = useState([
-//     {
-//       id: 1,
-//       name: "Stonepedia White granite",
-//       category: "Granite",
-//       company: "Globex Industries Pvt. Ltd.",
-//       gst: "09ABCDE4567R",
-//       finish: "Polished",
-//       thickness: "18MM",
-//       unit: "MM",
-//       value: "345 sqft",
-//       stoneSize: "W: 10ft | H: 2.5ft",
-//       delivery: "1 Month",
-//       message:
-//         "I’m looking for stunning tiles and stones to elevate your home décor? Our collection features a variety of textures and colors that can transform any space into a stylish haven.",
-//       images: [
-//         "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=200",
-//         "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?q=80&w=200",
-//       ],
-//       videos: [],
-//       boqFile: { name: "BOQ-certificate.PDF" },
-//       installationimages: [
-//         "https://images.unsplash.com/photo-1523413651479-597eb2da0ad6?q=80&w=200",
-//       ],
-//       showDetails: true,
-//     },
-//   ]);
-
-//   const toggleDetails = (index) => {
-//     const updated = [...products];
-//     updated[index].showDetails = !updated[index].showDetails;
-//     setProducts(updated);
-//   };
-
-//   return (
-// <div className="w-full lg:w-[40%] space-y-6">
-//   {products.map((product, index) => (
-//     <div
-//       key={product.id}
-//       className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 space-y-4"
-//     >
-//       {/* Thumbnail + Header */}
-//       <div className="flex items-start gap-4">
-//         {/* Thumbnail */}
-//     <div className="w-16 h-16 bg-gray-100 border rounded-lg flex flex-col items-center justify-center text-gray-500 text-xs">
-//       <HiPlus className="w-6 h-6 mb-1" />
-//       <span>Add Thumbnail</span>
-//     </div>
-
-//     {/* Product Info */}
-//     <div className="flex-1">
-//       <h3 className="text-base font-semibold text-gray-800">
-//         {product.name}
-//       </h3>
-//       <p className="text-sm text-gray-600">{product.category}</p>
-//       <p className="text-xs text-gray-500">
-//         Company Name: {product.company}
-//       </p>
-//       <p className="text-xs text-gray-500">
-//         GST Number: {product.gst}
-//       </p>
-//     </div>
-
-//     {/* Edit/Delete Buttons */}
-//     <div className="flex gap-3">
-//       <button className="text-gray-500 hover:text-gray-700">✏️</button>
-//       <button className="text-gray-500 hover:text-red-600">🗑️</button>
-//     </div>
-//   </div>
-
-//       {/* Toggle Button */}
-//       <button
-//         onClick={() => toggleDetails(index)}
-//         className="flex items-center text-sm text-gray-700"
-//       >
-//         Product details
-//         <RiArrowDropDownLine
-//           className={`w-5 h-5 transition-transform ${
-//             product.showDetails ? "rotate-180" : ""
-//           }`}
-//         />
-//       </button>
-
-//       {/* Details Section */}
-//   {product.showDetails && (
-//     <div className="space-y-4 text-sm text-gray-700">
-//       {/* Grid Details */}
-//       <div className="grid grid-cols-2 gap-y-2 text-gray-700">
-//         <p>
-//           <span className="font-medium">Selected Finishes: </span>
-//           {product.finish}
-//         </p>
-//         <p>
-//           <span className="font-medium">Selected Thickness: </span>
-//           {product.thickness}
-//         </p>
-//         <p>
-//           <span className="font-medium">Selected Unit: </span>
-//           {product.unit}
-//         </p>
-//         <p>
-//           <span className="font-medium">Entered Value: </span>
-//           {product.value}
-//         </p>
-//         <p>
-//           <span className="font-medium">Stone Size: </span>
-//           {product.stoneSize}
-//         </p>
-//         <p>
-//           <span className="font-medium">Delivery Expected: </span>
-//           {product.delivery}
-//         </p>
-//       </div>
-
-//   {/* Message */}
-//   <div>
-//     <p className="font-medium">Message:</p>
-//     <p className="mt-1 border rounded-lg bg-gray-50 p-3 text-gray-600 leading-relaxed">
-//       {product.message}
-//     </p>
-//   </div>
-
-//   {/* Stone Images/Videos */}
-//   <div>
-//     <p className="font-medium">Stone Images / Videos:</p>
-//     <div className="flex gap-3 mt-2 flex-wrap">
-//       <button className="w-24 h-20 border rounded-lg flex flex-col items-center justify-center text-gray-500 text-xs">
-//         + Add Video
-//       </button>
-//       <button className="w-24 h-20 border rounded-lg flex flex-col items-center justify-center text-gray-500 text-xs">
-//         + Add Photo
-//       </button>
-//       {product.images.map((img, i) => (
-//         <img
-//           key={i}
-//           src={img}
-//           alt=""
-//           className="w-24 h-20 rounded-lg object-cover border"
-//         />
-//       ))}
-//     </div>
-//   </div>
-
-//               {/* BOQ Certificate */}
-//   <div>
-//     <p className="font-medium">BOQ Certificate:</p>
-//     <div className="flex items-center gap-2 mt-2 border rounded-lg px-3 py-2">
-//       <div className="w-7 h-7 bg-red-100 rounded flex items-center justify-center">
-//         <span className="text-red-600 text-xs font-bold">PDF</span>
-//       </div>
-//       <span className="text-sm text-gray-700">
-//         {product.boqFile?.name}
-//       </span>
-//     </div>
-//   </div>
-
-//               {/* Installation Images */}
-//               <div>
-//                 <p className="font-medium">Installation Design Image / Video:</p>
-//                 <div className="flex gap-3 mt-2 flex-wrap">
-//                   <button className="w-24 h-20 border rounded-lg flex flex-col items-center justify-center text-gray-500 text-xs">
-//                     + Add Video
-//                   </button>
-//                   <button className="w-24 h-20 border rounded-lg flex flex-col items-center justify-center text-gray-500 text-xs">
-//                     + Add Photo
-//                   </button>
-//                   {product.installationimages.map((img, i) => (
-//                     <img
-//                       key={i}
-//                       src={img}
-//                       alt=""
-//                       className="w-24 h-20 rounded-lg object-cover border"
-//                     />
-//                   ))}
-//                 </div>
-//               </div>
-//             </div>
-//           )}
-//         </div>
-//       ))}
-
-//       {/* Bottom Buttons */}
-//       <div className="flex justify-end gap-4 pt-4">
-//         <button className="px-6 py-2 border rounded-lg text-gray-700 hover:bg-gray-100">
-//           Clear
-//         </button>
-//         <button className="px-6 py-2 bg-[#871B58] text-white rounded-lg hover:bg-[#6c1546]">
-//           Submit
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
