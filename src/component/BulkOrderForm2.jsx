@@ -354,7 +354,7 @@ export default function BulkOrderForm() {
                 <div className="flex flex-col lg:flex-row gap-12 items-start">
 
                     {/* <div className="shadow-2xl p-5 md:p-10 flex-1  w-full bg-white rounded-2xl"> */}
-                    <div className="shadow-2xl sm:mt-6 p-4 w-full md:w-[60%]  bg-white rounded-2xl">
+                    <div className=" shadow-lg md:shadow-2xl sm:mt-6 p-4 w-full md:w-[60%]  bg-white rounded-2xl">
                         <div className="flex flex-wrap gap-2 mb-6">
 
                             <button
