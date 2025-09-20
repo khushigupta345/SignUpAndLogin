@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 // import { LuUserRound } from "react-icons/lu";
 import { UserRound as LuUserRound } from 'lucide-react';
 import toast, { Toaster } from "react-hot-toast";
@@ -10,6 +10,8 @@ import { CiMail, CiMobile3 } from "react-icons/ci";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Country, State, City } from "country-state-city";
 import Select from "react-select";
+import { addDoc, collection } from "firebase/firestore";
+import { firestorage } from "./firebase"
 
 export default function BulkOrderForm() {
     const [showFull, setShowFull] = useState(false);
@@ -209,32 +211,100 @@ export default function BulkOrderForm() {
     };
 
 
-    const onSubmit = (e) => {
+    // const onSubmit = (e) => {
+    //     e.preventDefault();
+    //     if (products.length === 0) {
+    //         toast.error("At least one product is required");
+    //         return;
+    //     }
+
+    //     if (selected) {
+    //         if (formData.boqfiles.length === 0) {
+    //             toast.error("At least one boq file is required");
+    //             return;
+    //         }
+    //     }
+
+
+
+    //     // const finalProducts = products.map(({ _preview, ...rest }) => rest);
+
+
+    //     const finalData = {
+    //         ...formData,
+    //         products,
+    //         // products: finalProducts,
+    //     };
+
+    //     console.log("Form submitted:", finalData);
+    //     toast.success("Form submitted successfully");
+
+
+    //     setFormData(initialFormData);
+    //     setProducts([]);
+
+    // };
+
+
+    const onSubmit = async (e) => {
         e.preventDefault();
         if (products.length === 0) {
             toast.error("At least one product is required");
             return;
         }
 
+        if (selected) {
+            if (formData.boqfiles.length === 0) {
+                toast.error("At least one boq file is required");
+                return;
+            }
+        }
 
 
-        const finalProducts = products.map(({ _preview, ...rest }) => rest);
+
+        // const finalProducts = products.map(({ _preview, ...rest }) => rest);
+
+        try {
+            const finalData = {
+                companyName: formData.companyName || "",
+                gstNumber: formData.gstNumber || "",
+                fullName: formData.fullName,
+                email: formData.email,
+                phone: formData.phone,
+                address: formData.address,
+                pinCode: formData.pinCode,
+                city: formData.city,
+                state: formData.state,
+                country: formData.country,
+                // boqfiles: formData.boqfiles.map(f => f.name),
+                // installationimages: formData.installationimages.map(f => f.name),
+                // file2: formData.file2.map(f => f.name),
+                boqfiles: formData.boqfiles.map(f => f.name || f) || [],
+                installationimages: formData.installationimages.map(f => f.name || f) || [],
+                file2: formData.file2.map(f => f.name || f) || [],
+
+                products: products.map(({ showDetails, ...p }) => ({
+                    ...p,
+                    image: p.image.map(f => f.name),
+                    thumbnail: p.thumbnail ? (p.thumbnail.name || p.thumbnail) : null
+
+                }))
+            };
+            await addDoc(collection(firestorage, "orders"), finalData);
 
 
-        const finalData = {
-            ...formData,
-            products: finalProducts,
-        };
-
-        console.log("Form submitted:", finalData);
-        toast.success("Form submitted successfully");
+            console.log("Form submitted:", finalData);
+            toast.success("Form submitted successfully");
 
 
-        setFormData(initialFormData);
-        setProducts([]);
-
+            setFormData(initialFormData);
+            setProducts([]);
+        }
+        catch (error) {
+            toast.error("submission failed");
+            console.log(error)
+        }
     };
-
     const handleCancel = () => {
         setFormData(initialFormData);
 
@@ -247,7 +317,7 @@ export default function BulkOrderForm() {
     const selectedUnit = productData.unit;
 
     return (
-        <div className="min-h-screen font-poppins bg-white px-4 sm:px-6 lg:px-30 py-8">
+        <div className="min-h-screen font-poppins bg-white px-6 md:px-16 lg:px-24 xl:px-32 py-8">
             <Toaster position="top-right" />
             <div className="max-w-7xl mx-auto">
                 {/* <div className="max-w-2xl">
@@ -267,12 +337,12 @@ export default function BulkOrderForm() {
                         Stonepedia Bulk Orders
                     </h1>
 
-                    <p className="text-sm md:text-sm lg:text-base xl:text-3xl 2xl:text-xl mb-2 text-[#BDBDBD]">
+                    <h2 className="text-[#BDBDBD] text-base md:text-md lg:text-lg xl:text-xl 2xl:text-2xl">
                         Fill this form to connect with us.
-                    </p>
+                    </h2>
 
                     <div className="max-w-xl">
-                        <p className="text-xs  lg:text-base xl:text-base 2xl:text-lg text-[#BDBDBD]">
+                        <p className=" text-xs lg:text-sm xl:text-base md:max-w-md lg:max-w-xl xl:max-w-2xl text-[#BDBDBD]">
                             We only consider 10,000 to 1,00,000 sqft orders here. More than 1,00,000 buy it from project collaboration.
                         </p>
                     </div>
@@ -284,7 +354,7 @@ export default function BulkOrderForm() {
                 <div className="flex flex-col lg:flex-row gap-12 items-start">
 
                     {/* <div className="shadow-2xl p-5 md:p-10 flex-1  w-full bg-white rounded-2xl"> */}
-                    <div className="shadow-2xl sm:mt-6 p-5 md:p-10 w-full lg:w-[55%]  bg-white rounded-2xl">
+                    <div className="shadow-2xl sm:mt-6 p-4 w-full md:w-[60%]  bg-white rounded-2xl">
                         <div className="flex flex-wrap gap-2 mb-6">
 
                             <button
@@ -336,7 +406,7 @@ export default function BulkOrderForm() {
                                 <div className="w-full flex flex-col">
                                     <label htmlFor="companyName" className="mb-0.5 font-semibold text-xs min-h-[20px]">
                                         Company Name
-                                        {tab !== "business" && <span className="text-gray-400 text-sm"> (optional)</span>}
+                                        <span className={`text-gray-400 text-sm ${tab === "business" ? "invisible" : "visible"}`}> (optional)</span>
                                     </label>
                                     <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
                                         <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
@@ -359,7 +429,7 @@ export default function BulkOrderForm() {
                                 <div className="w-full flex flex-col">
                                     <label htmlFor="gstNumber" className="mb-0.5 font-semibold text-xs min-h-[20px]">
                                         GST Number
-                                        {tab !== "business" && <span className="text-gray-400 text-sm"> (optional)</span>}
+                                        <span className={`text-gray-400 text-sm ${tab === "business" ? "invisible" : "visible"}`}> (optional)</span>
                                     </label>
                                     <div className="rounded-lg p-[1px] transition bg-transparent focus-within:bg-gradient-to-t focus-within:from-[#d6c9ea] focus-within:to-[#871B58]">
                                         <div className="flex items-center gap-2 rounded-lg bg-white border border-[#D7D7D7] transition focus-within:border-transparent">
@@ -888,10 +958,10 @@ export default function BulkOrderForm() {
                                             <button
                                                 type="submit"
 
-                                                className="font-inter cursor-pointer   hover:scale-105 transition-transform duration-200  bg-[#871B58] text-white px-3 py-2 rounded "
+                                                className="text-white text-xs cursor-pointer bg-[#871B58] px-4 py-2 md:px-8 lg:px-10 xl:px-14 rounded-md  "
                                                 disabled={submitting}
                                             >
-                                                {editIndex !== null ? "Save Changes" : "Add this Product"}
+                                                {editIndex !== null ? "Save Changes" : "Add Product"}
                                             </button>
                                         </div>
                                     </div>
@@ -900,28 +970,6 @@ export default function BulkOrderForm() {
                         </form>
 
                         <form id="myForm" onSubmit={onSubmit} className="space-y-4">
-                            <label className="block  font-medium text-[16px] text-black mb-1">Upload BOQ File</label>
-                            <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition">
-
-                                <input
-                                    type="file"
-                                    id="boqfiles"
-                                    name="boqfiles"
-                                    multiple
-                                    className="absolute inset-0 opacity-0 cursor-pointer"
-                                    accept=".pdf,application/pdf"
-                                    onChange={handleChange}
-                                />
-                                <FiUpload size={20} className="mx-auto mb-2 text-gray-900" />
-
-                                <p className="text-[#2C2C2C] text-xs font-medium tracking-wide pointer-events-none mb-1">  {formData.boqfiles?.length > 0
-                                    ? ` Uploaded ${formData.boqfiles.length}`
-                                    : "Choose a file or drag & drop it here"}
-                                </p>
-                                <span className="text-[8px] block mb-4 text-gray-400 pointer-events-none">Upload PDF BOC(Bulk order)/Tender Files upto 20MB</span>
-                                <button type="button" onClick={() => document.getElementById("boqfiles").click()} className="inline-block bg-white border font-medium text-sm px-6 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition">Browse</button>
-
-                            </div>
 
 
                             <div className="w-full h-auto pl-4 pr-4 pt-4 relative">
@@ -932,7 +980,7 @@ export default function BulkOrderForm() {
                                         onChange={(e) => setSelected(e.target.checked)}
                                         className="mr-2"
                                     />
-                                    <label htmlFor="installation" className="text-lg font-medium text-gray-900">
+                                    <label htmlFor="installation" className="accent-[#871B58] text-lg font-medium text-gray-900">
                                         Installation <span className="text-[#CACACA] text-sm">(optional)</span>
                                     </label>
                                 </div>
@@ -1039,7 +1087,31 @@ export default function BulkOrderForm() {
                                                 </div>
                                             </div>
                                         )}
+                                        <label className="block  font-medium text-[16px] text-black mb-1">Upload BOQ File</label>
+                                        <div className="mb-5 border-1 border-dashed border-[#871B58] rounded-lg p-4 text-center text-gray-500 relative bg-white hover:shadow-md transition">
+
+                                            <input
+                                                type="file"
+                                                id="boqfiles"
+                                                name="boqfiles"
+                                                multiple
+                                                className="absolute inset-0 opacity-0 cursor-pointer"
+                                                accept=".pdf,application/pdf"
+                                                onChange={handleChange}
+                                            />
+                                            <FiUpload size={20} className="mx-auto mb-2 text-gray-900" />
+
+                                            <p className="text-[#2C2C2C] text-xs font-medium tracking-wide pointer-events-none mb-1">  {formData.boqfiles?.length > 0
+                                                ? ` Uploaded ${formData.boqfiles.length}`
+                                                : "Choose a file or drag & drop it here"}
+                                            </p>
+                                            <span className="text-[8px] block mb-4 text-gray-400 pointer-events-none">Upload PDF BOC(Bulk order)/Tender Files upto 20MB</span>
+                                            <button type="button" onClick={() => document.getElementById("boqfiles").click()} className="inline-block bg-white border font-medium text-sm px-6 py-2 rounded-lg shadow-sm hover:bg-[#871B58] hover:text-white transition">Browse</button>
+
+                                        </div>
+
                                     </div>
+
                                 )}
                             </div>
 
@@ -1051,7 +1123,7 @@ export default function BulkOrderForm() {
 
 
 
-                    <div className="w-full  lg:w-[45%]">
+                    <div className="w-full md:w-[40%]">
 
                         {products.length === 0 ? (
                             <div
@@ -1089,104 +1161,91 @@ export default function BulkOrderForm() {
                                     }
                                 </h3>
 
-                                <div className="space-y-4">
+                                <div className="space-y-3">
                                     {products.map((product, index) => (
 
-                                        <div key={product.id} className="bg-white rounded-2xl shadow-lg p-3">
-                                            <div className="flex items-start justify-between gap-3 ">
+                                        <div key={index} className="shadow-md rounded-lg p-3 bg-white  w-full">
+                                            <div className="flex mb-1 justify-between gap-3">
 
-                                                <div className="flex items-start gap-3 flex-1 min-w-0">
-
-                                                    <div className="shrink-0">
-                                                        <button className="relative w-20 h-20 sm:w-24 sm:h-24 bg-gray-50  flex flex-col items-center justify-center text-gray-400 hover:shadow-md transition">
-                                                            {product.thumbnail && product.thumbnail.length > 0 ? (
-                                                                <img
-                                                                    src={URL.createObjectURL(products[index].thumbnail[0])}
-                                                                    alt="preview"
-                                                                    className="h-full w-full object-cover rounded-xl"
-                                                                />
-                                                            ) : (
-                                                                <div className="flex flex-col w-20 h-20 sm:w-24 sm:h-24 items-center justify-center">
-                                                                    <RiGalleryLine className="w-6 h-6 mb-1 sm:w-7 sm:h-7" />
-                                                                    <span className="text-[11px] sm:text-xs font-medium">Add Thumbnail</span>
-                                                                </div>
-                                                            )}
-                                                            <input
-                                                                type="file"
-                                                                className="absolute inset-0 opacity-0 cursor-pointer"
-                                                                accept="image/*"
-                                                                onChange={(e) => {
-                                                                    const file = e.target.files[0];
-                                                                    if (!file) return;
-                                                                    if (file.size <= 50 * 1024 * 1024) {
-                                                                        setProducts((prev) =>
-                                                                            prev.map((p, i) =>
-                                                                                i === index ? { ...p, thumbnail: [file] } : p
-                                                                            )
-                                                                        );
-                                                                    } else {
-                                                                        toast.error(`${file.name} 50MB maximum`);
-                                                                    }
-                                                                }}
-                                                            />
-                                                        </button>
-                                                    </div>
-
-
-
-                                                    <div className="text-xs space-y-1 min-w-0">
-                                                        <h3 className="font-semibold text-sm text-gray-800 ">
-                                                            {product.stoneName}
-                                                        </h3>
-                                                        <p className="text-[#A5A5A5]">
-                                                            {product.stoneCategory}
-                                                        </p>
-                                                        {formData.companyName && (
-                                                            <p className="text-[10px]  text-[#636363]">
-                                                                <span className="font-medium">Company Name: </span>
-                                                                {formData.companyName}
-                                                            </p>
-                                                        )}
-                                                        {formData.gstNumber && (
-                                                            <p className="text-[10px]  text-[#636363]">
-                                                                <span className="font-medium">GST Number: </span>
-                                                                {formData.gstNumber}
-                                                            </p>
-                                                        )}
-                                                    </div>
+                                                {/* Left side: Text */}
+                                                <div className="flex flex-col gap-0 min-w-0 text-xs md:text-sm">
+                                                    <h3 className="font-semibold capitalize">
+                                                        {product.stoneName}
+                                                    </h3>
+                                                    <p className="text-xs md:text-sm text-[#A5A5A5]">
+                                                        {product.stoneCategory}
+                                                    </p>
                                                 </div>
 
-
-                                                <div className="flex mt-0 sm:mt-1 items-center gap-2 shrink-0">
+                                                {/* Right side: Buttons */}
+                                                <div className="flex gap-2 items-start shrink-0">
                                                     {editIndex === null && (
                                                         <>
                                                             <button
-                                                                className="cursor-pointer p-2 rounded-lg bg-gray-50 hover:bg-gray-100 shadow-sm transition"
+                                                                className="p-1 bg-[#F7F7F7] text-sm lg:text-lg rounded-md cursor-pointer"
                                                                 title="Edit"
                                                                 onClick={() => editProduct(index)}
                                                             >
-                                                                <FiEdit2 className="w-2 h-2 sm:w-4 sm:h-4 text-gray-600" />
+                                                                <FiEdit2 size={16} className=" text-black" />
                                                             </button>
                                                             <button
                                                                 onClick={() => removeProduct(index)}
-                                                                className="cursor-pointer p-2 rounded-lg bg-gray-50 hover:bg-red-50 shadow-sm transition"
+                                                                className="p-1 bg-[#F7F7F7] text-sm lg:text-lg rounded-md cursor-pointer"
                                                                 title="Delete"
                                                             >
-                                                                <FiTrash2 className="w-2 h-2 sm:w-4 sm:h-4 text-red-600" />
+                                                                <FiTrash2 size={16} className=" text-red-600" />
                                                             </button>
                                                         </>
                                                     )}
+                                                </div>
 
+                                            </div>
+
+
+
+                                            <div className=" space-y-2 text-[10px] md:text-xs ">
+                                                <div className="grid grid-cols-2 pt-2  pl-2 pb-2 gap-y-2  ">
+                                                    <p className="font-medium text-black">
+                                                        Selected Finishes:
+                                                        <span className=" text-[#838383]"> {product.stoneFinish}</span>
+                                                    </p>
+
+                                                    <p className="font-medium text-black">
+                                                        Selected Thickness:
+                                                        <span className=" text-[#838383]"> {product.thickness}</span>
+                                                    </p>
+
+                                                    <p className="font-medium text-black">
+                                                        Selected Unit:
+                                                        <span className=" text-[#838383]"> {product.unit}</span>
+                                                    </p>
+
+                                                    <p className="font-medium text-black">
+                                                        Entered Value:
+                                                        <span className=" text-[#838383]"> {product.value}</span>
+                                                    </p>
+
+                                                    <p className="font-medium text-black">
+                                                        Stone Size:
+                                                        <span className=" text-[#838383]"> w: {product.width} | H: {product.height}</span>
+                                                    </p>
+
+                                                    <p className="font-medium text-black">
+                                                        Delivery Expected:
+                                                        <span className="font-normal text-[#838383]"> {product.deliveryTime}</span>
+                                                    </p>
                                                 </div>
                                             </div>
 
 
-                                            <div className=" border-gray-200 pt-2">
+
+
+                                            <div className=" border-gray-200 ">
                                                 <button
                                                     onClick={() => toggleDetails(index)}
-                                                    className="flex gap-3 items-center text-xs cursor-pointer"
+                                                    className="flex gap-1 items-center text-xs cursor-pointer"
                                                 >
-                                                    <span>Product Details</span>
+                                                    <span className="text-xs">Product Details</span>
                                                     <RiArrowDropDownLine
                                                         className={`w-7 h-7 text-[#474747] transition-transform duration-300 ${product.showDetails ? "rotate-180 text-[#871B58]" : ""
                                                             }`}
@@ -1200,42 +1259,10 @@ export default function BulkOrderForm() {
                                                 {product.showDetails && (
                                                     <div className="  overflow-y-auto px-2 space-y-2 text-xs  max-h-[55vh] sm:max-h-[367px] ">
 
-                                                        <div className="grid grid-cols-2 gap-y-2 border-[1px] p-2 rounded-md border-[#C8C8C8] ">
-                                                            <p className="font-medium">
-                                                                Selected Finishes:
-                                                                <span className="font-normal text-[#838383]"> {product.stoneFinish}</span>
-                                                            </p>
 
-                                                            <p className="font-medium">
-                                                                Selected Thickness:
-                                                                <span className="font-normal text-[#838383]"> {product.thickness}</span>
-                                                            </p>
+                                                        <div className="  rounded-md space-y-1 border-[1px] border-[#E8E8E8] p-2">
 
-                                                            <p className="font-medium">
-                                                                Selected Unit:
-                                                                <span className="font-normal text-[#838383]"> {product.unit}</span>
-                                                            </p>
-
-                                                            <p className="font-medium">
-                                                                Entered Value:
-                                                                <span className="font-normal text-[#838383]"> {product.value}</span>
-                                                            </p>
-
-                                                            <p className="font-medium">
-                                                                Stone Size:
-                                                                <span className="font-normal text-[#838383]"> w: {product.width} | H: {product.height}</span>
-                                                            </p>
-
-                                                            <p className="font-medium">
-                                                                Delivery Expected:
-                                                                <span className="font-normal text-[#838383]"> {product.deliveryTime}</span>
-                                                            </p>
-                                                        </div>
-
-
-                                                        <div className=" border-[1px] p-2 rounded-md  border-[#C8C8C8] ">
-
-                                                            <p className="font-medium text-xs mb-2">Description:</p>
+                                                            <p className="font-medium text-sm ">Description:</p>
 
                                                             <p className=" text-[#3B3B3B]">
                                                                 {product.message}
@@ -1249,7 +1276,7 @@ export default function BulkOrderForm() {
 
                                                         <div>
 
-                                                            <p className="text-[#414141] text-xs font-medium">Stone Image’s/Videos</p>
+                                                            <p className="text-[#414141] font-semibold">Stone Image’s/Videos</p>
 
                                                             <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4   gap-2 w-full">
 
@@ -1424,14 +1451,14 @@ export default function BulkOrderForm() {
                                                 <button
                                                     type="button"
 
-                                                    className="cursor-pointer font-inter border text-black px-8 py-1 rounded mb-6"
+                                                    className="cursor-pointer font-inter border text-black px-4 py-1 rounded-lg mb-6"
 
                                                     onClick={handleCancel}
                                                 >
 
                                                     Cancel
                                                 </button>
-                                                <button form="myForm" type="submit" className="cursor-pointer font-inter bg-[#871B58] text-white px-8 py-1 rounded mb-6 hover:scale-105 transition-transform duration-200" disabled={submitting}>
+                                                <button form="myForm" type="submit" className="cursor-pointer font-inter bg-[#871B58] text-white px-4 py-1 rounded-lg mb-6 hover:scale-105 transition-transform duration-200" disabled={submitting}>
 
                                                     {submitting ? "Submitting..." : "Submit"}
                                                 </button>

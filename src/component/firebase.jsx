@@ -20,7 +20,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
-const firestorage = getFirestore(app);
+export const firestorage = getFirestore(app);
 const firebaseContext = createContext(null);
 export const FirebaseProvider = (props) => {
     const signUpWithpasswordandemail = (email, password) => {
@@ -80,7 +80,7 @@ export const FirebaseProvider = (props) => {
         const ref = doc(firestorage, "cities", "WjEWUxvTwTgkV6i9d0qm");
         const snap = await getDoc(ref);
         console.log(snap.data());
-       
+
     }
     const getdocbyquery = async () => {
         const ref = collection(firestorage, "cities");
