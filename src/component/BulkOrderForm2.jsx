@@ -978,9 +978,9 @@ export default function BulkOrderForm() {
                                         type="checkbox"
                                         id="installation"
                                         onChange={(e) => setSelected(e.target.checked)}
-                                        className="mr-2"
+                                        className=" w-4 h-4   accent-[#871B58] mr-2"
                                     />
-                                    <label htmlFor="installation" className="accent-[#871B58] text-lg font-medium text-gray-900">
+                                    <label htmlFor="installation" className=" text-lg font-medium text-gray-900">
                                         Installation <span className="text-[#CACACA] text-sm">(optional)</span>
                                     </label>
                                 </div>
