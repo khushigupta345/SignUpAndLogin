@@ -190,12 +190,11 @@ export default function BulkOrderForm2() {
         //     return;
         // }
 
-        if (selected) {
-            if (formData.boqfiles.length === 0) {
+        
+            if (selected &&formData.boqfiles.length === 0) {
                 toast.error("At least one boq file is required");
                 return;
             }
-        }
         try {
             setSubmitting(true)
             const finalData = {
@@ -209,15 +208,12 @@ export default function BulkOrderForm2() {
                 city: formData.city,
                 state: formData.state,
                 country: formData.country,
-                boqfiles: formData.boqfiles.map(f => f.name || f) || [],
-                installationimages: formData.installationimages.map(f => f.name || f) || [],
-                file2: formData.file2.map(f => f.name || f) || [],
-
+                boqfiles: formData.boqfiles.map(f => f.name) || [],
+                installationimages: formData.installationimages.map(f => f.name) || [],
+                file2: formData.file2.map(f => f.name) || [],
                 products: products.map(({ showDetails, ...p }) => ({
                     ...p,
                     image: p.image.map(f => f.name),
-                    thumbnail: p.thumbnail ? (p.thumbnail.name || p.thumbnail) : null
-
                 }))
             };
             await addDoc(collection(firestorage, "orders"), finalData);
@@ -432,7 +428,7 @@ export default function BulkOrderForm2() {
                                             onChange={handleChange}
                                             placeholder="Enter here"
                                             className="flex-1 bg-transparent outline-none border-0 p-3 text-xs w-full"
-                                            rows={4} // initial height
+                                            rows={3}               
                                         />
                                     </div>
                                 </div>

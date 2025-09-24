@@ -9,6 +9,9 @@ import BulkOrderForm2 from "./component/BulkOrderForm2"
 import FinishDetails from "./component/finishDetails"
 import { Home } from "./component/home"
 
+import Navbar from "./component/Navbar"
+// import QuarryForm from "./component/QuarryForm (2)"
+
 // import QuarryForm from "./component/QuarryForm"
 // import Hello from "./hello"
 // import QuarryDashboard from "./component/QuarryDashboard"
@@ -33,11 +36,13 @@ function App() {
       </Routes> */}
       {/* <BulkOrderForm3 /> */}
       {/* <Hello /> */}
-      {/* <QuarryForm/>   */}
+      {/* <QuarryForm /> */}
       {/* <BulkOrderForm />    */}
-      <BulkOrderForm2 />
+      {/* <BulkOrderForm2 /> */}
 
       {/* <Finishes /> */}
+      {/* <GetLayoutedElements /> */}
+      <Navbar />
     </>
   )
 }
